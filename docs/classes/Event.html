@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><strong>Event</strong></li>
+  <li><a href="../classes/GenericRomlVar.html">GenericRomlVar</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>Event</code></h1>
+<p>The Event class, with the EventConnection class, is used
+ to mimic the structure of ROBLOX's Events.</p>
+<p> It follows the
+ observer pattern and can be used to send a variable number
+ of arguments to observing functions. For an example of
+ using an Event Property in a class, see <a href="../examples/event.moon.html#">event.moon</a>.
+</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: MIT</li>
+        <li><strong>Author</strong>: Richard Voelker</li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Event.new">Event.new (self)</a></td>
+	<td class="summary">Create a new Event.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event.connect">Event.connect (self, observer)</a></td>
+	<td class="summary">Add an observer to wait for a notification.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event.notifyObservers">Event.notifyObservers (self, ...)</a></td>
+	<td class="summary">Notifies all connected observers and calls their callback
+ functions.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event.removeObserver">Event.removeObserver (self, id)</a></td>
+	<td class="summary">Remove an observer from this Event so it's callback won't be
+ called anymore.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Event.new"></a>
+    <strong>Event.new (self)</strong>
+    </dt>
+    <dd>
+    Create a new Event.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Event.html#">Event</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Event.connect"></a>
+    <strong>Event.connect (self, observer)</strong>
+    </dt>
+    <dd>
+    Add an observer to wait for a notification.  An
+ EventConnection is returned so that the observer can be
+ removed later if desired.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Event.html#">Event</a></span>
+
+        </li>
+        <li><span class="parameter">observer</span>
+            <span class="types"><span class="type">function</span></span>
+         A function which will be called
+	when all observers are notified of an event.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">EventConnection</span></span>
+         An EventConnection class with
+	the callback function.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Event.notifyObservers"></a>
+    <strong>Event.notifyObservers (self, ...)</strong>
+    </dt>
+    <dd>
+    Notifies all connected observers and calls their callback
+ functions.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Event.html#">Event</a></span>
+
+        </li>
+        <li><span class="parameter">...</span>
+         The arguments to pass to the observer.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Event.removeObserver"></a>
+    <strong>Event.removeObserver (self, id)</strong>
+    </dt>
+    <dd>
+    Remove an observer from this Event so it's callback won't be
+ called anymore.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Event.html#">Event</a></span>
+
+        </li>
+        <li><span class="parameter">id</span>
+            <span class="types"><span class="type">int</span></span>
+         The Id for the observer.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-07-07 14:19:41 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

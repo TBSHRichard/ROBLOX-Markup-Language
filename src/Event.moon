@@ -2,9 +2,12 @@
 -- The Event class, with the EventConnection class, is used
 -- to mimic the structure of ROBLOX's Events. It follows the
 -- observer pattern and can be used to send a variable number
--- of arguments to observing functions.
+-- of arguments to observing functions. For an example of
+-- using an Event Property in a class, see @{event.moon}.
 --
 -- @classmod Event
+-- @author Richard Voelker
+-- @license MIT
 ----------------------------------------------------------------
 
 class EventConnection
@@ -20,6 +23,11 @@ class EventConnection
 		@_event\removeObserver @_id
 
 class Event
+	----------------------------------------------------------------
+	-- Create a new Event.
+	--
+	-- @tparam Event self
+	----------------------------------------------------------------
 	new: =>
 		@_observers = { }
 		@_nextId = 1
