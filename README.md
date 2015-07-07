@@ -23,6 +23,10 @@ RoSS is based off of CSS and, like RoML, compiles into Lua. RoSS can be applied 
 
 RoSS scripts can be applied to RoML objects to dynamically update the styles that they apply to as well. RoSS works with RoML to keep duplicate styles in one place and easily update mass Properties at once. Inline RoML Properties take precedence over RoSS Properties.
 
+## Documentation
+
+Documentation and examples can be found on my [GitHub Pages](http://tbshrichard.github.io/roml/).
+
 ## Disclaimer & License
 
 This project is not created by the ROBLOX team. Just a game developer on ROBLOX who wanted an easier way to create and update objects from scripts.
