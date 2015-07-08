@@ -34,14 +34,15 @@
 <ul>
 <li><a href="#Events">Events</a></li>
 <li><a href="#Methods">Methods</a></li>
+<li><a href="#Metamethods">Metamethods</a></li>
 </ul>
 
 
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Event.html">Event</a></li>
-  <li><strong>GenericRomlVar</strong></li>
-  <li><a href="../classes/TableRomlVar.html">TableRomlVar</a></li>
+  <li><a href="../classes/GenericRomlVar.html">GenericRomlVar</a></li>
+  <li><strong>TableRomlVar</strong></li>
 </ul>
 <h2>Examples</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -52,9 +53,8 @@
 
 <div id="content">
 
-<h1>Class <code>GenericRomlVar</code></h1>
-<p>A RoML variable that holds a generic data type value (string,
- number, boolean).</p>
+<h1>Class <code>TableRomlVar</code></h1>
+<p>A RoML variable which holds a table.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -66,19 +66,22 @@
 <h2><a href="#Events">Events</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#GenericRomlVar.Changed">GenericRomlVar.Changed</a></td>
+	<td class="name" nowrap><a href="#TableRomlVar.Changed">TableRomlVar.Changed</a></td>
 	<td class="summary">The Changed <a href="../classes/Event.html#">Event</a>.</td>
 	</tr>
 </table>
 <h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#GenericRomlVar.new">GenericRomlVar.new (self[, value])</a></td>
-	<td class="summary">Create a new GenericRomlVar with the specified value.</td>
+	<td class="name" nowrap><a href="#TableRomlVar.new">TableRomlVar.new (self[, t={}])</a></td>
+	<td class="summary">Create a table variable with the specified starting table.</td>
 	</tr>
+</table>
+<h2><a href="#Metamethods">Metamethods</a></h2>
+<table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#GenericRomlVar.Set">GenericRomlVar.Set (self, value)</a></td>
-	<td class="summary">Set the value for this object.</td>
+	<td class="name" nowrap><a href="#TableRomlVar.__newindex">TableRomlVar.__newindex (self, key, value)</a></td>
+	<td class="summary">Set the value for a key.</td>
 	</tr>
 </table>
 
@@ -90,13 +93,14 @@
 
     <dl class="function">
     <dt>
-    <a name = "GenericRomlVar.Changed"></a>
-    <strong>GenericRomlVar.Changed</strong>
+    <a name = "TableRomlVar.Changed"></a>
+    <strong>TableRomlVar.Changed</strong>
     </dt>
     <dd>
     The Changed <a href="../classes/Event.html#">Event</a>.  Observers of this <a href="../classes/Event.html#">Event</a> are notified
- whenever the <a href="../classes/GenericRomlVar.html#GenericRomlVar.Set">Set</a> method is called. Observing functions are
- passed two arguments, the old value and the new value.
+ whenever the <a href="../classes/TableRomlVar.html#TableRomlVar.__newindex">__newindex</a> metamethod is called. Observing
+ functions are passed three arguments, the table key, the old
+ value, and the new value.
 
 
 
@@ -111,23 +115,23 @@
 
     <dl class="function">
     <dt>
-    <a name = "GenericRomlVar.new"></a>
-    <strong>GenericRomlVar.new (self[, value])</strong>
+    <a name = "TableRomlVar.new"></a>
+    <strong>TableRomlVar.new (self[, t={}])</strong>
     </dt>
     <dd>
-    Create a new GenericRomlVar with the specified value.
+    Create a table variable with the specified starting table.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/GenericRomlVar.html#">GenericRomlVar</a></span>
+            <span class="types"><a class="type" href="../classes/TableRomlVar.html#">TableRomlVar</a></span>
 
         </li>
-        <li><span class="parameter">value</span>
-            <span class="types"><span class="type">generic</span></span>
-         The value to set to.
-         (<em>optional</em>)
+        <li><span class="parameter">t</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The starting table.
+         (<em>default</em> {})
         </li>
     </ul>
 
@@ -136,26 +140,33 @@
 
 
 </dd>
+</dl>
+    <h2 class="section-header "><a name="Metamethods"></a>Metamethods</h2>
+
+    <dl class="function">
     <dt>
-    <a name = "GenericRomlVar.Set"></a>
-    <strong>GenericRomlVar.Set (self, value)</strong>
+    <a name = "TableRomlVar.__newindex"></a>
+    <strong>TableRomlVar.__newindex (self, key, value)</strong>
     </dt>
     <dd>
-    Set the value for this object.  It must be another generic
- data type and cannot be a table. All observers of the
- <a href="../classes/GenericRomlVar.html#GenericRomlVar.Changed">Changed</a> <a href="../classes/Event.html#">Event</a> are notified.
+    Set the value for a key.  The key can be anything except for
+ the strings <a href="../classes/TableRomlVar.html#TableRomlVar.Changed">Changed</a>, and _table (a private member used to
+ store the actual table values). All observers of the
+ <a href="../classes/TableRomlVar.html#TableRomlVar.Changed">Changed</a> <a href="../classes/Event.html#">Event</a> are notified when this method is called.
 
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/GenericRomlVar.html#">GenericRomlVar</a></span>
+            <span class="types"><a class="type" href="../classes/TableRomlVar.html#">TableRomlVar</a></span>
 
         </li>
+        <li><span class="parameter">key</span>
+         The key to associate the table value with.
+        </li>
         <li><span class="parameter">value</span>
-            <span class="types"><span class="type">generic</span></span>
-         The value to set to.
+         The value to place in the table.
         </li>
     </ul>
 

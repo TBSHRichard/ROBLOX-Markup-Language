@@ -1,24 +1,25 @@
 local Event = require("Event")
-local GenericRomlVar
+local TableRomlVar
 do
   local _base_0 = {
-    Set = function(self, value)
-      if not (type(value) == "table") then
-        local oldValue = self._value
-        self._value = value
-        return self.Changed:notifyObservers(oldValue, value)
-      end
+    __newindex = function(self, key, value)
+      local oldValue = self._table[key]
+      self._table[key] = value
+      return self.Changed:notifyObservers(key, oldValue, value)
     end,
     Changed = nil
   }
   _base_0.__index = _base_0
   local _class_0 = setmetatable({
-    __init = function(self, value)
-      self._value = value
+    __init = function(self, t)
+      if t == nil then
+        t = { }
+      end
+      self._table = t
       self.Changed = Event()
     end,
     __base = _base_0,
-    __name = "GenericRomlVar"
+    __name = "TableRomlVar"
   }, {
     __index = _base_0,
     __call = function(cls, ...)
@@ -28,6 +29,6 @@ do
     end
   })
   _base_0.__class = _class_0
-  GenericRomlVar = _class_0
-  return _class_0
+  TableRomlVar = _class_0
 end
+return TableRomlVar

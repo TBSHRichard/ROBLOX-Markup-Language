@@ -14,7 +14,7 @@ class GenericRomlVar
 	-- Create a new GenericRomlVar with the specified value.
 	--
 	-- @tparam GenericRomlVar self
-	-- @tparam generic value The value to set to.
+	-- @tparam[opt] generic value The value to set to.
 	----------------------------------------------------------------
 	new: (value) =>
 		@_value = value
@@ -32,7 +32,7 @@ class GenericRomlVar
 		unless type(value) == "table"
 			oldValue = @_value
 			@_value = value
-			@Change\notifyObservers oldValue, value
+			@Changed\notifyObservers oldValue, value
 	
 	----------------------------------------------------------------
 	-- The Changed @{Event}. Observers of this @{Event} are notified
