@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><strong>ObjectBuilder</strong></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>ObjectBuilder</code></h1>
+<p>A specialized stack which is used to build a RomlObject
+ hierarchy.</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: MIT</li>
+        <li><strong>Author</strong>: Richard Voelker</li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#ObjectBuilder.new">ObjectBuilder.new (self, root)</a></td>
+	<td class="summary">Create a new ObjectBuilder, starting with the main parent.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ObjectBuilder.Build">ObjectBuilder.Build (self, object[, classes={}[, properties={}]])</a></td>
+	<td class="summary">Create a new RomlObject whose parent is the current top of
+ the stack.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ObjectBuilder.Pop">ObjectBuilder.Pop (self)</a></td>
+	<td class="summary">Remove and return the top <a href="../classes/RomlObject.html#">RomlObject</a> from the Builder.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "ObjectBuilder.new"></a>
+    <strong>ObjectBuilder.new (self, root)</strong>
+    </dt>
+    <dd>
+    Create a new ObjectBuilder, starting with the main parent.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+
+        </li>
+        <li><span class="parameter">root</span>
+            <span class="types"><span class="type">Instance</span></span>
+         The starting ROBLOX object to build
+	from.
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ObjectBuilder.Build"></a>
+    <strong>ObjectBuilder.Build (self, object[, classes={}[, properties={}]])</strong>
+    </dt>
+    <dd>
+    Create a new RomlObject whose parent is the current top of
+ the stack.  The new object is then pushed to the top of the
+ stack and returned.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+
+        </li>
+        <li><span class="parameter">object</span>
+            <span class="types"><span class="type">Instance</span></span>
+         The ROBLOX object to wrap.
+        </li>
+        <li><span class="parameter">classes</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The classes to place on the
+	<a href="../classes/RomlObject.html#">RomlObject</a>.
+         (<em>default</em> {})
+        </li>
+        <li><span class="parameter">properties</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The properties to set on the
+	<a href="../classes/RomlObject.html#">RomlObject</a>.
+         (<em>default</em> {})
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/RomlObject.html#">RomlObject</a></span>
+        The newly created <a href="../classes/RomlObject.html#">RomlObject</a>.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ObjectBuilder.Pop"></a>
+    <strong>ObjectBuilder.Pop (self)</strong>
+    </dt>
+    <dd>
+    Remove and return the top <a href="../classes/RomlObject.html#">RomlObject</a> from the Builder.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/RomlObject.html#">RomlObject</a></span>
+        The removed <a href="../classes/RomlObject.html#">RomlObject</a>.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-07-20 17:35:43 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

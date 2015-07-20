@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Events">Events</a></li>
+<li><a href="#Methods">Methods</a></li>
+<li><a href="#Metamethods">Metamethods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><strong>RomlVar</strong></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>RomlVar</code></h1>
+<p>A RoML variable that holds a generic data type value (string,
+ number, boolean).</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: MIT</li>
+        <li><strong>Author</strong>: Richard Voelker</li>
+    </ul>
+
+
+<h2><a href="#Events">Events</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#RomlVar.Changed">RomlVar.Changed</a></td>
+	<td class="summary">The Changed <a href="../classes/Event.html#">Event</a>.</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#RomlVar.new">RomlVar.new (self[, value])</a></td>
+	<td class="summary">Create a new RomlVar with the specified value.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RomlVar.SetValue">RomlVar.SetValue (self, value)</a></td>
+	<td class="summary">Set the value for this object.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RomlVar.GetValue">RomlVar.GetValue (self)</a></td>
+	<td class="summary"></td>
+	</tr>
+</table>
+<h2><a href="#Metamethods">Metamethods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#RomlVar.__newindex">RomlVar.__newindex (self, key, value)</a></td>
+	<td class="summary">Set the value for a table key, if our variable is a ROBLOX
+ object or Lua table.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Events"></a>Events</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "RomlVar.Changed"></a>
+    <strong>RomlVar.Changed</strong>
+    </dt>
+    <dd>
+    The Changed <a href="../classes/Event.html#">Event</a>.  Observers of this <a href="../classes/Event.html#">Event</a> are notified
+ whenever the <a href="../classes/RomlVar.html#RomlVar.SetValue">SetValue</a> method is called. Observing functions
+ are passed two arguments, the old value and the new value.
+
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "RomlVar.new"></a>
+    <strong>RomlVar.new (self[, value])</strong>
+    </dt>
+    <dd>
+    Create a new RomlVar with the specified value.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/RomlVar.html#">RomlVar</a></span>
+
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">generic</span></span>
+         The value to set to.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RomlVar.SetValue"></a>
+    <strong>RomlVar.SetValue (self, value)</strong>
+    </dt>
+    <dd>
+    Set the value for this object.  All observers of the
+ <a href="../classes/RomlVar.html#RomlVar.Changed">Changed</a> <a href="../classes/Event.html#">Event</a> are notified.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/RomlVar.html#">RomlVar</a></span>
+
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><span class="type">generic</span></span>
+         The value to set to.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The current value of the variable.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "RomlVar.GetValue"></a>
+    <strong>RomlVar.GetValue (self)</strong>
+    </dt>
+    <dd>
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/RomlVar.html#">RomlVar</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The current value of the variable.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Metamethods"></a>Metamethods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "RomlVar.__newindex"></a>
+    <strong>RomlVar.__newindex (self, key, value)</strong>
+    </dt>
+    <dd>
+    Set the value for a table key, if our variable is a ROBLOX
+ object or Lua table.  All observers of the <a href="../classes/RomlVar.html#RomlVar.Changed">Changed</a> <a href="../classes/Event.html#">Event</a>
+ are notified if there is
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/RomlVar.html#">RomlVar</a></span>
+
+        </li>
+        <li><span class="parameter">key</span>
+         The key to associate the table value with.
+        </li>
+        <li><span class="parameter">value</span>
+         The value to place in the table.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-07-20 17:35:43 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
