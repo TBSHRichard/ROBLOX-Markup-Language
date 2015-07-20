@@ -3,7 +3,7 @@ do
   local _base_0 = {
     SetParent = function(self, parent)
       self._parent = parent
-      if not (parent) then
+      if parent then
         self._robloxObject.Parent = parent:GetRobloxObject()
       end
     end,
@@ -30,7 +30,7 @@ do
       end
     end,
     RemoveAllChildren = function(self)
-      self._robloxObject:RemoveAllChildren()
+      self._robloxObject:ClearAllChildren()
       self._children = { }
     end,
     GetId = function(self)

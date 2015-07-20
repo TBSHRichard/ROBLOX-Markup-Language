@@ -7,7 +7,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-Event = require game\GetService("ServerScriptStorage").com.sheepofice.roml.Event
+Event = require game\GetService("ServerScriptService").com.sheepofice.roml.Event
 
 class RomlVar
 	----------------------------------------------------------------
@@ -17,8 +17,8 @@ class RomlVar
 	-- @tparam[opt] generic value The value to set to.
 	----------------------------------------------------------------
 	new: (value) =>
-		rawset @, _value, value
-		rawset @, Changed, Event!
+		rawset @, "_value", value
+		rawset @, "Changed", Event!
 	
 	----------------------------------------------------------------
 	-- Set the value for this object. All observers of the
@@ -29,7 +29,7 @@ class RomlVar
 	----------------------------------------------------------------
 	SetValue: (value) =>
 		oldValue = @_value
-		rawset @, _value, value
+		rawset @, "_value", value
 		@Changed\notifyObservers oldValue, value
 	
 	----------------------------------------------------------------
@@ -49,7 +49,7 @@ class RomlVar
 	----------------------------------------------------------------
 	__newindex: (key, value) =>
 		if type(@_value) == "table" or type(@_value) == "userdata" and @_value.ClassName
-			oldValue = @_table[key]
+			oldValue = @_value[key]
 			@_value[key] = value
 			@Changed\notifyObservers key, oldValue, value
 	

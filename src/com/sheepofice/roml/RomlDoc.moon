@@ -36,7 +36,7 @@ class RomlDoc
 	-- 
 	----------------------------------------------------------------
 	Find: (selector) =>
-		@_rootObject:Find selector
+		@_rootObject\Find selector
 	
 	_create: (parent, vars) =>
 

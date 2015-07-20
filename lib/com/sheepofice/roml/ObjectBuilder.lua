@@ -1,6 +1,4 @@
-local RomlObject = require({
-  game = GetService("ServerScriptStorage").com.sheepofice.roml.RomlObject
-})
+local RomlObject = require(game:GetService("ServerScriptService").com.sheepofice.roml.RomlObject)
 local ObjectBuilder
 do
   local _base_0 = {
@@ -21,7 +19,7 @@ do
   _base_0.__index = _base_0
   local _class_0 = setmetatable({
     __init = function(self, root)
-      return table.insert(RomlObject(root))
+      return table.insert(self, RomlObject(root))
     end,
     __base = _base_0,
     __name = "ObjectBuilder"

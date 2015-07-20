@@ -7,7 +7,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-RomlObject = require game:GetService("ServerScriptStorage").com.sheepofice.roml.RomlObject
+RomlObject = require game\GetService("ServerScriptService").com.sheepofice.roml.RomlObject
 
 class ObjectBuilder
 	----------------------------------------------------------------
@@ -18,7 +18,7 @@ class ObjectBuilder
 	--	from.
 	----------------------------------------------------------------
 	new: (root) =>
-		table.insert RomlObject(root)
+		table.insert self, RomlObject(root)
 	
 	----------------------------------------------------------------
 	-- Create a new RomlObject whose parent is the current top of

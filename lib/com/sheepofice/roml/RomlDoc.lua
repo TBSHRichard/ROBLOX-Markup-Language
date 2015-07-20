@@ -5,9 +5,7 @@ do
       return self._vars[varName]
     end,
     Find = function(self, selector)
-      return {
-        [self._rootObject] = Find(selector)
-      }
+      return self._rootObject:Find(selector)
     end,
     _create = function(self, parent, vars) end
   }

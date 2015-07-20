@@ -1,7 +1,7 @@
-local RomlVar = require(game:GetService("ServerScriptStorage").com.sheepofice.roml.RomlVar)
-local RomlDoc = require(game:GetService("ServerScriptStorage").com.sheepofice.roml.RomlDoc)
-local RomlObject = require(game:GetService("ServerScriptStorage").com.sheepofice.roml.RomlObject)
-local ObjectBuilder = require(game:GetService("ServerScriptStorage").com.sheepofice.roml.ObjectBuilder)
+local RomlVar = require(game:GetService("ServerScriptService").com.sheepofice.roml.RomlVar)
+local RomlDoc = require(game:GetService("ServerScriptService").com.sheepofice.roml.RomlDoc)
+local RomlObject = require(game:GetService("ServerScriptService").com.sheepofice.roml.RomlObject)
+local ObjectBuilder = require(game:GetService("ServerScriptService").com.sheepofice.roml.ObjectBuilder)
 local ClassName
 do
   local _parent_0 = RomlDoc
@@ -24,7 +24,7 @@ do
 				if shouldDisplayPart then
 					objTemp = RomlObject(Instance.new("Part"))
 					objTemp:SetProperties({Name = name})
-					objModel2:AddChild(objTemp)
+					objModel1:AddChild(objTemp)
 					objTemp:Refresh()
 				end
 			end
@@ -36,13 +36,14 @@ do
 		builder = ObjectBuilder(parent)
 		builder:Build(Instance.new("Model"), {"Model"})
 		builder:Build(Instance.new("Part"), {"Red"})
-		self._ids["ClickMe"] = builder:Build(Instance.new("ClickDetector"))
+		self._objectIds["ClickMe"] = builder:Build(Instance.new("ClickDetector"))
+		builder:Pop()
 		builder:Pop()
 		builder:Build(Instance.new("Part"), {"Red"})
 		builder:Pop()
 		builder:Pop()
 		objModel1 = builder:Build(Instance.new("Model"), {"Model"})
-		update1(self._vars.partNames, self._vars.shouldDisplayPart)
+		update1(self._vars.partNames:GetValue(), self._vars.shouldDisplayPart:GetValue())
 		builder:Pop()
 		self._rootObject = builder:Pop()
     end

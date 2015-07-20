@@ -1,10 +1,10 @@
-local Event = require(game:GetService("ServerScriptStorage").com.sheepofice.roml.Event)
+local Event = require(game:GetService("ServerScriptService").com.sheepofice.roml.Event)
 local RomlVar
 do
   local _base_0 = {
     SetValue = function(self, value)
       local oldValue = self._value
-      rawset(self, _value, value)
+      rawset(self, "_value", value)
       return self.Changed:notifyObservers(oldValue, value)
     end,
     GetValue = function(self)
@@ -12,7 +12,7 @@ do
     end,
     __newindex = function(self, key, value)
       if type(self._value) == "table" or type(self._value) == "userdata" and self._value.ClassName then
-        local oldValue = self._table[key]
+        local oldValue = self._value[key]
         self._value[key] = value
         return self.Changed:notifyObservers(key, oldValue, value)
       end
@@ -22,8 +22,8 @@ do
   _base_0.__index = _base_0
   local _class_0 = setmetatable({
     __init = function(self, value)
-      rawset(self, _value, value)
-      return rawset(self, Changed, Event())
+      rawset(self, "_value", value)
+      return rawset(self, "Changed", Event())
     end,
     __base = _base_0,
     __name = "RomlVar"

@@ -39,7 +39,7 @@ class RomlObject
 	----------------------------------------------------------------
 	SetParent: (parent) =>
 		@_parent = parent
-		@_robloxObject.Parent = parent\GetRobloxObject! unless parent
+		@_robloxObject.Parent = parent\GetRobloxObject! if parent
 	
 	----------------------------------------------------------------
 	-- @tparam RomlObject self
@@ -90,7 +90,7 @@ class RomlObject
 	-- @tparam RomlObject self
 	----------------------------------------------------------------
 	RemoveAllChildren: =>
-		@_robloxObject\RemoveAllChildren!
+		@_robloxObject\ClearAllChildren!
 		@_children = {}
 	
 	----------------------------------------------------------------
