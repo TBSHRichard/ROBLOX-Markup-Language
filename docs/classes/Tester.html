@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Fields">Fields</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><strong>Tester</strong></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/File.html">File</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>Tester</code></h1>
+<p>A class to run tests.</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: MIT</li>
+        <li><strong>Author</strong>: Richard Voelker</li>
+    </ul>
+
+
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Tester.inputOne">Tester.inputOne</a></td>
+	<td class="summary">Checks to see if two items are equal to one another.</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Tester.new">Tester.new (self, name)</a></td>
+	<td class="summary">Create a new Tester to begin running tests.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Tester.AddTest">Tester.AddTest (self, description, testFn)</a></td>
+	<td class="summary">Add a new test to be run.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Tester.RunTests">Tester.RunTests (self)</a></td>
+	<td class="summary">Run all of the tests that have been added and print the
+ results.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Tester.inputOne"></a>
+    <strong>Tester.inputOne</strong>
+    </dt>
+    <dd>
+    Checks to see if two items are equal to one another.
+
+
+    <ul>
+        <li><span class="parameter">inputOne</span>
+         The left hand side of the equality operator.
+        </li>
+        <li><span class="parameter">inputTwo</span>
+         The right hand side of the equality operator.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Tester.new"></a>
+    <strong>Tester.new (self, name)</strong>
+    </dt>
+    <dd>
+    Create a new Tester to begin running tests.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Tester.html#">Tester</a></span>
+
+        </li>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the test suite.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Tester.AddTest"></a>
+    <strong>Tester.AddTest (self, description, testFn)</strong>
+    </dt>
+    <dd>
+    Add a new test to be run.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Tester.html#">Tester</a></span>
+
+        </li>
+        <li><span class="parameter">description</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The description of what the test
+	is testing.
+        </li>
+        <li><span class="parameter">testFn</span>
+            <span class="types"><span class="type">function</span></span>
+         The function that runs the test. It
+	should return an error message if the test failed, or nil if
+	it passed.
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Tester.RunTests"></a>
+    <strong>Tester.RunTests (self)</strong>
+    </dt>
+    <dd>
+    Run all of the tests that have been added and print the
+ results.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Tester.html#">Tester</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2015-07-21 15:02:34 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
