@@ -20,9 +20,8 @@ do
       for i, child in ipairs(self._children) do
         buffer = buffer .. child:Render()
         if not (i == #self._children) then
-          buffer = buffer .. ","
+          buffer = buffer .. ",\n"
         end
-        buffer = buffer .. "\n"
       end
       return buffer
     end

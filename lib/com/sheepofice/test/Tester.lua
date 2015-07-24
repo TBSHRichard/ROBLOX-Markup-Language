@@ -30,7 +30,8 @@ do
             print("✗ " .. tostring(test.description) .. "\n\t" .. tostring(errorMessage) .. "\n")
           end
         end
-        return print(tostring(testsPassed) .. "/" .. tostring(#self._tests) .. " (" .. tostring(testsPassed / #self._tests) .. "%) of the tests have passed.\n")
+        local percentagePassed = string.format("%03.2f", testsPassed / #self._tests * 100)
+        return print(tostring(testsPassed) .. "/" .. tostring(#self._tests) .. " (" .. tostring(percentagePassed) .. "%) of the tests have passed.\n")
       else
         return print("\nNo tests to run.\n")
       end

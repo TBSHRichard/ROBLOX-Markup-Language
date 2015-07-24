@@ -22,9 +22,11 @@ do
       buffer = buffer .. self:BeforeRender()
       buffer = buffer .. "\n"
       buffer = buffer .. self._topBlock:Render()
+      buffer = buffer .. "\n"
       buffer = buffer .. self:MiddleRender()
       buffer = buffer .. "\n"
       buffer = buffer .. self._bottomBlock:Render()
+      buffer = buffer .. "\n"
       return buffer .. self:AfterRender()
     end
   }

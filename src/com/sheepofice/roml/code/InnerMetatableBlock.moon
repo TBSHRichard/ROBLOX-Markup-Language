@@ -23,8 +23,7 @@ class InnerMetatableBlock extends Block
 
 		for i, child in ipairs @_children
 			buffer ..= child\Render!
-			buffer ..= "," unless i == #@_children
-			buffer ..= "\n"
+			buffer ..= ",\n" unless i == #@_children
 
 		return buffer
 

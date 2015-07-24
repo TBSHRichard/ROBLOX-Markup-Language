@@ -67,10 +67,12 @@ class DoubleBlock extends Block
 		buffer ..= "\n"
 
 		buffer ..= @_topBlock\Render!
+		buffer ..= "\n"
 
 		buffer ..= @\MiddleRender!
 		buffer ..= "\n"
 
 		buffer ..= @_bottomBlock\Render!
+		buffer ..= "\n"
 
 		buffer .. @\AfterRender!

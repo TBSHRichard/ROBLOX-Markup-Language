@@ -71,7 +71,8 @@ class Tester
 				else
 					print "✗ #{test.description}\n\t#{errorMessage}\n"
 			
-			print("#{testsPassed}/#{#@_tests} (#{testsPassed/#@_tests}%) of the tests have passed.\n")
+			percentagePassed = string.format("%03.2f", testsPassed / #@_tests * 100)
+			print("#{testsPassed}/#{#@_tests} (#{percentagePassed}%) of the tests have passed.\n")
 		else
 			print("\nNo tests to run.\n")
 
