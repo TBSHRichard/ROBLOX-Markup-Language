@@ -15,8 +15,8 @@
 ----------------------------------------------------------------
 FileToString = (path) ->
 	file = io.open(path)
-	s = file:read("*all")
-	file:close()
+	s = file\read("*all")
+	file\close()
 	return s
 
 { :FileToString }

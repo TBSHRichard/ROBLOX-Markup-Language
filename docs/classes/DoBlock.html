@@ -32,15 +32,6 @@
 
 
 
-<h2>Examples</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><strong>event.moon</strong></li>
-</ul>
-<h2>Modules</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/File.html">File</a></li>
-  <li><a href="../modules/Compiler.html">Compiler</a></li>
-</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Event.html">Event</a></li>
@@ -49,7 +40,7 @@
   <li><a href="../classes/RomlObject.html">RomlObject</a></li>
   <li><a href="../classes/RomlVar.html">RomlVar</a></li>
   <li><a href="../classes/Block.html">Block</a></li>
-  <li><a href="../classes/DoBlock.html">DoBlock</a></li>
+  <li><strong>DoBlock</strong></li>
   <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
   <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
   <li><a href="../classes/IfBlock.html">IfBlock</a></li>
@@ -63,44 +54,35 @@
   <li><a href="../classes/TableBlock.html">TableBlock</a></li>
   <li><a href="../classes/Tester.html">Tester</a></li>
 </ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/Compiler.html">Compiler</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
 
 </div>
 
 <div id="content">
 
-    <h2>event.moon</h2>
-<pre>
-<span class="comment">----------------------------------------------------------------
-</span><span class="comment">-- Example showing the creation of an Event object in a
-</span><span class="comment">-- MoonScript class and the connection and disconnection of an
-</span><span class="comment">-- Event observer. Look at <a href="../classes/Event.html#">Event</a> for more info.
-</span><span class="comment">--
-</span><span class="comment">-- @author Richard Voelker
-</span><span class="comment">----------------------------------------------------------------
-</span>
-Event = <span class="global">require</span> <span class="string">"Event"</span>
+<h1>Class <code>DoBlock</code></h1>
+<p>A <a href="../classes/Block.html#">Block</a> that represents a Lua do block.</p>
+<p></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>License</strong>: MIT</li>
+        <li><strong>Author</strong>: Richard Voelker</li>
+    </ul>
 
-class Foo
-	new: =&gt;
-		@Changed = Event!
 
-	<span class="comment">-- Notify our observers!
-</span>	Change: =&gt;
-		@Changed\notifyObservers <span class="string">"bar"</span>
 
-	<span class="comment">-- Our Event Property. It is set in the constructor.
-</span>	Changed: <span class="keyword">nil</span>
+<br/>
+<br/>
 
-f = Foo!
-observer = f.Changed:connect (b) -&gt;
-	<span class="global">print</span> b
 
-f.Change! <span class="comment">-- Prints "bar".
-</span>
-observer:disconnect!
-
-f.Change! <span class="comment">-- Does nothing; no observers to notify.
-</span></pre>
 
 
 </div> <!-- id="content" -->

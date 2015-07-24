@@ -32,7 +32,6 @@
 
 <h2>Contents</h2>
 <ul>
-<li><a href="#Fields">Fields</a></li>
 <li><a href="#Methods">Methods</a></li>
 </ul>
 
@@ -44,7 +43,7 @@
   <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
   <li><a href="../classes/RomlObject.html">RomlObject</a></li>
   <li><a href="../classes/RomlVar.html">RomlVar</a></li>
-  <li><a href="../classes/Block.html">Block</a></li>
+  <li><strong>Block</strong></li>
   <li><a href="../classes/DoBlock.html">DoBlock</a></li>
   <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
   <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
@@ -57,7 +56,7 @@
   <li><a href="../classes/RequireLine.html">RequireLine</a></li>
   <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
   <li><a href="../classes/TableBlock.html">TableBlock</a></li>
-  <li><strong>Tester</strong></li>
+  <li><a href="../classes/Tester.html">Tester</a></li>
 </ul>
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -73,8 +72,8 @@
 
 <div id="content">
 
-<h1>Class <code>Tester</code></h1>
-<p>A class to run tests.</p>
+<h1>Class <code>Block</code></h1>
+<p>A block of code.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -83,27 +82,34 @@
     </ul>
 
 
-<h2><a href="#Fields">Fields</a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#Tester.inputOne">Tester.inputOne</a></td>
-	<td class="summary">Checks to see if two items are equal to one another.</td>
-	</tr>
-</table>
 <h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Tester.new">Tester.new (self, name)</a></td>
-	<td class="summary">Create a new Tester to begin running tests.</td>
+	<td class="name" nowrap><a href="#Block.new">Block.new (self)</a></td>
+	<td class="summary">Create a new Block.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Tester.AddTest">Tester.AddTest (self, description, testFn)</a></td>
-	<td class="summary">Add a new test to be run.</td>
+	<td class="name" nowrap><a href="#Block.AddChild">Block.AddChild (self, child)</a></td>
+	<td class="summary">Add a child <a href="../classes/Block.html#">Block</a> or <a href="../classes/Line.html#">Line</a> to be rendered with this
+ Block.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Tester.RunTests">Tester.RunTests (self)</a></td>
-	<td class="summary">Run all of the tests that have been added and print the
- results.</td>
+	<td class="name" nowrap><a href="#Block.SetIndent">Block.SetIndent (self, indent)</a></td>
+	<td class="summary">Sets the indent string for this Block.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Block.BeforeRender">Block.BeforeRender (self)</a></td>
+	<td class="summary">The code to render before rendering all of this Block's
+ children.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Block.AfterRender">Block.AfterRender (self)</a></td>
+	<td class="summary">The code to render after rendering all of this Block's
+ children.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Block.Render">Block.Render (self)</a></td>
+	<td class="summary">Render the code for this Block and any children Block/Lines.</td>
 	</tr>
 </table>
 
@@ -111,84 +117,21 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "Tester.inputOne"></a>
-    <strong>Tester.inputOne</strong>
-    </dt>
-    <dd>
-    Checks to see if two items are equal to one another.
-
-
-    <ul>
-        <li><span class="parameter">inputOne</span>
-         The left hand side of the equality operator.
-        </li>
-        <li><span class="parameter">inputTwo</span>
-         The right hand side of the equality operator.
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-</dl>
     <h2 class="section-header "><a name="Methods"></a>Methods</h2>
 
     <dl class="function">
     <dt>
-    <a name = "Tester.new"></a>
-    <strong>Tester.new (self, name)</strong>
+    <a name = "Block.new"></a>
+    <strong>Block.new (self)</strong>
     </dt>
     <dd>
-    Create a new Tester to begin running tests.
+    Create a new Block.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/Tester.html#">Tester</a></span>
-
-        </li>
-        <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The name of the test suite.
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Tester.AddTest"></a>
-    <strong>Tester.AddTest (self, description, testFn)</strong>
-    </dt>
-    <dd>
-    Add a new test to be run.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/Tester.html#">Tester</a></span>
-
-        </li>
-        <li><span class="parameter">description</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The description of what the test
-	is testing.
-        </li>
-        <li><span class="parameter">testFn</span>
-            <span class="types"><span class="type">function</span></span>
-         The function that runs the test. It
-	should return an error message if the test failed, or nil if
-	it passed.
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
 
         </li>
     </ul>
@@ -199,18 +142,114 @@
 
 </dd>
     <dt>
-    <a name = "Tester.RunTests"></a>
-    <strong>Tester.RunTests (self)</strong>
+    <a name = "Block.AddChild"></a>
+    <strong>Block.AddChild (self, child)</strong>
     </dt>
     <dd>
-    Run all of the tests that have been added and print the
- results.
+    Add a child <a href="../classes/Block.html#">Block</a> or <a href="../classes/Line.html#">Line</a> to be rendered with this
+ Block.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/Tester.html#">Tester</a></span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
+
+        </li>
+        <li><span class="parameter">child</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block/Line</a></span>
+         The child to add.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Block.SetIndent"></a>
+    <strong>Block.SetIndent (self, indent)</strong>
+    </dt>
+    <dd>
+    Sets the indent string for this Block.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
+
+        </li>
+        <li><span class="parameter">indent</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The indent string to place before each
+	line of code.
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Block.BeforeRender"></a>
+    <strong>Block.BeforeRender (self)</strong>
+    </dt>
+    <dd>
+    The code to render before rendering all of this Block's
+ children.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Block.AfterRender"></a>
+    <strong>Block.AfterRender (self)</strong>
+    </dt>
+    <dd>
+    The code to render after rendering all of this Block's
+ children.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Block.Render"></a>
+    <strong>Block.Render (self)</strong>
+    </dt>
+    <dd>
+    Render the code for this Block and any children Block/Lines.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
 
         </li>
     </ul>

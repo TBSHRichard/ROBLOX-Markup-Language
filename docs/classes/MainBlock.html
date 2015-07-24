@@ -39,7 +39,7 @@
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Event.html">Event</a></li>
-  <li><strong>ObjectBuilder</strong></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
   <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
   <li><a href="../classes/RomlObject.html">RomlObject</a></li>
   <li><a href="../classes/RomlVar.html">RomlVar</a></li>
@@ -51,7 +51,7 @@
   <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
   <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
   <li><a href="../classes/Line.html">Line</a></li>
-  <li><a href="../classes/MainBlock.html">MainBlock</a></li>
+  <li><strong>MainBlock</strong></li>
   <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
   <li><a href="../classes/RequireLine.html">RequireLine</a></li>
   <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
@@ -72,9 +72,8 @@
 
 <div id="content">
 
-<h1>Class <code>ObjectBuilder</code></h1>
-<p>A specialized stack which is used to build a RomlObject
- hierarchy.</p>
+<h1>Class <code>MainBlock</code></h1>
+<p>A <a href="../classes/Block.html#">Block</a> for the main <a href="../classes/RomlDoc.html#">RomlDoc</a> compiled files.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -86,17 +85,16 @@
 <h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#ObjectBuilder.new">ObjectBuilder.new (self, root)</a></td>
-	<td class="summary">Create a new ObjectBuilder, starting with the main parent.</td>
+	<td class="name" nowrap><a href="#MainBlock.new">MainBlock.new (self, name)</a></td>
+	<td class="summary">Create the MainBlock.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ObjectBuilder.Build">ObjectBuilder.Build (self, object[, classes={}[, properties={}]])</a></td>
-	<td class="summary">Create a new RomlObject whose parent is the current top of
- the stack.</td>
+	<td class="name" nowrap><a href="#MainBlock.AddChild">MainBlock.AddChild (self, child)</a></td>
+	<td class="summary">Add a child to the create function of the subclass.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ObjectBuilder.Pop">ObjectBuilder.Pop (self)</a></td>
-	<td class="summary">Remove and return the top <a href="../classes/RomlObject.html#">RomlObject</a> from the Builder.</td>
+	<td class="name" nowrap><a href="#MainBlock.Render">MainBlock.Render (self)</a></td>
+	<td class="summary">Render the MainBlock and all children <a href="../classes/Block.html#">Block</a>s/<a href="../classes/Line.html#">Line</a>s.</td>
 	</tr>
 </table>
 
@@ -108,23 +106,23 @@
 
     <dl class="function">
     <dt>
-    <a name = "ObjectBuilder.new"></a>
-    <strong>ObjectBuilder.new (self, root)</strong>
+    <a name = "MainBlock.new"></a>
+    <strong>MainBlock.new (self, name)</strong>
     </dt>
     <dd>
-    Create a new ObjectBuilder, starting with the main parent.
+    Create the MainBlock.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+            <span class="types"><a class="type" href="../classes/MainBlock.html#">MainBlock</a></span>
 
         </li>
-        <li><span class="parameter">root</span>
-            <span class="types"><span class="type">Instance</span></span>
-         The starting ROBLOX object to build
-	from.
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the subclass for the
+	<a href="../classes/RomlDoc.html#">RomlDoc</a>
 
         </li>
     </ul>
@@ -135,73 +133,46 @@
 
 </dd>
     <dt>
-    <a name = "ObjectBuilder.Build"></a>
-    <strong>ObjectBuilder.Build (self, object[, classes={}[, properties={}]])</strong>
+    <a name = "MainBlock.AddChild"></a>
+    <strong>MainBlock.AddChild (self, child)</strong>
     </dt>
     <dd>
-    Create a new RomlObject whose parent is the current top of
- the stack.  The new object is then pushed to the top of the
- stack and returned.
-
+    Add a child to the create function of the subclass.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+            <span class="types"><a class="type" href="../classes/MainBlock.html#">MainBlock</a></span>
 
         </li>
-        <li><span class="parameter">object</span>
-            <span class="types"><span class="type">Instance</span></span>
-         The ROBLOX object to wrap.
-        </li>
-        <li><span class="parameter">classes</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The classes to place on the
-	<a href="../classes/RomlObject.html#">RomlObject</a>.
-         (<em>default</em> {})
-        </li>
-        <li><span class="parameter">properties</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The properties to set on the
-	<a href="../classes/RomlObject.html#">RomlObject</a>.
-         (<em>default</em> {})
+        <li><span class="parameter">child</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block/Line</a></span>
+         The child to add.
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="../classes/RomlObject.html#">RomlObject</a></span>
-        The newly created <a href="../classes/RomlObject.html#">RomlObject</a>.
-    </ol>
 
 
 
 
 </dd>
     <dt>
-    <a name = "ObjectBuilder.Pop"></a>
-    <strong>ObjectBuilder.Pop (self)</strong>
+    <a name = "MainBlock.Render"></a>
+    <strong>MainBlock.Render (self)</strong>
     </dt>
     <dd>
-    Remove and return the top <a href="../classes/RomlObject.html#">RomlObject</a> from the Builder.
+    Render the MainBlock and all children <a href="../classes/Block.html#">Block</a>s/<a href="../classes/Line.html#">Line</a>s.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+            <span class="types"><a class="type" href="../classes/MainBlock.html#">MainBlock</a></span>
 
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="../classes/RomlObject.html#">RomlObject</a></span>
-        The removed <a href="../classes/RomlObject.html#">RomlObject</a>.
-    </ol>
 
 
 

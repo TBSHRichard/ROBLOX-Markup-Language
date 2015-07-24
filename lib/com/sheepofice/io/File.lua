@@ -1,12 +1,8 @@
 local FileToString
 FileToString = function(path)
   local file = io.open(path)
-  local s = {
-    file = read("*all")
-  }
-  local _ = {
-    file = close()
-  }
+  local s = file:read("*all")
+  file:close()
   return s
 end
 return {

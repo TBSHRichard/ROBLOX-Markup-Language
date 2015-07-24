@@ -39,7 +39,7 @@
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Event.html">Event</a></li>
-  <li><strong>ObjectBuilder</strong></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
   <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
   <li><a href="../classes/RomlObject.html">RomlObject</a></li>
   <li><a href="../classes/RomlVar.html">RomlVar</a></li>
@@ -50,7 +50,7 @@
   <li><a href="../classes/IfBlock.html">IfBlock</a></li>
   <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
   <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
-  <li><a href="../classes/Line.html">Line</a></li>
+  <li><strong>Line</strong></li>
   <li><a href="../classes/MainBlock.html">MainBlock</a></li>
   <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
   <li><a href="../classes/RequireLine.html">RequireLine</a></li>
@@ -72,9 +72,8 @@
 
 <div id="content">
 
-<h1>Class <code>ObjectBuilder</code></h1>
-<p>A specialized stack which is used to build a RomlObject
- hierarchy.</p>
+<h1>Class <code>Line</code></h1>
+<p>A line of code.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -86,17 +85,16 @@
 <h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#ObjectBuilder.new">ObjectBuilder.new (self, root)</a></td>
-	<td class="summary">Create a new ObjectBuilder, starting with the main parent.</td>
+	<td class="name" nowrap><a href="#Line.new">Line.new (self, text)</a></td>
+	<td class="summary">Create a new Line.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ObjectBuilder.Build">ObjectBuilder.Build (self, object[, classes={}[, properties={}]])</a></td>
-	<td class="summary">Create a new RomlObject whose parent is the current top of
- the stack.</td>
+	<td class="name" nowrap><a href="#Line.SetIndent">Line.SetIndent (self, indent)</a></td>
+	<td class="summary">Sets the indent string for this Line.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ObjectBuilder.Pop">ObjectBuilder.Pop (self)</a></td>
-	<td class="summary">Remove and return the top <a href="../classes/RomlObject.html#">RomlObject</a> from the Builder.</td>
+	<td class="name" nowrap><a href="#Line.Render">Line.Render (self)</a></td>
+	<td class="summary">Render the code for this Line.</td>
 	</tr>
 </table>
 
@@ -108,23 +106,48 @@
 
     <dl class="function">
     <dt>
-    <a name = "ObjectBuilder.new"></a>
-    <strong>ObjectBuilder.new (self, root)</strong>
+    <a name = "Line.new"></a>
+    <strong>Line.new (self, text)</strong>
     </dt>
     <dd>
-    Create a new ObjectBuilder, starting with the main parent.
+    Create a new Line.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
 
         </li>
-        <li><span class="parameter">root</span>
-            <span class="types"><span class="type">Instance</span></span>
-         The starting ROBLOX object to build
-	from.
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The code that is in the line.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Line.SetIndent"></a>
+    <strong>Line.SetIndent (self, indent)</strong>
+    </dt>
+    <dd>
+    Sets the indent string for this Line.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
+
+        </li>
+        <li><span class="parameter">indent</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The indent string to place before the
+	line of code.
 
         </li>
     </ul>
@@ -135,73 +158,21 @@
 
 </dd>
     <dt>
-    <a name = "ObjectBuilder.Build"></a>
-    <strong>ObjectBuilder.Build (self, object[, classes={}[, properties={}]])</strong>
+    <a name = "Line.Render"></a>
+    <strong>Line.Render (self)</strong>
     </dt>
     <dd>
-    Create a new RomlObject whose parent is the current top of
- the stack.  The new object is then pushed to the top of the
- stack and returned.
-
+    Render the code for this Line.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
-
-        </li>
-        <li><span class="parameter">object</span>
-            <span class="types"><span class="type">Instance</span></span>
-         The ROBLOX object to wrap.
-        </li>
-        <li><span class="parameter">classes</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The classes to place on the
-	<a href="../classes/RomlObject.html#">RomlObject</a>.
-         (<em>default</em> {})
-        </li>
-        <li><span class="parameter">properties</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The properties to set on the
-	<a href="../classes/RomlObject.html#">RomlObject</a>.
-         (<em>default</em> {})
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="../classes/RomlObject.html#">RomlObject</a></span>
-        The newly created <a href="../classes/RomlObject.html#">RomlObject</a>.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "ObjectBuilder.Pop"></a>
-    <strong>ObjectBuilder.Pop (self)</strong>
-    </dt>
-    <dd>
-    Remove and return the top <a href="../classes/RomlObject.html#">RomlObject</a> from the Builder.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/ObjectBuilder.html#">ObjectBuilder</a></span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
 
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="../classes/RomlObject.html#">RomlObject</a></span>
-        The removed <a href="../classes/RomlObject.html#">RomlObject</a>.
-    </ol>
 
 
 
