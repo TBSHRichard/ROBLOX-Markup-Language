@@ -6,6 +6,8 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+HashMap = require "com.sheepofice.util.HashMap"
+
 ----------------------------------------------------------------
 -- Reads an array-like table and converts it into a single-line
 -- string.
@@ -19,15 +21,45 @@ ArrayToSingleLineString = (array) ->
 		buffer = "{"
 
 		for i, el in ipairs array
-			if type(el) == "table"
+			if type(el) == "table" and not getmetatable el
 				buffer ..= ArrayToSingleLineString el
 			elseif type(el) == "string"
 				buffer ..= "\"#{el}\""
 			else
 				buffer ..= tostring el
 
+			buffer ..= ", " unless i == #array
+
 		return buffer .. "}"
 	else
 		return "nil"
 
-{ :ArrayToSingleLineString }
+----------------------------------------------------------------
+-- Reads a @{HashMap} and converts it into a single-line string.
+--
+-- @tparam HashMap map The @{HashMap} to turn into a string.
+-- @treturn string The @{HashMap} as a single-line string.
+----------------------------------------------------------------
+HashMapToSingleLineString = (map) ->
+	unless map == nil
+		buffer = "{"
+		i = 0
+
+		for key, el in map\pairs!
+			i += 1
+			buffer ..= "#{key} = "
+
+			if type(el) == "table" and not getmetatable el
+				buffer ..= HashMapToSingleLineString HashMap el
+			elseif type(el) == "string"
+				buffer ..= "\"#{el}\""
+			else
+				buffer ..= tostring el
+
+			buffer ..= ", " unless i == map\Length!
+
+		return buffer .. "}"
+	else
+		return "nil"
+
+{ :ArrayToSingleLineString, :HashMapToSingleLineString }

@@ -30,8 +30,19 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
 
 
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/Compiler.html">Compiler</a></li>
+  <li><strong>CompilerPropertyFilter</strong></li>
+  <li><a href="../modules/Table.html">Table</a></li>
+</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Event.html">Event</a></li>
@@ -45,7 +56,7 @@
   <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
   <li><a href="../classes/IfBlock.html">IfBlock</a></li>
   <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
-  <li><strong>InnerMetatableBlock</strong></li>
+  <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
   <li><a href="../classes/Line.html">Line</a></li>
   <li><a href="../classes/MainBlock.html">MainBlock</a></li>
   <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
@@ -56,13 +67,6 @@
   <li><a href="../classes/Tester.html">Tester</a></li>
   <li><a href="../classes/HashMap.html">HashMap</a></li>
 </ul>
-<h2>Modules</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/File.html">File</a></li>
-  <li><a href="../modules/Compiler.html">Compiler</a></li>
-  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
-  <li><a href="../modules/Table.html">Table</a></li>
-</ul>
 <h2>Examples</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../examples/event.moon.html">event.moon</a></li>
@@ -72,8 +76,8 @@
 
 <div id="content">
 
-<h1>Class <code>InnerMetatableBlock</code></h1>
-<p>A <a href="../classes/Block.html#">Block</a> that is used inside of the <a href="../classes/MetatableBlock.html#">MetatableBlock</a>.</p>
+<h1>Module <code>CompilerPropertyFilter</code></h1>
+<p>Module for compile-time filter related methods.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -82,11 +86,54 @@
     </ul>
 
 
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#FilterProperty">FilterProperty (className, propertyName, propertyValue)</a></td>
+	<td class="summary">Filter a property if there is a filter available, or output
+ the property as-is.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "FilterProperty"></a>
+    <strong>FilterProperty (className, propertyName, propertyValue)</strong>
+    </dt>
+    <dd>
+    Filter a property if there is a filter available, or output
+ the property as-is.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">className</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the ROBLOX object's
+	class.
+        </li>
+        <li><span class="parameter">propertyName</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the Property.
+        </li>
+        <li><span class="parameter">propertyValue</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The value of the Property.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->

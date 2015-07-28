@@ -1,4 +1,4 @@
-package.path = "../lib/?.lua;?.lua"
+package.path = package.path .. ";../lib/?.lua;?.lua"
 
 local Compiler = require("com.sheepofice.roml.compile.Compiler")
 local Tester = require("com.sheepofice.test.Tester")

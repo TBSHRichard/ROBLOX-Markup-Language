@@ -9,6 +9,7 @@
 Table = require "com.sheepofice.util.Table"
 MainBlock = require "com.sheepofice.roml.code.MainBlock"
 Line = require "com.sheepofice.roml.code.Line"
+CompilerPropertyFilter = require "com.sheepofice.roml.compile.CompilerPropertyFilter"
 
 addCode = nil
 addCodeFunctions = nil
@@ -24,9 +25,19 @@ addCodeFunctions =
 		--	Children							:array
 		-- }
 		_, className, id, classes, properties, children = unpack obj
-		mainBlock\AddChild Line("builder:Build(\"#{className}\", #{Table.ArrayToSingleLineString(classes)})")
+
+		buildLine = "builder:Build(\"#{className}\", #{Table.ArrayToSingleLineString(classes)})"
+		buildLine = "objTemp = #{buildLine}" if id or properties
+
+		mainBlock\AddChild Line(buildLine)
 		mainBlock\AddChild Line("") if id
-		mainBlock\AddChild Line("") if properties
+
+		if properties
+			for name, value in properties\pairs!
+				properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
+
+			mainBlock\AddChild Line("objTemp:SetProperties(#{Table.HashMapToSingleLineString(properties)})")
+
 		addCode mainBlock, children
 		mainBlock\AddChild Line("builder:Pop()")
 
