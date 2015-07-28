@@ -4,25 +4,34 @@ local Line = require("com.sheepofice.roml.code.Line")
 local CompilerPropertyFilter = require("com.sheepofice.roml.compile.CompilerPropertyFilter")
 local addCode = nil
 local addCodeFunctions = nil
+local writeObjectToBlock
+writeObjectToBlock = function(mainBlock, buildLine, className, id, classes, properties, children)
+  if id or properties then
+    buildLine = "objTemp = " .. tostring(buildLine)
+  end
+  mainBlock:AddChild(Line(buildLine))
+  if id then
+    mainBlock:AddChild(Line("self._objectIds[\"" .. tostring(id) .. "\"] = objTemp"))
+  end
+  if properties then
+    for name, value in properties:pairs() do
+      properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
+    end
+    mainBlock:AddChild(Line("objTemp:SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
+  end
+  addCode(mainBlock, children)
+  return mainBlock:AddChild(Line("builder:Pop()"))
+end
 addCodeFunctions = {
   object = function(mainBlock, obj)
     local _, className, id, classes, properties, children = unpack(obj)
     local buildLine = "builder:Build(\"" .. tostring(className) .. "\", " .. tostring(Table.ArrayToSingleLineString(classes)) .. ")"
-    if id or properties then
-      buildLine = "objTemp = " .. tostring(buildLine)
-    end
-    mainBlock:AddChild(Line(buildLine))
-    if id then
-      mainBlock:AddChild(Line("self._objectIds[\"" .. tostring(id) .. "\"] = objTemp"))
-    end
-    if properties then
-      for name, value in properties:pairs() do
-        properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
-      end
-      mainBlock:AddChild(Line("objTemp:SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
-    end
-    addCode(mainBlock, children)
-    return mainBlock:AddChild(Line("builder:Pop()"))
+    return writeObjectToBlock(mainBlock, buildLine, className, id, classes, properties, children)
+  end,
+  clone = function(mainBlock, obj)
+    local _, className, robloxObject, id, classes, properties, children = unpack(obj)
+    local buildLine = "builder:Build(" .. tostring(robloxObject) .. ", " .. tostring(Table.ArrayToSingleLineString(classes)) .. ")"
+    return writeObjectToBlock(mainBlock, buildLine, className, id, classes, properties, children)
   end
 }
 addCode = function(mainBlock, tree)

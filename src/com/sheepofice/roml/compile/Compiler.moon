@@ -14,6 +14,23 @@ CompilerPropertyFilter = require "com.sheepofice.roml.compile.CompilerPropertyFi
 addCode = nil
 addCodeFunctions = nil
 
+writeObjectToBlock = (mainBlock, buildLine, className, id, classes, properties, children) ->
+	buildLine = "objTemp = #{buildLine}" if id or properties
+
+	mainBlock\AddChild Line(buildLine)
+
+	if id
+		mainBlock\AddChild Line("self._objectIds[\"#{id}\"] = objTemp")
+
+	if properties
+		for name, value in properties\pairs!
+			properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
+
+		mainBlock\AddChild Line("objTemp:SetProperties(#{Table.HashMapToSingleLineString(properties)})")
+
+	addCode mainBlock, children
+	mainBlock\AddChild Line("builder:Pop()")
+
 addCodeFunctions =
 	object: (mainBlock, obj) ->
 		-- {
@@ -27,21 +44,21 @@ addCodeFunctions =
 		_, className, id, classes, properties, children = unpack obj
 
 		buildLine = "builder:Build(\"#{className}\", #{Table.ArrayToSingleLineString(classes)})"
-		buildLine = "objTemp = #{buildLine}" if id or properties
+		writeObjectToBlock mainBlock, buildLine, className, id, classes, properties, children
+	clone: (mainBlock, obj) ->
+		-- {
+		--	"clone"
+		--	ClassName							:string
+		--	RobloxObject						:string
+		--	Id									:string
+		--	Classes								:array
+		--	Properties							:table
+		--	Children							:array
+		-- }
+		_, className, robloxObject, id, classes, properties, children = unpack obj
 
-		mainBlock\AddChild Line(buildLine)
-
-		if id
-			mainBlock\AddChild Line("self._objectIds[\"#{id}\"] = objTemp")
-
-		if properties
-			for name, value in properties\pairs!
-				properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
-
-			mainBlock\AddChild Line("objTemp:SetProperties(#{Table.HashMapToSingleLineString(properties)})")
-
-		addCode mainBlock, children
-		mainBlock\AddChild Line("builder:Pop()")
+		buildLine = "builder:Build(#{robloxObject}, #{Table.ArrayToSingleLineString(classes)})"
+		writeObjectToBlock mainBlock, buildLine, className, id, classes, properties, children
 
 addCode = (mainBlock, tree) ->
 	if tree

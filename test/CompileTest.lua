@@ -19,7 +19,7 @@ t:AddTest("Parse tree with only objects (with children).", createCompileTest("Ch
 t:AddTest("Objects with inline properties.", createCompileTest("Properties", "properties"))
 t:AddTest("Objects with classes.", createCompileTest("Classes", "classes"))
 t:AddTest("Objects with an id.", createCompileTest("Id", "id"))
-t:AddTest("Custom object extensions.", createCompileTest("Extensions", "extensions"))
+t:AddTest("ROBLOX object clone.", createCompileTest("Clone", "clone"))
 t:AddTest("Objects with a variable class.", createCompileTest("VarClass", "var_class"))
 t:AddTest("Objects with variable properties.", createCompileTest("VarProperties", "var_properties"))
 t:AddTest("Conditional statements.", createCompileTest("Conditionals", "conditionals"))
