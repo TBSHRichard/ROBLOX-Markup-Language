@@ -3,7 +3,12 @@ return {
 		"object",
 		"Part",
 		nil,
-		{"Red", "Shiny"},
+		{
+			"static", {
+				"Red",
+				"Shiny"
+			}
+		},
 		nil,
 		{}
 	}

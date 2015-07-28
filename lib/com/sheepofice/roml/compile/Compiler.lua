@@ -5,7 +5,14 @@ local CompilerPropertyFilter = require("com.sheepofice.roml.compile.CompilerProp
 local addCode = nil
 local addCodeFunctions = nil
 local writeObjectToBlock
-writeObjectToBlock = function(mainBlock, buildLine, className, id, classes, properties, children)
+writeObjectToBlock = function(mainBlock, builderParam, className, id, classes, properties, children)
+  local classesString = "nil"
+  if classes then
+    if classes[1] == "static" then
+      classesString = Table.ArrayToSingleLineString(classes[2])
+    end
+  end
+  local buildLine = "builder:Build(" .. tostring(builderParam) .. ", " .. tostring(classesString) .. ")"
   if id or properties then
     buildLine = "objTemp = " .. tostring(buildLine)
   end
@@ -25,13 +32,11 @@ end
 addCodeFunctions = {
   object = function(mainBlock, obj)
     local _, className, id, classes, properties, children = unpack(obj)
-    local buildLine = "builder:Build(\"" .. tostring(className) .. "\", " .. tostring(Table.ArrayToSingleLineString(classes)) .. ")"
-    return writeObjectToBlock(mainBlock, buildLine, className, id, classes, properties, children)
+    return writeObjectToBlock(mainBlock, "\"" .. tostring(className) .. "\"", className, id, classes, properties, children)
   end,
   clone = function(mainBlock, obj)
     local _, className, robloxObject, id, classes, properties, children = unpack(obj)
-    local buildLine = "builder:Build(" .. tostring(robloxObject) .. ", " .. tostring(Table.ArrayToSingleLineString(classes)) .. ")"
-    return writeObjectToBlock(mainBlock, buildLine, className, id, classes, properties, children)
+    return writeObjectToBlock(mainBlock, robloxObject, className, id, classes, properties, children)
   end
 }
 addCode = function(mainBlock, tree)

@@ -14,7 +14,14 @@ CompilerPropertyFilter = require "com.sheepofice.roml.compile.CompilerPropertyFi
 addCode = nil
 addCodeFunctions = nil
 
-writeObjectToBlock = (mainBlock, buildLine, className, id, classes, properties, children) ->
+writeObjectToBlock = (mainBlock, builderParam, className, id, classes, properties, children) ->
+	classesString = "nil"
+
+	if classes
+		if classes[1] == "static"
+			classesString = Table.ArrayToSingleLineString(classes[2])
+
+	buildLine = "builder:Build(#{builderParam}, #{classesString})"
 	buildLine = "objTemp = #{buildLine}" if id or properties
 
 	mainBlock\AddChild Line(buildLine)
@@ -42,9 +49,8 @@ addCodeFunctions =
 		--	Children							:array
 		-- }
 		_, className, id, classes, properties, children = unpack obj
+		writeObjectToBlock mainBlock, "\"#{className}\"", className, id, classes, properties, children
 
-		buildLine = "builder:Build(\"#{className}\", #{Table.ArrayToSingleLineString(classes)})"
-		writeObjectToBlock mainBlock, buildLine, className, id, classes, properties, children
 	clone: (mainBlock, obj) ->
 		-- {
 		--	"clone"
@@ -56,9 +62,7 @@ addCodeFunctions =
 		--	Children							:array
 		-- }
 		_, className, robloxObject, id, classes, properties, children = unpack obj
-
-		buildLine = "builder:Build(#{robloxObject}, #{Table.ArrayToSingleLineString(classes)})"
-		writeObjectToBlock mainBlock, buildLine, className, id, classes, properties, children
+		writeObjectToBlock mainBlock, robloxObject, className, id, classes, properties, children
 
 addCode = (mainBlock, tree) ->
 	if tree
