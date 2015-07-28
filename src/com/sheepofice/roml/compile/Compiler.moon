@@ -30,7 +30,9 @@ addCodeFunctions =
 		buildLine = "objTemp = #{buildLine}" if id or properties
 
 		mainBlock\AddChild Line(buildLine)
-		mainBlock\AddChild Line("") if id
+
+		if id
+			mainBlock\AddChild Line("self._objectIds[\"#{id}\"] = objTemp")
 
 		if properties
 			for name, value in properties\pairs!

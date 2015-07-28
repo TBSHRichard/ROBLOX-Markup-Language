@@ -13,7 +13,7 @@ addCodeFunctions = {
     end
     mainBlock:AddChild(Line(buildLine))
     if id then
-      mainBlock:AddChild(Line(""))
+      mainBlock:AddChild(Line("self._objectIds[\"" .. tostring(id) .. "\"] = objTemp"))
     end
     if properties then
       for name, value in properties:pairs() do

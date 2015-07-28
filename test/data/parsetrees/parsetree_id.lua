@@ -1,0 +1,19 @@
+return {
+	{
+		"object",
+		"Part",
+		nil,
+		nil,
+		nil,
+		{
+			{
+				"object",
+				"ClickDetector",
+				"ClickMe",
+				nil,
+				nil,
+				{}
+			}
+		}
+	}
+}
