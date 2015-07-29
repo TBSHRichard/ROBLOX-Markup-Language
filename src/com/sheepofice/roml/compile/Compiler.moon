@@ -19,12 +19,13 @@ addCodeFunctions = nil
 
 writeObjectToBlock = (mainBlock, builderParam, className, id, classes, properties, children) ->
 	classesString = "nil"
+	varNamer = VariableNamer!
 	objectName = nil
 
 	if classes and classes[1] == "static"
 		classesString = Table.ArrayToSingleLineString(classes[2])
 	elseif classes and classes[1] == "dynamic"
-		objectName = VariableNamer.NameObjectVariable(className)
+		objectName = varNamer\NameObjectVariable className
 		mainBlock\AddChild MainBlock.BLOCK_VARS, Line("local #{objectName}")
 		mainBlock\AddChild MainBlock.BLOCK_VARS, Line("local varChange_#{classes[2]}")
 		varChange = FunctionBlock "varChange_#{classes[2]}", ""
@@ -34,21 +35,31 @@ writeObjectToBlock = (mainBlock, builderParam, className, id, classes, propertie
 		mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("self._vars.#{classes[2]}.Changed:connect(varChange_#{classes[2]})")
 		mainBlock\AddChild MainBlock.BLOCK_FUNCTION_CALLS, Line("varChange_#{classes[2]}()")
 
-	objectName = "objTemp" if id or properties and not objectName
+	if properties
+		for name, value in properties\pairs!
+			if type(value) == "string"
+				properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
+			else
+				objectName = varNamer\NameObjectVariable className
+				mainBlock\AddChild MainBlock.BLOCK_VARS, Line("local #{objectName}")
+				mainBlock\AddChild MainBlock.BLOCK_VARS, Line("local varChange_#{value[2]}")
+				varChange = FunctionBlock "varChange_#{value[2]}", ""
+				varChange\AddChild Line("#{objectName}:SetProperties({#{name} = self._vars.#{value[2]}:GetValue()})")
+				mainBlock\AddChild MainBlock.BLOCK_UPDATE_FUNCTIONS, varChange
+				mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("self._vars.#{value[2]} = RomlVar(vars.#{value[2]})")
+				mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("self._vars.#{value[2]}.Changed:connect(varChange_#{value[2]})")
+				mainBlock\AddChild MainBlock.BLOCK_FUNCTION_CALLS, Line("varChange_#{value[2]}()")
+				properties[name] = nil
+
+	objectName = "objTemp" if (id or properties) and not objectName
 
 	buildLine = "builder:Build(#{builderParam}, #{classesString})"
 	buildLine = "#{objectName} = #{buildLine}" if objectName
 
 	mainBlock\AddChild MainBlock.BLOCK_CREATION, Line(buildLine)
 
-	if id
-		mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("self._objectIds[\"#{id}\"] = #{objectName}")
-
-	if properties
-		for name, value in properties\pairs!
-			properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
-
-		mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("#{objectName}:SetProperties(#{Table.HashMapToSingleLineString(properties)})")
+	mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("self._objectIds[\"#{id}\"] = #{objectName}") if id
+	mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("#{objectName}:SetProperties(#{Table.HashMapToSingleLineString(properties)})") if properties
 
 	addCode mainBlock, children
 	mainBlock\AddChild MainBlock.BLOCK_CREATION, Line("builder:Pop()")

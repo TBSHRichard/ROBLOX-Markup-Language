@@ -10,11 +10,12 @@ local addCodeFunctions = nil
 local writeObjectToBlock
 writeObjectToBlock = function(mainBlock, builderParam, className, id, classes, properties, children)
   local classesString = "nil"
+  local varNamer = VariableNamer()
   local objectName = nil
   if classes and classes[1] == "static" then
     classesString = Table.ArrayToSingleLineString(classes[2])
   elseif classes and classes[1] == "dynamic" then
-    objectName = VariableNamer.NameObjectVariable(className)
+    objectName = varNamer:NameObjectVariable(className)
     mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(objectName)))
     mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local varChange_" .. tostring(classes[2])))
     local varChange = FunctionBlock("varChange_" .. tostring(classes[2]), "")
@@ -24,7 +25,25 @@ writeObjectToBlock = function(mainBlock, builderParam, className, id, classes, p
     mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(classes[2]) .. ".Changed:connect(varChange_" .. tostring(classes[2]) .. ")"))
     mainBlock:AddChild(MainBlock.BLOCK_FUNCTION_CALLS, Line("varChange_" .. tostring(classes[2]) .. "()"))
   end
-  if id or properties and not objectName then
+  if properties then
+    for name, value in properties:pairs() do
+      if type(value) == "string" then
+        properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
+      else
+        objectName = varNamer:NameObjectVariable(className)
+        mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(objectName)))
+        mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local varChange_" .. tostring(value[2])))
+        local varChange = FunctionBlock("varChange_" .. tostring(value[2]), "")
+        varChange:AddChild(Line(tostring(objectName) .. ":SetProperties({" .. tostring(name) .. " = self._vars." .. tostring(value[2]) .. ":GetValue()})"))
+        mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, varChange)
+        mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(value[2]) .. " = RomlVar(vars." .. tostring(value[2]) .. ")"))
+        mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(value[2]) .. ".Changed:connect(varChange_" .. tostring(value[2]) .. ")"))
+        mainBlock:AddChild(MainBlock.BLOCK_FUNCTION_CALLS, Line("varChange_" .. tostring(value[2]) .. "()"))
+        properties[name] = nil
+      end
+    end
+  end
+  if (id or properties) and not objectName then
     objectName = "objTemp"
   end
   local buildLine = "builder:Build(" .. tostring(builderParam) .. ", " .. tostring(classesString) .. ")"
@@ -36,9 +55,6 @@ writeObjectToBlock = function(mainBlock, builderParam, className, id, classes, p
     mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._objectIds[\"" .. tostring(id) .. "\"] = " .. tostring(objectName)))
   end
   if properties then
-    for name, value in properties:pairs() do
-      properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
-    end
     mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(objectName) .. ":SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
   end
   addCode(mainBlock, children)
