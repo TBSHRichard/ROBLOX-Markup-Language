@@ -68,7 +68,9 @@ class Block
 		
 		for child in *@_children
 			buffer ..= child\Render!
-			buffer ..= "\n"
+
+			if child.__class.__name != "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0
+				buffer ..= "\n"
 		
 		buffer .. @\AfterRender!
 

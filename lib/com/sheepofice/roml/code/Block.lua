@@ -23,7 +23,9 @@ do
       for _index_0 = 1, #_list_0 do
         local child = _list_0[_index_0]
         buffer = buffer .. child:Render()
-        buffer = buffer .. "\n"
+        if child.__class.__name ~= "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0 then
+          buffer = buffer .. "\n"
+        end
       end
       return buffer .. self:AfterRender()
     end

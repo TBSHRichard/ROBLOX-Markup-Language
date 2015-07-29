@@ -19,7 +19,7 @@ do
       local buffer = ""
       for i, child in ipairs(self._children) do
         buffer = buffer .. child:Render()
-        if i < #self._children and (child.__class.__name ~= "SpaceBlock" or (child.__class.__name == "SpaceBlock" and #child._children > 0)) then
+        if i < #self._children and (child.__class.__name ~= "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0) then
           buffer = buffer .. "\n"
         end
       end

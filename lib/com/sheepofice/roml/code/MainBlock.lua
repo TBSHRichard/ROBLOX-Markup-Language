@@ -11,8 +11,17 @@ local RequireLine = require("com.sheepofice.roml.code.RequireLine")
 local MainBlock
 do
   local _base_0 = {
-    AddChild = function(self, child)
-      return self._mainBlock:AddChild(child)
+    AddChild = function(self, block, child)
+      local _exp_0 = block
+      if self.__class.BLOCK_VARS == _exp_0 then
+        return self._varsBlock:AddChild(child)
+      elseif self.__class.BLOCK_UPDATE_FUNCTIONS == _exp_0 then
+        return self._updateFunctionsBlock:AddChild(child)
+      elseif self.__class.BLOCK_CREATION == _exp_0 then
+        return self._creationBlock:AddChild(child)
+      elseif self.__class.BLOCK_FUNCTION_CALLS == _exp_0 then
+        return self._functionCallsBlock:AddChild(child)
+      end
     end,
     Render = function(self)
       local buffer = ""
@@ -20,7 +29,9 @@ do
       for _index_0 = 1, #_list_0 do
         local child = _list_0[_index_0]
         buffer = buffer .. child:Render()
-        buffer = buffer .. "\n"
+        if child.__class.__name ~= "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0 then
+          buffer = buffer .. "\n"
+        end
       end
       return buffer
     end
@@ -40,8 +51,14 @@ do
       local createFunctionBlock = FunctionBlock("_create", "self, parent, vars")
       createFunctionBlock:AddChild(Line("local builder = ObjectBuilder(parent)"))
       createFunctionBlock:AddChild(Line("local objTemp"))
-      self._mainBlock = SpaceBlock()
-      createFunctionBlock:AddChild(self._mainBlock)
+      self._varsBlock = SpaceBlock()
+      self._updateFunctionsBlock = SpaceBlock()
+      self._creationBlock = SpaceBlock()
+      self._functionCallsBlock = SpaceBlock()
+      createFunctionBlock:AddChild(self._varsBlock)
+      createFunctionBlock:AddChild(self._updateFunctionsBlock)
+      createFunctionBlock:AddChild(self._creationBlock)
+      createFunctionBlock:AddChild(self._functionCallsBlock)
       createFunctionBlock:AddChild(Line("self._rootObject = builder:Pop()"))
       baseBlock:AddChild(createFunctionBlock)
       cBlock:AddChild(baseBlock)
@@ -90,6 +107,11 @@ do
     end
   })
   _base_0.__class = _class_0
+  local self = _class_0
+  self.BLOCK_VARS = "block vars"
+  self.BLOCK_UPDATE_FUNCTIONS = "block update functions"
+  self.BLOCK_CREATION = "block creation"
+  self.BLOCK_FUNCTION_CALLS = "block function call"
   MainBlock = _class_0
 end
 return MainBlock

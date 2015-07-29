@@ -19,6 +19,35 @@ RequireLine = require "com.sheepofice.roml.code.RequireLine"
 
 class MainBlock
 	----------------------------------------------------------------
+	-- Constant for adding children to the variable @{Block}.
+	--
+	-- @prop BLOCK_VARS
+	----------------------------------------------------------------
+	@BLOCK_VARS = "block vars"
+
+	----------------------------------------------------------------
+	-- Constant for adding children to the update function @{Block}.
+	--
+	-- @prop BLOCK_UPDATE_FUNCTIONS
+	----------------------------------------------------------------
+	@BLOCK_UPDATE_FUNCTIONS = "block update functions"
+
+	----------------------------------------------------------------
+	-- Constant for adding children to the object creation @{Block}.
+	--
+	-- @prop BLOCK_CREATION
+	----------------------------------------------------------------
+	@BLOCK_CREATION = "block creation"
+
+	----------------------------------------------------------------
+	-- Constant for adding children to the update function call
+	-- @{Block}.
+	--
+	-- @prop BLOCK_FUNCTION_CALLS
+	----------------------------------------------------------------
+	@BLOCK_FUNCTION_CALLS = "block function call"
+
+	----------------------------------------------------------------
 	-- Create the MainBlock.
 	--
 	-- @tparam MainBlock self
@@ -42,8 +71,14 @@ class MainBlock
 		createFunctionBlock = FunctionBlock("_create", "self, parent, vars")
 		createFunctionBlock\AddChild Line("local builder = ObjectBuilder(parent)")
 		createFunctionBlock\AddChild Line("local objTemp")
-		@_mainBlock = SpaceBlock!
-		createFunctionBlock\AddChild @_mainBlock
+		@_varsBlock = SpaceBlock!
+		@_updateFunctionsBlock = SpaceBlock!
+		@_creationBlock = SpaceBlock!
+		@_functionCallsBlock = SpaceBlock!
+		createFunctionBlock\AddChild @_varsBlock
+		createFunctionBlock\AddChild @_updateFunctionsBlock
+		createFunctionBlock\AddChild @_creationBlock
+		createFunctionBlock\AddChild @_functionCallsBlock
 		createFunctionBlock\AddChild Line("self._rootObject = builder:Pop()")
 		
 		baseBlock\AddChild createFunctionBlock
@@ -90,13 +125,25 @@ class MainBlock
 		table.insert @_children, Line("return #{name}")
 	
 	----------------------------------------------------------------
-	-- Add a child to the create function of the subclass.
+	-- Add a child to the create function of the subclass inside the
+	-- specified block.
 	--
 	-- @tparam MainBlock self
+	-- @tparam string block One of @{BLOCK_VARS},
+	--	@{BLOCK_UPDATE_FUNCTIONS}, @{BLOCK_CREATION},
+	--	or @{BLOCK_FUNCTION_CALLS}.
 	-- @tparam Block/Line child The child to add.
 	----------------------------------------------------------------
-	AddChild: (child) =>
-		@_mainBlock\AddChild child
+	AddChild: (block, child) =>
+		switch block
+			when @@BLOCK_VARS
+				@_varsBlock\AddChild child
+			when @@BLOCK_UPDATE_FUNCTIONS
+				@_updateFunctionsBlock\AddChild child
+			when @@BLOCK_CREATION
+				@_creationBlock\AddChild child
+			when @@BLOCK_FUNCTION_CALLS
+				@_functionCallsBlock\AddChild child
 	
 	----------------------------------------------------------------
 	-- Render the MainBlock and all children @{Block}s/@{Line}s.
@@ -108,7 +155,9 @@ class MainBlock
 		
 		for child in *@_children
 			buffer ..= child\Render!
-			buffer ..= "\n"
+
+			if child.__class.__name != "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0
+				buffer ..= "\n"
 		
 		return buffer
 
