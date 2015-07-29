@@ -24,7 +24,9 @@ class SpaceBlock extends Block
 
 		for i, child in ipairs @_children
 			buffer ..= child\Render!
-			buffer ..= "\n" unless i == #@_children
+			
+			if i < #@_children and (child.__class.__name != "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0)
+				buffer ..= "\n"
 
 		return buffer
 

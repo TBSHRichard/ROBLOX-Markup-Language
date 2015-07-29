@@ -29,6 +29,9 @@ do
         self._properties[name] = value
       end
     end,
+    SetClasses = function(self, classes)
+      self._classes = classes
+    end,
     RemoveAllChildren = function(self)
       self._robloxObject:ClearAllChildren()
       self._children = { }

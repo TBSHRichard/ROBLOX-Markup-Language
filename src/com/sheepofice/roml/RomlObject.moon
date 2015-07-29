@@ -83,6 +83,12 @@ class RomlObject
 	----------------------------------------------------------------
 	SetProperties: (properties) =>
 		@_properties[name] = value for name, value in pairs properties
+
+	----------------------------------------------------------------
+	-- @tparam RomlObject self
+	-- @tparam table classes The array of new classes.
+	----------------------------------------------------------------
+	SetClasses: (classes) => @_classes = classes
 	
 	----------------------------------------------------------------
 	-- Removes all children from this object.
