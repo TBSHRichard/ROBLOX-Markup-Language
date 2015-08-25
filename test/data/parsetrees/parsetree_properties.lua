@@ -1,4 +1,4 @@
-HashMap = require("com.sheepofice.util.HashMap")
+HashMap = require("net.blacksheepherd.util.HashMap")
 
 return {
 	{

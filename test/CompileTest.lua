@@ -1,8 +1,8 @@
 package.path = package.path .. ";../lib/?.lua;?.lua"
 
-local Compiler = require("com.sheepofice.roml.compile.Compiler")
-local Tester = require("com.sheepofice.test.Tester")
-local File = require("com.sheepofice.io.File")
+local Compiler = require("net.blacksheepherd.roml.compile.Compiler")
+local Tester = require("net.blacksheepherd.test.Tester")
+local File = require("net.blacksheepherd.io.File")
 local t = Tester("CompileTest")
 
 local function createCompileTest(className, filename)
