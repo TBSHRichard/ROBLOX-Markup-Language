@@ -1,32 +1,36 @@
 local RomlVar = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlVar)
 local RomlDoc = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlDoc)
 local RomlObject = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlObject)
-local ObjectBuilder = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.ObjectBuilder)
 local Properties
 do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      local builder = ObjectBuilder(parent)
+      self._rootObject = RomlObject(parent)
       local objTemp
-      objTemp = builder:Build("Part", nil)
+      local objScreenGui1
+      objTemp = RomlObject("Part", nil)
       objTemp:SetProperties({BottomSurface = Enum.SurfaceType.Studs, BrickColor = BrickColor.new(0.2, 0.6, 0.4), Size = Vector3.new(63, 0, 15)})
-      builder:Pop()
-      objTemp = builder:Build("Part", nil)
+      objTemp:Refresh()
+      self._rootObject:AddChild(objTemp)
+      objTemp = RomlObject("Part", nil)
       objTemp:SetProperties({Size = Vector3.new(43, 43, 43), BrickColor = BrickColor.new(1001), Position = Vector3.new(38.5, 0.3, 55)})
-      builder:Pop()
-      objTemp = builder:Build("Part", nil)
+      objTemp:Refresh()
+      self._rootObject:AddChild(objTemp)
+      objTemp = RomlObject("Part", nil)
       objTemp:SetProperties({BrickColor = BrickColor.new(0.36, 0.67, 0.8), TopSurface = Enum.SurfaceType.Inlet})
-      builder:Pop()
-      objTemp = builder:Build("Part", nil)
+      objTemp:Refresh()
+      self._rootObject:AddChild(objTemp)
+      objTemp = RomlObject("Part", nil)
       objTemp:SetProperties({BrickColor = BrickColor.new("Sand red")})
-      builder:Pop()
-      builder:Build("ScreenGui", nil)
-      objTemp = builder:Build("TextButton", nil)
+      objTemp:Refresh()
+      self._rootObject:AddChild(objTemp)
+      objScreenGui1 = RomlObject("ScreenGui", nil)
+      self._rootObject:AddChild(objScreenGui1)
+      objTemp = RomlObject("TextButton", nil)
       objTemp:SetProperties({Style = Enum.ButtonStyle.RobloxButton, TextColor3 = BrickColor.new("Mid gray").Color, TextStrokeColor3 = BrickColor.new(12).Color, BorderColor3 = Color3.new(0.93, 1, 0.55), BackgroundColor3 = Color3.new(0.2, 0.6, 0.4)})
-      builder:Pop()
-      builder:Pop()
-      self._rootObject = builder:Pop()
+      objTemp:Refresh()
+      objScreenGui1:AddChild(objTemp)
     end
   }
   _base_0.__index = _base_0

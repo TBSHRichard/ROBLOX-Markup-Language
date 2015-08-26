@@ -1,3 +1,4 @@
+local Stack = require("net.blacksheepherd.datastructure.Stack")
 local Table = require("net.blacksheepherd.util.Table")
 local MainBlock = require("net.blacksheepherd.roml.code.MainBlock")
 local SpaceBlock = require("net.blacksheepherd.roml.code.SpaceBlock")
@@ -5,10 +6,14 @@ local FunctionBlock = require("net.blacksheepherd.roml.code.FunctionBlock")
 local Line = require("net.blacksheepherd.roml.code.Line")
 local VariableNamer = require("net.blacksheepherd.roml.compile.VariableNamer")
 local CompilerPropertyFilter = require("net.blacksheepherd.roml.compile.CompilerPropertyFilter")
-local addCode = nil
-local addCodeFunctions = nil
+local addCode
+local addCodeFunctions
+local mainBlock
+local functionTable
+local varNamer
+local parentNameStack
 local writeVarCode
-writeVarCode = function(mainBlock, functionTable, varNamer, className, varName, changeFunction)
+writeVarCode = function(className, varName, changeFunction)
   if not (functionTable[varName]) then
     functionTable[varName] = FunctionBlock("varChange_" .. tostring(varName), "")
   end
@@ -24,13 +29,13 @@ writeVarCode = function(mainBlock, functionTable, varNamer, className, varName, 
   return objectName
 end
 local writeObjectToBlock
-writeObjectToBlock = function(mainBlock, functionTable, varNamer, builderParam, className, id, classes, properties, children)
+writeObjectToBlock = function(builderParam, className, id, classes, properties, children)
   local classesString = "nil"
   local objectName = nil
   if classes and classes[1] == "static" then
     classesString = Table.ArrayToSingleLineString(classes[2])
   elseif classes and classes[1] == "dynamic" then
-    objectName = writeVarCode(mainBlock, functionTable, varNamer, className, classes[2], function(varChange, objectName, varName)
+    objectName = writeVarCode(className, classes[2], function(varChange, objectName, varName)
       return varChange:AddChild(Line(tostring(objectName) .. ":SetClasses(self._vars." .. tostring(varName) .. ":GetValue())"))
     end)
   end
@@ -39,53 +44,60 @@ writeObjectToBlock = function(mainBlock, functionTable, varNamer, builderParam, 
       if type(value) == "string" then
         properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
       else
-        objectName = writeVarCode(mainBlock, functionTable, varNamer, className, value[2], function(varChange, objectName, varName)
+        objectName = writeVarCode(className, value[2], function(varChange, objectName, varName)
           return varChange:AddChild(Line(tostring(objectName) .. ":SetProperties({" .. tostring(name) .. " = self._vars." .. tostring(varName) .. ":GetValue()})"))
         end)
         properties[name] = nil
       end
     end
   end
-  if (id or properties) and not objectName then
+  if #children > 0 and not objectName then
+    objectName = varNamer:NameObjectVariable(className)
+    mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(objectName)))
+  end
+  if not objectName then
     objectName = "objTemp"
   end
-  local buildLine = "builder:Build(" .. tostring(builderParam) .. ", " .. tostring(classesString) .. ")"
-  if objectName then
-    buildLine = tostring(objectName) .. " = " .. tostring(buildLine)
-  end
-  mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(buildLine))
+  mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(objectName) .. " = RomlObject(" .. tostring(builderParam) .. ", " .. tostring(classesString) .. ")"))
   if id then
     mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._objectIds[\"" .. tostring(id) .. "\"] = " .. tostring(objectName)))
   end
   if properties then
     mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(objectName) .. ":SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
   end
-  addCode(mainBlock, children)
-  return mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("builder:Pop()"))
+  if properties then
+    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(objectName) .. ":Refresh()"))
+  end
+  mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(parentNameStack:Peek()) .. ":AddChild(" .. tostring(objectName) .. ")"))
+  parentNameStack:Push(objectName)
+  addCode(children)
+  return parentNameStack:Pop()
 end
 addCodeFunctions = {
-  object = function(mainBlock, functionTable, varNamer, obj)
+  object = function(obj)
     local _, className, id, classes, properties, children = unpack(obj)
-    return writeObjectToBlock(mainBlock, functionTable, varNamer, "\"" .. tostring(className) .. "\"", className, id, classes, properties, children)
+    return writeObjectToBlock("\"" .. tostring(className) .. "\"", className, id, classes, properties, children)
   end,
-  clone = function(mainBlock, functionTable, varNamer, obj)
+  clone = function(obj)
     local _, className, robloxObject, id, classes, properties, children = unpack(obj)
-    return writeObjectToBlock(mainBlock, functionTable, varNamer, robloxObject, className, id, classes, properties, children)
+    return writeObjectToBlock(robloxObject, className, id, classes, properties, children)
   end
 }
-addCode = function(mainBlock, tree)
-  local functionTable = { }
-  local varNamer = VariableNamer()
+addCode = function(tree)
   if tree then
     for _, obj in ipairs(tree) do
-      addCodeFunctions[obj[1]](mainBlock, functionTable, varNamer, obj)
+      addCodeFunctions[obj[1]](obj)
     end
   end
 end
 local Compile
 Compile = function(name, parsetree)
-  local mainBlock = MainBlock(name)
-  addCode(mainBlock, parsetree)
+  mainBlock = MainBlock(name)
+  functionTable = { }
+  varNamer = VariableNamer()
+  parentNameStack = Stack()
+  parentNameStack:Push("self._rootObject")
+  addCode(parsetree)
   return mainBlock:Render()
 end
 return {

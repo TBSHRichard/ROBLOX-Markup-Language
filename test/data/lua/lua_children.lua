@@ -1,27 +1,28 @@
 local RomlVar = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlVar)
 local RomlDoc = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlDoc)
 local RomlObject = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlObject)
-local ObjectBuilder = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.ObjectBuilder)
 local Children
 do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      local builder = ObjectBuilder(parent)
+      self._rootObject = RomlObject(parent)
       local objTemp
-      builder:Build("Model", nil)
-      builder:Build("Model", nil)
-      builder:Build("WedgePart", nil)
-      builder:Pop()
-      builder:Pop()
-      builder:Build("Part", nil)
-      builder:Pop()
-      builder:Pop()
-      builder:Build("Part", nil)
-      builder:Build("ClickDetector", nil)
-      builder:Pop()
-      builder:Pop()
-      self._rootObject = builder:Pop()
+      local objModel1
+      local objModel2
+      local objPart1
+      objModel1 = RomlObject("Model", nil)
+      self._rootObject:AddChild(objModel1)
+      objModel2 = RomlObject("Model", nil)
+      objModel1:AddChild(objModel2)
+      objTemp = RomlObject("WedgePart", nil)
+      objModel2:AddChild(objTemp)
+      objTemp = RomlObject("Part", nil)
+      objModel1:AddChild(objTemp)
+      objPart1 = RomlObject("Part", nil)
+      self._rootObject:AddChild(objPart1)
+      objTemp = RomlObject("ClickDetector", nil)
+      objPart1:AddChild(objTemp)
     end
   }
   _base_0.__index = _base_0

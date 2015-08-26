@@ -1,13 +1,12 @@
 local RomlVar = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlVar)
 local RomlDoc = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlDoc)
 local RomlObject = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlObject)
-local ObjectBuilder = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.ObjectBuilder)
 local VarClass
 do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      local builder = ObjectBuilder(parent)
+      self._rootObject = RomlObject(parent)
       local objTemp
       local objPart1
       local varChange_partClasses
@@ -16,10 +15,9 @@ do
       end
       self._vars.partClasses = RomlVar(vars.partClasses)
       self._vars.partClasses.Changed:connect(varChange_partClasses)
-      objPart1 = builder:Build("Part", nil)
-      builder:Pop()
+      objPart1 = RomlObject("Part", nil)
+      self._rootObject:AddChild(objPart1)
       varChange_partClasses()
-      self._rootObject = builder:Pop()
     end
   }
   _base_0.__index = _base_0

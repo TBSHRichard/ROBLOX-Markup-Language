@@ -1,13 +1,12 @@
 local RomlVar = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlVar)
 local RomlDoc = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlDoc)
 local RomlObject = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlObject)
-local ObjectBuilder = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.ObjectBuilder)
 local VarProperties
 do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      local builder = ObjectBuilder(parent)
+      self._rootObject = RomlObject(parent)
       local objTemp
       local objPart1
       local varChange_partColor
@@ -16,11 +15,11 @@ do
       end
       self._vars.partColor = RomlVar(vars.partColor)
       self._vars.partColor.Changed:connect(varChange_partColor)
-      objPart1 = builder:Build("Part", nil)
+      objPart1 = RomlObject("Part", nil)
       objPart1:SetProperties({TopSurface = Enum.SurfaceType.Weld})
-      builder:Pop()
+      objPart1:Refresh()
+      self._rootObject:AddChild(objPart1)
       varChange_partColor()
-      self._rootObject = builder:Pop()
     end
   }
   _base_0.__index = _base_0

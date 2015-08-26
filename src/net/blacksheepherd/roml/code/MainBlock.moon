@@ -60,7 +60,6 @@ class MainBlock
 		table.insert @_children, RequireLine("net.blacksheepherd.roml", "RomlVar")
 		table.insert @_children, RequireLine("net.blacksheepherd.roml", "RomlDoc")
 		table.insert @_children, RequireLine("net.blacksheepherd.roml", "RomlObject")
-		table.insert @_children, RequireLine("net.blacksheepherd.roml", "ObjectBuilder")
 		table.insert @_children, Line("local #{name}")
 		
 		cBlock = DoBlock!
@@ -69,7 +68,7 @@ class MainBlock
 		baseBlock = TableBlock("_base_0")
 		
 		createFunctionBlock = FunctionBlock("_create", "self, parent, vars")
-		createFunctionBlock\AddChild Line("local builder = ObjectBuilder(parent)")
+		createFunctionBlock\AddChild Line("self._rootObject = RomlObject(parent)")
 		createFunctionBlock\AddChild Line("local objTemp")
 		@_varsBlock = SpaceBlock!
 		@_updateFunctionsBlock = SpaceBlock!
@@ -79,7 +78,6 @@ class MainBlock
 		createFunctionBlock\AddChild @_updateFunctionsBlock
 		createFunctionBlock\AddChild @_creationBlock
 		createFunctionBlock\AddChild @_functionCallsBlock
-		createFunctionBlock\AddChild Line("self._rootObject = builder:Pop()")
 		
 		baseBlock\AddChild createFunctionBlock
 		cBlock\AddChild baseBlock
