@@ -1,4 +1,5 @@
 local Block = require("net.blacksheepherd.roml.code.Block")
+local Line = require("net.blacksheepherd.roml.code.Line")
 local FunctionBlock
 do
   local _parent_0 = Block
@@ -8,6 +9,12 @@ do
     end,
     AfterRender = function(self)
       return tostring(self._indent) .. "end"
+    end,
+    AddLineIfNotAdded = function(self, lineString)
+      if not (self._addedLines[lineString]) then
+        self._addedLines[lineString] = true
+        return self:AddChild(Line(lineString))
+      end
     end
   }
   _base_0.__index = _base_0
@@ -17,6 +24,7 @@ do
       _parent_0.__init(self)
       self._name = name
       self._parameters = parameters
+      self._addedLines = { }
     end,
     __base = _base_0,
     __name = "FunctionBlock",

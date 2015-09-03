@@ -7,6 +7,7 @@
 ----------------------------------------------------------------
 
 Block = require "net.blacksheepherd.roml.code.Block"
+Line = require "net.blacksheepherd.roml.code.Line"
 
 class FunctionBlock extends Block
 	----------------------------------------------------------------
@@ -21,9 +22,23 @@ class FunctionBlock extends Block
 		super!
 		@_name = name
 		@_parameters = parameters
+		@_addedLines = {}
 	
 	BeforeRender: => "#{@_indent}#{@_name} = function(#{@_parameters})"
 	
 	AfterRender: => "#{@_indent}end"
+
+	----------------------------------------------------------------
+	-- Add a line to this Block as a child if it has not already
+	-- been added by this function.
+	--
+	-- @tparam FunctionBlock self
+	-- @tparam string lineString The text that should be contained
+	--  in the Line.
+	----------------------------------------------------------------
+	AddLineIfNotAdded: (lineString) =>
+		unless @_addedLines[lineString]
+			@_addedLines[lineString] = true
+			@\AddChild Line(lineString)
 
 return FunctionBlock

@@ -1,6 +1,7 @@
 local Stack = require("net.blacksheepherd.datastructure.Stack")
 local Table = require("net.blacksheepherd.util.Table")
 local MainBlock = require("net.blacksheepherd.roml.code.MainBlock")
+local ConditionalBlock = require("net.blacksheepherd.roml.code.ConditionalBlock")
 local SpaceBlock = require("net.blacksheepherd.roml.code.SpaceBlock")
 local FunctionBlock = require("net.blacksheepherd.roml.code.FunctionBlock")
 local Line = require("net.blacksheepherd.roml.code.Line")
@@ -12,6 +13,26 @@ local mainBlock
 local functionTable
 local varNamer
 local parentNameStack
+local creationFunctionStack
+local mainBlockCreationFunction
+mainBlockCreationFunction = function(lines)
+  for _index_0 = 1, #lines do
+    local line = lines[_index_0]
+    mainBlock:AddChild(MainBlock.BLOCK_CREATION, line)
+  end
+end
+local writeLineToVarChangeFunction
+writeLineToVarChangeFunction = function(varName, lineString)
+  if not (functionTable[varName]) then
+    mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local varChange_" .. tostring(varName)))
+    functionTable[varName] = FunctionBlock("varChange_" .. tostring(varName), "")
+    mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName])
+    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. " = RomlVar(vars." .. tostring(varName) .. ")"))
+    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. ".Changed:connect(varChange_" .. tostring(varName) .. ")"))
+    mainBlock:AddChild(MainBlock.BLOCK_FUNCTION_CALLS, Line("varChange_" .. tostring(varName) .. "()"))
+  end
+  return functionTable[varName]:AddLineIfNotAdded(lineString)
+end
 local writeVarCode
 writeVarCode = function(className, varName, changeFunction)
   if not (functionTable[varName]) then
@@ -58,20 +79,23 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   if not objectName then
     objectName = "objTemp"
   end
-  mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(objectName) .. " = RomlObject(" .. tostring(builderParam) .. ", " .. tostring(classesString) .. ")"))
+  local lines = {
+    Line(tostring(objectName) .. " = RomlObject(" .. tostring(builderParam) .. ", " .. tostring(classesString) .. ")")
+  }
   if id then
-    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._objectIds[\"" .. tostring(id) .. "\"] = " .. tostring(objectName)))
+    table.insert(lines, Line("self._objectIds[\"" .. tostring(id) .. "\"] = " .. tostring(objectName)))
   end
   if properties then
-    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(objectName) .. ":SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
+    table.insert(lines, Line(tostring(objectName) .. ":SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
+    table.insert(lines, Line(tostring(objectName) .. ":Refresh()"))
   end
-  if properties then
-    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(objectName) .. ":Refresh()"))
-  end
-  mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line(tostring(parentNameStack:Peek()) .. ":AddChild(" .. tostring(objectName) .. ")"))
+  table.insert(lines, Line(tostring(parentNameStack:Peek()) .. ":AddChild(" .. tostring(objectName) .. ")"))
+  creationFunctionStack:Peek()(lines)
+  creationFunctionStack:Push(creationFunctionStack:Peek())
   parentNameStack:Push(objectName)
   addCode(children)
-  return parentNameStack:Pop()
+  parentNameStack:Pop()
+  return creationFunctionStack:Pop()
 end
 addCodeFunctions = {
   object = function(obj)
@@ -81,6 +105,52 @@ addCodeFunctions = {
   clone = function(obj)
     local _, className, robloxObject, id, classes, properties, children = unpack(obj)
     return writeObjectToBlock(robloxObject, className, id, classes, properties, children)
+  end,
+  ["if"] = function(obj)
+    local _, condition, vars, children, otherConditionals = unpack(obj)
+    local parentName = parentNameStack:Peek()
+    if parentName == "self._rootObject" then
+      parentName = "Parent"
+    end
+    if creationFunctionStack:Peek() == mainBlockCreationFunction then
+      local creationFunctionName = "update" .. tostring(parentName)
+      local creationFunction = FunctionBlock(creationFunctionName, "")
+      mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(creationFunctionName)))
+      mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction)
+      creationFunctionStack:Push(function(lines)
+        for _index_0 = 1, #lines do
+          local line = lines[_index_0]
+          creationFunction:AddChild(line)
+        end
+      end)
+    end
+    local ifBlock = ConditionalBlock()
+    ifBlock:AddCondition(condition)
+    creationFunctionStack:Peek()({
+      ifBlock
+    })
+    creationFunctionStack:Push(function(input)
+      for _index_0 = 1, #input do
+        local line = input[_index_0]
+        ifBlock:AddChild(line)
+      end
+    end)
+    for _index_0 = 1, #vars do
+      local var = vars[_index_0]
+      writeLineToVarChangeFunction(var, "update" .. tostring(parentName) .. "()")
+    end
+    addCode(children)
+    for _index_0 = 1, #otherConditionals do
+      local conditional = otherConditionals[_index_0]
+      condition, vars, children = unpack(conditional)
+      ifBlock:AddCondition(condition)
+      for _index_1 = 1, #vars do
+        local var = vars[_index_1]
+        writeLineToVarChangeFunction(var, "update" .. tostring(parentName) .. "()")
+      end
+      addCode(children)
+    end
+    return creationFunctionStack:Pop()
   end
 }
 addCode = function(tree)
@@ -96,7 +166,9 @@ Compile = function(name, parsetree)
   functionTable = { }
   varNamer = VariableNamer()
   parentNameStack = Stack()
+  creationFunctionStack = Stack()
   parentNameStack:Push("self._rootObject")
+  creationFunctionStack:Push(mainBlockCreationFunction)
   addCode(parsetree)
   return mainBlock:Render()
 end
