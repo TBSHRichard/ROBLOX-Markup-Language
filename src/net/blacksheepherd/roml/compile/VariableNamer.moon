@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
 -- Variable naming for ROBLOX objects.
 --
--- @classmod VariableName
+-- @classmod VariableNamer
 -- @author Richard Voelker
 -- @license MIT
 ----------------------------------------------------------------
@@ -14,6 +14,7 @@ class VariableNamer
 	-- Get the next name for a ROBLOX object variable. The name is
 	-- in the following form: var(Object ClassName)(Unique ID).
 	--
+	-- @tparam VariableNamer self
 	-- @tparam string className The ClassName of the ROBLOX object.
 	-- @treturn string The name for the object variable.
 	----------------------------------------------------------------

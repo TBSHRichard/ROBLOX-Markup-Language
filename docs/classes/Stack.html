@@ -38,7 +38,7 @@
 
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../classes/Stack.html">Stack</a></li>
+  <li><strong>Stack</strong></li>
   <li><a href="../classes/Event.html">Event</a></li>
   <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
   <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
@@ -52,7 +52,7 @@
   <li><a href="../classes/IfBlock.html">IfBlock</a></li>
   <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
   <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
-  <li><strong>Line</strong></li>
+  <li><a href="../classes/Line.html">Line</a></li>
   <li><a href="../classes/MainBlock.html">MainBlock</a></li>
   <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
   <li><a href="../classes/RequireLine.html">RequireLine</a></li>
@@ -79,8 +79,8 @@
 
 <div id="content">
 
-<h1>Class <code>Line</code></h1>
-<p>A line of code.</p>
+<h1>Class <code>Stack</code></h1>
+<p>A standard Stack data structure.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -92,16 +92,21 @@
 <h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Line.new">Line.new (self, text)</a></td>
-	<td class="summary">Create a new Line.</td>
+	<td class="name" nowrap><a href="#Stack.Push">Stack.Push (self, el)</a></td>
+	<td class="summary">Push an element onto the top of the Stack.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Line.SetIndent">Line.SetIndent (self, indent)</a></td>
-	<td class="summary">Sets the indent string for this Line.</td>
+	<td class="name" nowrap><a href="#Stack.Pop">Stack.Pop (self)</a></td>
+	<td class="summary">Remove an element from the top of the Stack.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Line.Render">Line.Render (self)</a></td>
-	<td class="summary">Render the code for this Line.</td>
+	<td class="name" nowrap><a href="#Stack.Peek">Stack.Peek (self)</a></td>
+	<td class="summary">Returns the top element from the Stack without removing it.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Stack.IsEmpty">Stack.IsEmpty (self)</a></td>
+	<td class="summary">Returns whether or not the Stack is empty (length of the
+ Stack is 0).</td>
 	</tr>
 </table>
 
@@ -113,22 +118,21 @@
 
     <dl class="function">
     <dt>
-    <a name = "Line.new"></a>
-    <strong>Line.new (self, text)</strong>
+    <a name = "Stack.Push"></a>
+    <strong>Stack.Push (self, el)</strong>
     </dt>
     <dd>
-    Create a new Line.
+    Push an element onto the top of the Stack.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
+            <span class="types"><a class="type" href="../classes/Stack.html#">Stack</a></span>
 
         </li>
-        <li><span class="parameter">text</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The code that is in the line.
+        <li><span class="parameter">el</span>
+         The element to add.
         </li>
     </ul>
 
@@ -138,48 +142,84 @@
 
 </dd>
     <dt>
-    <a name = "Line.SetIndent"></a>
-    <strong>Line.SetIndent (self, indent)</strong>
+    <a name = "Stack.Pop"></a>
+    <strong>Stack.Pop (self)</strong>
     </dt>
     <dd>
-    Sets the indent string for this Line.
+    Remove an element from the top of the Stack.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
-
-        </li>
-        <li><span class="parameter">indent</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The indent string to place before the
-	line of code.
+            <span class="types"><a class="type" href="../classes/Stack.html#">Stack</a></span>
 
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+         The top element of the Stack, or nil if the Stack is
+	empty.
+
+    </ol>
 
 
 
 
 </dd>
     <dt>
-    <a name = "Line.Render"></a>
-    <strong>Line.Render (self)</strong>
+    <a name = "Stack.Peek"></a>
+    <strong>Stack.Peek (self)</strong>
     </dt>
     <dd>
-    Render the code for this Line.
+    Returns the top element from the Stack without removing it.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/Block.html#">Block</a></span>
+            <span class="types"><a class="type" href="../classes/Stack.html#">Stack</a></span>
 
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+         The top element of the Stack, or nil if the Stack is
+	empty.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Stack.IsEmpty"></a>
+    <strong>Stack.IsEmpty (self)</strong>
+    </dt>
+    <dd>
+    Returns whether or not the Stack is empty (length of the
+ Stack is 0).
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Stack.html#">Stack</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True if the Stack is empty, false otherwise.
+    </ol>
 
 
 

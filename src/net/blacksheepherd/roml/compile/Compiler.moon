@@ -135,6 +135,7 @@ addCodeFunctions =
 		if creationFunctionStack\Peek! == mainBlockCreationFunction
 			creationFunctionName = "update#{parentName}"
 			creationFunction = FunctionBlock creationFunctionName, ""
+			creationFunction\AddChild Line("#{parentNameStack\Peek!}:RemoveAllChildren()")
 			mainBlock\AddChild MainBlock.BLOCK_VARS, Line("local #{creationFunctionName}")
 			mainBlock\AddChild MainBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction
 			creationFunctionStack\Push (lines) ->

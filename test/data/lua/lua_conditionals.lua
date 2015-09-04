@@ -12,6 +12,7 @@ do
       local varChange_foo
       local varChange_bar
       updateParent = function()
+        self._rootObject:RemoveAllChildren()
         if 5 == 5 then
           objTemp = RomlObject("Part", nil)
           self._rootObject:AddChild(objTemp)

@@ -115,6 +115,7 @@ addCodeFunctions = {
     if creationFunctionStack:Peek() == mainBlockCreationFunction then
       local creationFunctionName = "update" .. tostring(parentName)
       local creationFunction = FunctionBlock(creationFunctionName, "")
+      creationFunction:AddChild(Line(tostring(parentNameStack:Peek()) .. ":RemoveAllChildren()"))
       mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(creationFunctionName)))
       mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction)
       creationFunctionStack:Push(function(lines)

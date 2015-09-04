@@ -30,6 +30,10 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
 
 
 <h2>Classes</h2>
@@ -41,7 +45,7 @@
   <li><a href="../classes/RomlObject.html">RomlObject</a></li>
   <li><a href="../classes/RomlVar.html">RomlVar</a></li>
   <li><a href="../classes/Block.html">Block</a></li>
-  <li><a href="../classes/ConditionalBlock.html">ConditionalBlock</a></li>
+  <li><strong>ConditionalBlock</strong></li>
   <li><a href="../classes/DoBlock.html">DoBlock</a></li>
   <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
   <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
@@ -53,7 +57,7 @@
   <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
   <li><a href="../classes/RequireLine.html">RequireLine</a></li>
   <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
-  <li><strong>TableBlock</strong></li>
+  <li><a href="../classes/TableBlock.html">TableBlock</a></li>
   <li><a href="../classes/LiteralString.html">LiteralString</a></li>
   <li><a href="../classes/VariableNamer.html">VariableNamer</a></li>
   <li><a href="../classes/Tester.html">Tester</a></li>
@@ -75,8 +79,8 @@
 
 <div id="content">
 
-<h1>Class <code>TableBlock</code></h1>
-<p>A <a href="../classes/Block.html#">Block</a> that represents a Lua table.</p>
+<h1>Class <code>ConditionalBlock</code></h1>
+<p>A Block that puts creates a conditional structure.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -85,11 +89,83 @@
     </ul>
 
 
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#ConditionalBlock.AddCondition">ConditionalBlock.AddCondition (self, condition)</a></td>
+	<td class="summary">Adds a condition to the list of conditions.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ConditionalBlock.AddChild">ConditionalBlock.AddChild (self, child)</a></td>
+	<td class="summary">Adds a child Block or Line to the latest conditional Block,
+ as created by <a href="../classes/ConditionalBlock.html#ConditionalBlock.AddCondition">AddCondition</a>.</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "ConditionalBlock.AddCondition"></a>
+    <strong>ConditionalBlock.AddCondition (self, condition)</strong>
+    </dt>
+    <dd>
+    Adds a condition to the list of conditions.  A new SpaceBlock
+ is added to this Block as well, and any AddChild calls made
+ after will be added to the new SpaceBlock.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/ConditionalBlock.html#">ConditionalBlock</a></span>
+
+        </li>
+        <li><span class="parameter">condition</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        [opt=""] The condition of if
+ 	statement. Leave this blank to add an else statement.
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ConditionalBlock.AddChild"></a>
+    <strong>ConditionalBlock.AddChild (self, child)</strong>
+    </dt>
+    <dd>
+    Adds a child Block or Line to the latest conditional Block,
+ as created by <a href="../classes/ConditionalBlock.html#ConditionalBlock.AddCondition">AddCondition</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/ConditionalBlock.html#">ConditionalBlock</a></span>
+
+        </li>
+        <li><span class="parameter">child</span>
+            <span class="types"><a class="type" href="../classes/Block.html#">Block/Line</a></span>
+         The child to add.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
