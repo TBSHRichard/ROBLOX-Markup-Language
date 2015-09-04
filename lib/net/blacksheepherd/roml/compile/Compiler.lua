@@ -112,6 +112,8 @@ addCodeFunctions = {
     local parentName = parentNameStack:Peek()
     if parentName == "self._rootObject" then
       parentName = "Parent"
+    else
+      parentName = string.sub(parentName, 4)
     end
     if creationFunctionStack:Peek() == mainBlockCreationFunction then
       local creationFunctionName = "update" .. tostring(parentName)
@@ -159,6 +161,8 @@ addCodeFunctions = {
     local parentName = parentNameStack:Peek()
     if parentName == "self._rootObject" then
       parentName = "Parent"
+    else
+      parentName = string.sub(parentName, 4)
     end
     if creationFunctionStack:Peek() == mainBlockCreationFunction then
       local creationFunctionName = "update" .. tostring(parentName)

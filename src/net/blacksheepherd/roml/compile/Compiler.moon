@@ -131,7 +131,10 @@ addCodeFunctions =
 		-- }
 		_, condition, vars, children, otherConditionals = unpack obj
 		parentName = parentNameStack\Peek!
-		parentName = "Parent" if parentName == "self._rootObject"
+		if parentName == "self._rootObject"
+			parentName = "Parent"
+		else
+			parentName = string.sub parentName, 4
 
 		if creationFunctionStack\Peek! == mainBlockCreationFunction
 			creationFunctionName = "update#{parentName}"
@@ -180,7 +183,10 @@ addCodeFunctions =
 		-- }
 		_, condition, vars, children = unpack obj
 		parentName = parentNameStack\Peek!
-		parentName = "Parent" if parentName == "self._rootObject"
+		if parentName == "self._rootObject"
+			parentName = "Parent"
+		else
+			parentName = string.sub parentName, 4
 
 		if creationFunctionStack\Peek! == mainBlockCreationFunction
 			creationFunctionName = "update#{parentName}"
