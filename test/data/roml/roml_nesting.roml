@@ -1,0 +1,6 @@
+%ScreenGui
+	for message in messages
+		%TextLabel{Text: message.name}
+		%TextLabel{Text: message.body}
+		if message.author == "Admin"
+			%ImageLabel{Image: rbxassetid://0}
