@@ -10,6 +10,7 @@ Stack = require "net.blacksheepherd.datastructure.Stack"
 Table = require "net.blacksheepherd.util.Table"
 MainBlock = require "net.blacksheepherd.roml.code.MainBlock"
 ConditionalBlock = require "net.blacksheepherd.roml.code.ConditionalBlock"
+ForBlock = require "net.blacksheepherd.roml.code.ForBlock"
 SpaceBlock = require "net.blacksheepherd.roml.code.SpaceBlock"
 FunctionBlock = require "net.blacksheepherd.roml.code.FunctionBlock"
 Line = require "net.blacksheepherd.roml.code.Line"
@@ -145,8 +146,8 @@ addCodeFunctions =
 		ifBlock = ConditionalBlock!
 		ifBlock\AddCondition condition
 		creationFunctionStack\Peek!({ifBlock})
-		creationFunctionStack\Push (input) ->
-			for line in *input
+		creationFunctionStack\Push (lines) ->
+			for line in *lines
 				ifBlock\AddChild line
 
 		for var in *vars
@@ -168,6 +169,39 @@ addCodeFunctions =
 
 			addCode children
 
+		creationFunctionStack\Pop!
+
+	for: (obj) ->
+		-- {
+		--  "for"
+		--  Condition							:string
+		--  Vars								:array
+		--  Children							:array
+		-- }
+		_, condition, vars, children = unpack obj
+		parentName = parentNameStack\Peek!
+		parentName = "Parent" if parentName == "self._rootObject"
+
+		if creationFunctionStack\Peek! == mainBlockCreationFunction
+			creationFunctionName = "update#{parentName}"
+			creationFunction = FunctionBlock creationFunctionName, ""
+			creationFunction\AddChild Line("#{parentNameStack\Peek!}:RemoveAllChildren()")
+			mainBlock\AddChild MainBlock.BLOCK_VARS, Line("local #{creationFunctionName}")
+			mainBlock\AddChild MainBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction
+			creationFunctionStack\Push (lines) ->
+				for line in *lines
+					creationFunction\AddChild line
+
+		forBlock = ForBlock condition
+		creationFunctionStack\Peek!({forBlock})
+		creationFunctionStack\Push (lines) ->
+			for line in *lines
+				forBlock\AddChild line
+
+		for var in *vars
+			writeLineToVarChangeFunction var, "update#{parentName}()"
+
+		addCode children
 		creationFunctionStack\Pop!
 
 addCode = (tree) ->

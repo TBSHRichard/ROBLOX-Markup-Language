@@ -2,6 +2,7 @@ local Stack = require("net.blacksheepherd.datastructure.Stack")
 local Table = require("net.blacksheepherd.util.Table")
 local MainBlock = require("net.blacksheepherd.roml.code.MainBlock")
 local ConditionalBlock = require("net.blacksheepherd.roml.code.ConditionalBlock")
+local ForBlock = require("net.blacksheepherd.roml.code.ForBlock")
 local SpaceBlock = require("net.blacksheepherd.roml.code.SpaceBlock")
 local FunctionBlock = require("net.blacksheepherd.roml.code.FunctionBlock")
 local Line = require("net.blacksheepherd.roml.code.Line")
@@ -130,9 +131,9 @@ addCodeFunctions = {
     creationFunctionStack:Peek()({
       ifBlock
     })
-    creationFunctionStack:Push(function(input)
-      for _index_0 = 1, #input do
-        local line = input[_index_0]
+    creationFunctionStack:Push(function(lines)
+      for _index_0 = 1, #lines do
+        local line = lines[_index_0]
         ifBlock:AddChild(line)
       end
     end)
@@ -151,6 +152,42 @@ addCodeFunctions = {
       end
       addCode(children)
     end
+    return creationFunctionStack:Pop()
+  end,
+  ["for"] = function(obj)
+    local _, condition, vars, children = unpack(obj)
+    local parentName = parentNameStack:Peek()
+    if parentName == "self._rootObject" then
+      parentName = "Parent"
+    end
+    if creationFunctionStack:Peek() == mainBlockCreationFunction then
+      local creationFunctionName = "update" .. tostring(parentName)
+      local creationFunction = FunctionBlock(creationFunctionName, "")
+      creationFunction:AddChild(Line(tostring(parentNameStack:Peek()) .. ":RemoveAllChildren()"))
+      mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(creationFunctionName)))
+      mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction)
+      creationFunctionStack:Push(function(lines)
+        for _index_0 = 1, #lines do
+          local line = lines[_index_0]
+          creationFunction:AddChild(line)
+        end
+      end)
+    end
+    local forBlock = ForBlock(condition)
+    creationFunctionStack:Peek()({
+      forBlock
+    })
+    creationFunctionStack:Push(function(lines)
+      for _index_0 = 1, #lines do
+        local line = lines[_index_0]
+        forBlock:AddChild(line)
+      end
+    end)
+    for _index_0 = 1, #vars do
+      local var = vars[_index_0]
+      writeLineToVarChangeFunction(var, "update" .. tostring(parentName) .. "()")
+    end
+    addCode(children)
     return creationFunctionStack:Pop()
   end
 }
