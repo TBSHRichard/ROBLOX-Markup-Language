@@ -1,8 +1,22 @@
+local HashMap = require("net.blacksheepherd.util.HashMap")
+local Table = require("net.blacksheepherd.util.Table")
 local assertEqual
 assertEqual = function(inputOne, inputTwo)
   local result = nil
-  if not (inputOne == inputTwo) then
-    result = "Failed equality test: " .. tostring(inputOne) .. " == " .. tostring(inputTwo) .. "."
+  local inputsAreEqual = inputOne == inputTwo
+  if type(inputOne) == "table" and not inputsAreEqual then
+    inputsAreEqual = Table.TablesAreEqual(inputOne, inputTwo)
+  end
+  if not (inputsAreEqual) then
+    local stringOne = tostring(inputOne)
+    local stringTwo = tostring(inputTwo)
+    if type(inputOne) == "table" then
+      stringOne = Table.HashMapToMultiLineString(HashMap(inputOne))
+    end
+    if type(inputTwo) == "table" then
+      stringTwo = Table.HashMapToMultiLineString(HashMap(inputTwo))
+    end
+    result = "Failed equality test: " .. tostring(stringOne) .. " == " .. tostring(stringTwo) .. "."
   end
   return result
 end

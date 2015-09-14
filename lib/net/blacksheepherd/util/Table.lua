@@ -1,4 +1,5 @@
 local HashMap = require("net.blacksheepherd.util.HashMap")
+local String = require("net.blacksheepherd.util.String")
 local ArrayToSingleLineString
 ArrayToSingleLineString = function(array)
   if not (array == nil) then
@@ -44,7 +45,66 @@ HashMapToSingleLineString = function(map)
     return "nil"
   end
 end
+local HashMapToMultiLineString
+HashMapToMultiLineString = function(map, depth)
+  if depth == nil then
+    depth = 0
+  end
+  if not (map == nil) then
+    local buffer = "{\n"
+    local i = 0
+    for key, el in map:pairs() do
+      i = i + 1
+      buffer = buffer .. String.StringNTimes("\t", depth + 1)
+      buffer = buffer .. tostring(key) .. " = "
+      if type(el) == "table" and not getmetatable(el) then
+        buffer = buffer .. HashMapToMultiLineString(HashMap(el), depth + 1)
+      elseif type(el) == "string" then
+        buffer = buffer .. "\"" .. tostring(el) .. "\""
+      else
+        buffer = buffer .. tostring(el)
+      end
+      if not (i == map:Length()) then
+        buffer = buffer .. ","
+      end
+      buffer = buffer .. "\n"
+    end
+    return buffer .. String.StringNTimes("\t", depth) .. "}"
+  else
+    return "nil"
+  end
+end
+local TablesAreEqual
+TablesAreEqual = function(tableOne, tableTwo)
+  if type(tableOne) ~= "table" or type(tableTwo) ~= "table" then
+    return false
+  end
+  local equal = true
+  for key, value in pairs(tableOne) do
+    if type(value) ~= "table" then
+      equal = value == tableTwo[key]
+    else
+      equal = TablesAreEqual(value, tableTwo[key])
+    end
+    if not equal then
+      return false
+    end
+  end
+  for key, value in pairs(tableTwo) do
+    if type(value) ~= "table" then
+      equal = tableOne[key] == value
+    else
+      equal = TablesAreEqual(tableOne[key], value)
+    end
+    if not equal then
+      return false
+    end
+  end
+  return true
+end
 return {
   ArrayToSingleLineString = ArrayToSingleLineString,
-  HashMapToSingleLineString = HashMapToSingleLineString
+  HashMapToSingleLineString = HashMapToSingleLineString,
+  HashMapToMultiLineString = HashMapToMultiLineString,
+  TablesAreEqual = TablesAreEqual
 }

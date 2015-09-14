@@ -32,10 +32,19 @@
 
 <h2>Contents</h2>
 <ul>
-<li><a href="#Methods">Methods</a></li>
+<li><a href="#Functions">Functions</a></li>
 </ul>
 
 
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/Compiler.html">Compiler</a></li>
+  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
+  <li><strong>Parser</strong></li>
+  <li><a href="../modules/String.html">String</a></li>
+  <li><a href="../modules/Table.html">Table</a></li>
+</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Stack.html">Stack</a></li>
@@ -49,7 +58,7 @@
   <li><a href="../classes/DoBlock.html">DoBlock</a></li>
   <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
   <li><a href="../classes/ForBlock.html">ForBlock</a></li>
-  <li><strong>FunctionBlock</strong></li>
+  <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
   <li><a href="../classes/IfBlock.html">IfBlock</a></li>
   <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
   <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
@@ -64,15 +73,6 @@
   <li><a href="../classes/Tester.html">Tester</a></li>
   <li><a href="../classes/HashMap.html">HashMap</a></li>
 </ul>
-<h2>Modules</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/File.html">File</a></li>
-  <li><a href="../modules/Compiler.html">Compiler</a></li>
-  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
-  <li><a href="../modules/Parser.html">Parser</a></li>
-  <li><a href="../modules/String.html">String</a></li>
-  <li><a href="../modules/Table.html">Table</a></li>
-</ul>
 <h2>Examples</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../examples/event.moon.html">event.moon</a></li>
@@ -82,8 +82,8 @@
 
 <div id="content">
 
-<h1>Class <code>FunctionBlock</code></h1>
-<p>A <a href="../classes/Block.html#">Block</a> for Lua functions.</p>
+<h1>Module <code>Parser</code></h1>
+<p>A module with helper functions related to parsing of RoML.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -92,16 +92,12 @@
     </ul>
 
 
-<h2><a href="#Methods">Methods</a></h2>
+<h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#FunctionBlock.new">FunctionBlock.new (self, name, parameters)</a></td>
-	<td class="summary">Create the function <a href="../classes/Block.html#">Block</a>.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#FunctionBlock.AddLineIfNotAdded">FunctionBlock.AddLineIfNotAdded (self, lineString)</a></td>
-	<td class="summary">Add a line to this Block as a child if it has not already
- been added by this function.</td>
+	<td class="name" nowrap><a href="#Parse">Parse (roml)</a></td>
+	<td class="summary">Parses a RoML string into a parse tree to be sent to the
+ <a href="../modules/Compiler.html#">Compiler</a>.</td>
 	</tr>
 </table>
 
@@ -109,63 +105,32 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
 
     <dl class="function">
     <dt>
-    <a name = "FunctionBlock.new"></a>
-    <strong>FunctionBlock.new (self, name, parameters)</strong>
+    <a name = "Parse"></a>
+    <strong>Parse (roml)</strong>
     </dt>
     <dd>
-    Create the function <a href="../classes/Block.html#">Block</a>.
+    Parses a RoML string into a parse tree to be sent to the
+ <a href="../modules/Compiler.html#">Compiler</a>.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/FunctionBlock.html#">FunctionBlock</a></span>
-
-        </li>
-        <li><span class="parameter">name</span>
+        <li><span class="parameter">roml</span>
             <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The name of the function.
-        </li>
-        <li><span class="parameter">parameters</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The comma-separated parameter
-	names.
-
+         The RoML string.
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
 
-
-
-
-</dd>
-    <dt>
-    <a name = "FunctionBlock.AddLineIfNotAdded"></a>
-    <strong>FunctionBlock.AddLineIfNotAdded (self, lineString)</strong>
-    </dt>
-    <dd>
-    Add a line to this Block as a child if it has not already
- been added by this function.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">self</span>
-            <span class="types"><a class="type" href="../classes/FunctionBlock.html#">FunctionBlock</a></span>
-
-        </li>
-        <li><span class="parameter">lineString</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The text that should be contained
-  in the Line.
-
-        </li>
-    </ul>
-
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        The parse tree.
+    </ol>
 
 
 

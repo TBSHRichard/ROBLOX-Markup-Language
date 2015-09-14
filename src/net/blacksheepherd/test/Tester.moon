@@ -6,11 +6,24 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+HashMap = require "net.blacksheepherd.util.HashMap"
+Table = require "net.blacksheepherd.util.Table"
+
 assertEqual = (inputOne, inputTwo) ->
 	result = nil
+	inputsAreEqual = inputOne == inputTwo
+
+	if type(inputOne) == "table" and not inputsAreEqual
+		inputsAreEqual = Table.TablesAreEqual(inputOne, inputTwo)
 	
-	unless inputOne == inputTwo
-		result = "Failed equality test: #{inputOne} == #{inputTwo}."
+	unless inputsAreEqual
+		stringOne = tostring inputOne
+		stringTwo = tostring inputTwo
+
+		stringOne = Table.HashMapToMultiLineString(HashMap(inputOne)) if type(inputOne) == "table"
+		stringTwo = Table.HashMapToMultiLineString(HashMap(inputTwo)) if type(inputTwo) == "table"
+
+		result = "Failed equality test: #{stringOne} == #{stringTwo}."
 	
 	return result
 

@@ -7,6 +7,7 @@
 ----------------------------------------------------------------
 
 HashMap = require "net.blacksheepherd.util.HashMap"
+String = require "net.blacksheepherd.util.String"
 
 ----------------------------------------------------------------
 -- Reads an array-like table and converts it into a single-line
@@ -62,4 +63,65 @@ HashMapToSingleLineString = (map) ->
 	else
 		return "nil"
 
-{ :ArrayToSingleLineString, :HashMapToSingleLineString }
+----------------------------------------------------------------
+-- Returns a @{HashMap} as a string representation across
+-- multiple lines.
+--
+-- @tparam HashMap map The @{HashMap} to turn into a string.
+-- @tparam integer depth[opt=0] How many tabs to print at the
+--  start of the string.
+-- @treturn string The @{HashMap} as a multi-line string.
+----------------------------------------------------------------
+HashMapToMultiLineString = (map, depth = 0) ->
+	unless map == nil
+		buffer = "{\n"
+		i = 0
+
+		for key, el in map\pairs!
+			i += 1
+			buffer ..= String.StringNTimes "\t", depth + 1
+			buffer ..= "#{key} = "
+
+			if type(el) == "table" and not getmetatable el
+				buffer ..= HashMapToMultiLineString HashMap(el), depth + 1
+			elseif type(el) == "string"
+				buffer ..= "\"#{el}\""
+			else
+				buffer ..= tostring el
+
+			buffer ..= "," unless i == map\Length!
+			buffer ..= "\n"
+
+		return buffer .. String.StringNTimes("\t", depth) .. "}"
+	else
+		return "nil"
+
+----------------------------------------------------------------
+-- Performs a deep comparison of two tables to check if they
+-- are equal.
+--
+-- @tparam table tableOne The first table to compare.
+-- @tparam table tableTwo The second table to compare.
+-- @treturn boolean True if the two tables are equal.
+----------------------------------------------------------------
+TablesAreEqual = (tableOne, tableTwo) ->
+	return false if type(tableOne) != "table" or type(tableTwo) != "table"
+	equal = true
+
+	for key, value in pairs tableOne
+		if type(value) != "table"
+			equal = value == tableTwo[key]
+		else
+			equal = TablesAreEqual value, tableTwo[key]
+		return false if not equal
+
+	for key, value in pairs tableTwo
+		if type(value) != "table"
+			equal = tableOne[key] == value
+		else
+			equal = TablesAreEqual tableOne[key], value
+		return false if not equal
+
+	return true
+
+{ :ArrayToSingleLineString, :HashMapToSingleLineString, :HashMapToMultiLineString, :TablesAreEqual }
