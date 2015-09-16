@@ -96,7 +96,8 @@ class RomlObject
 	-- @tparam RomlObject self
 	----------------------------------------------------------------
 	RemoveAllChildren: =>
-		@_robloxObject\ClearAllChildren!
+		for child in *@_children
+			child._robloxObject\Destroy!
 		@_children = {}
 	
 	----------------------------------------------------------------
