@@ -33,7 +33,11 @@ do
       self._classes = classes
     end,
     RemoveAllChildren = function(self)
-      self._robloxObject:ClearAllChildren()
+      local _list_0 = self._children
+      for _index_0 = 1, #_list_0 do
+        local child = _list_0[_index_0]
+        child._robloxObject:Destroy()
+      end
       self._children = { }
     end,
     GetId = function(self)

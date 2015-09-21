@@ -1,8 +1,8 @@
 local StringNTimes
-StringNTimes = function(string, n)
+StringNTimes = function(s, n)
   local buffer = ""
   for i = 1, n do
-    buffer = buffer .. string
+    buffer = buffer .. s
   end
   return buffer
 end
