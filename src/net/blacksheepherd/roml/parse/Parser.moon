@@ -104,7 +104,7 @@ grammar = P {
 	Classes:         Ct(Cc("dynamic") * P"." * V"Variable" + Cc("static") * Ct((P"." * V"VariableName")^1))
 
 	PropertyKey:     C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter" + V"Number")^0)
-	PropertyValue:   V"String" + C((S"\t "^0 * (1 - S"}:;\r\n\t "))^0)
+	PropertyValue:   Ct(Cc("var") * V"Variable") + V"String" + C((S"\t "^0 * (1 - S"}:;\r\n\t "))^0)
 	PropertyPair:    Ct(V"Tabs" * V"PropertyKey" * V"Tabs" * P":" * V"Tabs" * V"PropertyValue" * V"Tabs")
 	PropertyList:    P"{" * Cf(Cmt("", NewHashMap) * (V"PropertyPair" * P";")^0 * V"PropertyPair" * P"}", PropertyPairMatch)
 
