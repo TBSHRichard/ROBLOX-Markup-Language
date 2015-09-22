@@ -59,6 +59,8 @@ HashMapToMultiLineString = function(map, depth)
       buffer = buffer .. tostring(key) .. " = "
       if type(el) == "table" and not getmetatable(el) then
         buffer = buffer .. HashMapToMultiLineString(HashMap(el), depth + 1)
+      elseif type(el) == "table" and getmetatable(el) and el.__class.__name == "HashMap" then
+        buffer = buffer .. HashMapToMultiLineString(el, depth + 1)
       elseif type(el) == "string" then
         buffer = buffer .. "\"" .. tostring(el) .. "\""
       else

@@ -7,9 +7,10 @@
 ----------------------------------------------------------------
 
 lpeg = require "lpeg"
+HashMap = require "net.blacksheepherd.util.HashMap"
 Stack = require "net.blacksheepherd.datastructure.Stack"
 
-import C, Cc, Ct, Cmt, P, R, S, V from lpeg
+import C, Cc, Cf, Ct, Cmt, P, R, S, V from lpeg
 
 local indentStack
 
@@ -21,21 +22,30 @@ calculateIndentSize = (tabs) ->
 
 	return indentSize
 
+NewHashMap = ->
+	return true, HashMap({})
+
 BlockMatch = (pattern) ->
 	pattern / (parentTable, children) ->
 		parentTable[#parentTable] = children
 		return parentTable
 
 ObjectMatch = (pattern) ->
-	pattern / (objectName, children) ->
+	pattern / (objectName, properties, children) ->
 		{
 			"object",
 			objectName,
 			nil,
 			nil,
-			nil,
+			properties,
 			children
 		}
+
+PropertyPairMatch = (properties, keyValuePair) ->
+		key, value = unpack keyValuePair
+		print "#{key}: #{value}"
+		properties[key] = value
+		return properties
 
 -- Implementation from MoonScript: https://github.com/leafo/moonscript/blob/master/moonscript/parse.moon#L48
 Indent = (roml, position, tabs) ->
@@ -65,13 +75,25 @@ grammar = P {
 	LineEnd:         V"Tabs" * (V"NewLine"^1 + -1)
 	UppercaseLetter: R"AZ"
 	LowercaseLetter: R"az"
+	Number:          R"09"
 	Tabs:            S"\t "^0
+	Spaces:          S"\r\n\t "^0
+
 	Indent:          #Cmt(V"Tabs", Indent)
 	CheckIndent:     Cmt(V"Tabs", CheckIndent)
 	Dedent:          Cmt("", Dedent)
 
+	SingleString:    P'"' * C(P"\\\"" + (1 - P'"'))^0 * P'"'
+	DoubleString:    P"'" * C(P"\\'" + (1 - P"'"))^0 * P"'"
+	String:          V"SingleString" + V"DoubleString"
+
+	PropertyKey:     C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter" + V"Number")^0)
+	PropertyValue:   V"String" + C((S"\t "^-1 * (1 - S"}:;\r\n\t "))^0)
+	PropertyPair:    Ct(V"Tabs" * V"PropertyKey" * V"Tabs" * P":" * V"Tabs" * V"PropertyValue" * V"Tabs")
+	PropertyList:    P"{" * Cf(Cmt("", NewHashMap) * (V"PropertyPair" * P";")^0 * V"PropertyPair" * P"}", PropertyPairMatch)
+
 	ObjectName:      C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter")^0)
-	Object:          V"CheckIndent" * P"%" * V"ObjectName"
+	Object:          V"CheckIndent" * P"%" * V"ObjectName" * (V"PropertyList" + Cc(nil))
 	ObjectBlock:     ObjectMatch V"Object" * V"LineEnd" * (V"Indent" * Ct(V"Block"^0) * V"Dedent" + Cc({}))
 
 	Block:           V"ObjectBlock"

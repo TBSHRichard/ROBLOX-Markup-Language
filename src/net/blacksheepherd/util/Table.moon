@@ -84,6 +84,8 @@ HashMapToMultiLineString = (map, depth = 0) ->
 
 			if type(el) == "table" and not getmetatable el
 				buffer ..= HashMapToMultiLineString HashMap(el), depth + 1
+			elseif type(el) == "table" and getmetatable(el) and el.__class.__name == "HashMap"
+				buffer ..= HashMapToMultiLineString el, depth + 1
 			elseif type(el) == "string"
 				buffer ..= "\"#{el}\""
 			else
