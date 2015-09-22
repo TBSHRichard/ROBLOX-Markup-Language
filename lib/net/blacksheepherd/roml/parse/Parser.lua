@@ -31,12 +31,12 @@ BlockMatch = function(pattern)
 end
 local ObjectMatch
 ObjectMatch = function(pattern)
-  return pattern / function(objectName, properties, children)
+  return pattern / function(objectName, classes, properties, children)
     return {
       "object",
       objectName,
       nil,
-      nil,
+      classes,
       properties,
       children
     }
@@ -45,7 +45,6 @@ end
 local PropertyPairMatch
 PropertyPairMatch = function(properties, keyValuePair)
   local key, value = unpack(keyValuePair)
-  print(tostring(key) .. ": " .. tostring(value))
   properties[key] = value
   return properties
 end
@@ -78,18 +77,22 @@ local grammar = P({
   Number = R("09"),
   Tabs = S("\t ") ^ 0,
   Spaces = S("\r\n\t ") ^ 0,
+  VariableStart = P("_") + V("UppercaseLetter") + V("LowercaseLetter"),
+  VariableBody = (V("VariableStart") + V("Number")) ^ 0,
+  VariableName = C(V("VariableStart") * V("VariableBody")),
   Indent = #Cmt(V("Tabs"), Indent),
   CheckIndent = Cmt(V("Tabs"), CheckIndent),
   Dedent = Cmt("", Dedent),
-  SingleString = P('"') * C(P("\\\"") + (1 - P('"'))) ^ 0 * P('"'),
-  DoubleString = P("'") * C(P("\\'") + (1 - P("'"))) ^ 0 * P("'"),
+  SingleString = P('"') * C(P("\\\"") + (1 - P('"')) ^ 0) * P('"'),
+  DoubleString = P("'") * C(P("\\'") + (1 - P("'")) ^ 0) * P("'"),
   String = V("SingleString") + V("DoubleString"),
+  Classes = Ct(Cc("static") * Ct((P(".") * V("VariableName")) ^ 1)),
   PropertyKey = C(V("UppercaseLetter") * (V("UppercaseLetter") + V("LowercaseLetter") + V("Number")) ^ 0),
   PropertyValue = V("String") + C((S("\t ") ^ -1 * (1 - S("}:;\r\n\t "))) ^ 0),
   PropertyPair = Ct(V("Tabs") * V("PropertyKey") * V("Tabs") * P(":") * V("Tabs") * V("PropertyValue") * V("Tabs")),
   PropertyList = P("{") * Cf(Cmt("", NewHashMap) * (V("PropertyPair") * P(";")) ^ 0 * V("PropertyPair") * P("}"), PropertyPairMatch),
   ObjectName = C(V("UppercaseLetter") * (V("UppercaseLetter") + V("LowercaseLetter")) ^ 0),
-  Object = V("CheckIndent") * P("%") * V("ObjectName") * (V("PropertyList") + Cc(nil)),
+  Object = V("CheckIndent") * P("%") * V("ObjectName") * (V("Classes") + Cc(nil)) * (V("PropertyList") + Cc(nil)),
   ObjectBlock = ObjectMatch(V("Object") * V("LineEnd") * (V("Indent") * Ct(V("Block") ^ 0) * V("Dedent") + Cc({ }))),
   Block = V("ObjectBlock"),
   RoML = Ct(V("Block") ^ 0)
