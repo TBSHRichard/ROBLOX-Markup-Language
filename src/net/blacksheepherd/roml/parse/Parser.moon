@@ -31,11 +31,11 @@ BlockMatch = (pattern) ->
 		return parentTable
 
 ObjectMatch = (pattern) ->
-	pattern / (objectName, classes, properties, children) ->
+	pattern / (objectName, id, classes, properties, children) ->
 		{
 			"object",
 			objectName,
-			nil,
+			id,
 			classes,
 			properties,
 			children
@@ -90,6 +90,7 @@ grammar = P {
 	DoubleString:    P"'" * C(P"\\'" + (1 - P"'")^0) * P"'"
 	String:          V"SingleString" + V"DoubleString"
 
+	Id:              P"#" * V"VariableName"
 	Classes:         Ct Cc("static") * Ct((P"." * V"VariableName")^1)
 
 	PropertyKey:     C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter" + V"Number")^0)
@@ -98,7 +99,7 @@ grammar = P {
 	PropertyList:    P"{" * Cf(Cmt("", NewHashMap) * (V"PropertyPair" * P";")^0 * V"PropertyPair" * P"}", PropertyPairMatch)
 
 	ObjectName:      C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter")^0)
-	Object:          V"CheckIndent" * P"%" * V"ObjectName" * (V"Classes" + Cc(nil)) * (V"PropertyList" + Cc(nil))
+	Object:          V"CheckIndent" * P"%" * V"ObjectName" * (V"Id" + Cc(nil)) * (V"Classes" + Cc(nil)) * (V"PropertyList" + Cc(nil))
 	ObjectBlock:     ObjectMatch V"Object" * V"LineEnd" * (V"Indent" * Ct(V"Block"^0) * V"Dedent" + Cc({}))
 
 	Block:           V"ObjectBlock"

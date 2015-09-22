@@ -31,11 +31,11 @@ BlockMatch = function(pattern)
 end
 local ObjectMatch
 ObjectMatch = function(pattern)
-  return pattern / function(objectName, classes, properties, children)
+  return pattern / function(objectName, id, classes, properties, children)
     return {
       "object",
       objectName,
-      nil,
+      id,
       classes,
       properties,
       children
@@ -86,13 +86,14 @@ local grammar = P({
   SingleString = P('"') * C(P("\\\"") + (1 - P('"')) ^ 0) * P('"'),
   DoubleString = P("'") * C(P("\\'") + (1 - P("'")) ^ 0) * P("'"),
   String = V("SingleString") + V("DoubleString"),
+  Id = P("#") * V("VariableName"),
   Classes = Ct(Cc("static") * Ct((P(".") * V("VariableName")) ^ 1)),
   PropertyKey = C(V("UppercaseLetter") * (V("UppercaseLetter") + V("LowercaseLetter") + V("Number")) ^ 0),
   PropertyValue = V("String") + C((S("\t ") ^ -1 * (1 - S("}:;\r\n\t "))) ^ 0),
   PropertyPair = Ct(V("Tabs") * V("PropertyKey") * V("Tabs") * P(":") * V("Tabs") * V("PropertyValue") * V("Tabs")),
   PropertyList = P("{") * Cf(Cmt("", NewHashMap) * (V("PropertyPair") * P(";")) ^ 0 * V("PropertyPair") * P("}"), PropertyPairMatch),
   ObjectName = C(V("UppercaseLetter") * (V("UppercaseLetter") + V("LowercaseLetter")) ^ 0),
-  Object = V("CheckIndent") * P("%") * V("ObjectName") * (V("Classes") + Cc(nil)) * (V("PropertyList") + Cc(nil)),
+  Object = V("CheckIndent") * P("%") * V("ObjectName") * (V("Id") + Cc(nil)) * (V("Classes") + Cc(nil)) * (V("PropertyList") + Cc(nil)),
   ObjectBlock = ObjectMatch(V("Object") * V("LineEnd") * (V("Indent") * Ct(V("Block") ^ 0) * V("Dedent") + Cc({ }))),
   Block = V("ObjectBlock"),
   RoML = Ct(V("Block") ^ 0)
