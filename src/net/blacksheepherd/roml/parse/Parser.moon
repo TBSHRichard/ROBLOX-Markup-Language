@@ -87,6 +87,7 @@ grammar = P {
 	VariableStart:   P"_" + V"UppercaseLetter" + V"LowercaseLetter"
 	VariableBody:    (V"VariableStart" + V"Number")^0
 	VariableName:    C(V"VariableStart" * V"VariableBody")
+	Variable:        P"@" * V"VariableName"
 
 	Indent:          #Cmt(V"Tabs", Indent)
 	CheckIndent:     Cmt(V"Tabs", CheckIndent)
@@ -96,10 +97,11 @@ grammar = P {
 	DoubleString:    P"'" * C(P"\\'" + (1 - P"'")^0) * P"'"
 	String:          V"SingleString" + V"DoubleString"
 
-	CloneSource:     P"(" * C((S"\t "^0 * (1 - S")\r\n\t "))^0) * P")"
+	CloneValue:      C((S"\t "^0 * (1 - S")\r\n\t "))^0)
+	CloneSource:     P"(" * V"Tabs" * V"CloneValue" * V"Tabs" * P")"
 
 	Id:              P"#" * V"VariableName"
-	Classes:         Ct Cc("static") * Ct((P"." * V"VariableName")^1)
+	Classes:         Ct(Cc("dynamic") * P"." * V"Variable" + Cc("static") * Ct((P"." * V"VariableName")^1))
 
 	PropertyKey:     C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter" + V"Number")^0)
 	PropertyValue:   V"String" + C((S"\t "^0 * (1 - S"}:;\r\n\t "))^0)
