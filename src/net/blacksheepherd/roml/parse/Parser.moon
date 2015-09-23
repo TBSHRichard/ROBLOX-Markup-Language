@@ -22,10 +22,10 @@ Tabs =            S"\t "^0
 Spaces =          S"\r\n\t "^0
 LineEnd =         Tabs * (NewLine^1 + -1)
 
-VariableStart=   P"_" + UppercaseLetter + LowercaseLetter
-VariableBody=    (VariableStart + Number)^0
-VariableName=    VariableStart * VariableBody
-Variable=        P"@" * C(VariableName)
+VariableStart =   P"_" + UppercaseLetter + LowercaseLetter
+VariableBody =    (VariableStart + Number)^0
+VariableName =    VariableStart * VariableBody
+Variable =        P"@" * C(VariableName)
 
 varReplacement = (statement, vars, replacement) ->
 	for var in *vars
@@ -162,9 +162,9 @@ grammar = P {
 	CheckIndent:       Cmt(V"Tabs", CheckIndent)
 	Dedent:            Cmt("", Dedent)
 
-	SingleString:      P'"' * C(P"\\\"" + (1 - P'"')^0) * P'"'
-	DoubleString:      P"'" * C(P"\\'" + (1 - P"'")^0) * P"'"
-	String:            V"SingleString" + V"DoubleString"
+	SingleString:      P'"' * (P"\\\"" + (1 - P'"'))^0 * P'"'
+	DoubleString:      P"'" * (P"\\'" + (1 - P"'"))^0 * P"'"
+	String:            C(V"SingleString" + V"DoubleString")
 
 	CloneValue:        C((S"\t "^0 * (1 - S")\r\n\t "))^0)
 	CloneSource:       P"(" * V"Tabs" * V"CloneValue" * V"Tabs" * P")"
@@ -173,19 +173,19 @@ grammar = P {
 	Classes:           Ct(Cc("dynamic") * P"." * V"Variable" + Cc("static") * Ct((P"." * C(V"VariableName"))^1))
 
 	PropertyKey:       C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter" + V"Number")^0)
-	PropertyValue:     Ct(Cc("var") * V"Variable") + C((S"\t "^0 * (1 - S"}:;\r\n\t "))^0)
+	PropertyValue:     Ct(Cc("var") * V"Variable") + V"String" + C((S"\t "^0 * (1 - S"}:;\r\n\t "))^0)
 	PropertyPair:      Ct(V"Tabs" * V"PropertyKey" * V"Tabs" * P":" * V"Tabs" * V"PropertyValue" * V"Tabs")
 	PropertyList:      P"{" * Cf(Cmt("", NewHashMap) * (V"PropertyPair" * P";")^0 * V"PropertyPair" * P"}", PropertyPairMatch)
 
 	ObjectName:        C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter")^0)
 	Object:            V"CheckIndent" * P"%" * V"ObjectName" * (V"CloneSource" + Cc(nil)) * (V"Id" + Cc(nil)) * (V"Classes" + Cc(nil)) * (V"PropertyList" + Cc(nil))
-	ObjectBlock:       ObjectMatch V"Object" * V"BlockBody"--V"LineEnd" * (V"Indent" * Ct(V"Block"^0) * V"Dedent" + Cc({}))
+	ObjectBlock:       ObjectMatch V"Object" * V"BlockBody"
 
 	Condition:         V"Tabs" * C((V"Tabs" * V"Variable" + (S"\t "^0 * (1 - S"@\r\n\t ")))^1)
 	ConditionalTop:    V"CheckIndent" * C(P"if" + P"unless") * Condition(V"Condition")
 	ConditionalMiddle: V"CheckIndent" * C(P"elseif" + P"elseunless") * Condition(V"Condition")
 	ConditionalBottom: V"CheckIndent" * P"else"
-	ConditionalBlock:  ConditionalIfMatch V"ConditionalTop" * V"BlockBody" * Ct(ConditionalElseIfMatch((V"ConditionalMiddle" * V"BlockBody")^0) * ConditionalElseMatch((V"ConditionalBottom" * V"BlockBody")^-1))
+	ConditionalBlock:  ConditionalIfMatch V"ConditionalTop" * V"BlockBody" * Ct(ConditionalElseIfMatch(V"ConditionalMiddle" * V"BlockBody")^0 * ConditionalElseMatch(V"ConditionalBottom" * V"BlockBody")^-1)
 
 	ForVars:           (V"VariableName" * V"Tabs" * P",")^-1 * V"Tabs" * V"VariableName"
 	ForHeader:         ForHeader V"CheckIndent" * P"for" * V"Tabs" * C(V"ForVars" * V"Tabs" * P"in" * V"Tabs" * V"Variable")

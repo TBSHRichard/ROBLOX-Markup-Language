@@ -10,7 +10,7 @@ return {
 		{
 			{
 				"for",
-				"_, message in pairs(messages)",
+				"_, message in pairs(self._vars.messages:GetValue())",
 				{
 					"messages"
 				},

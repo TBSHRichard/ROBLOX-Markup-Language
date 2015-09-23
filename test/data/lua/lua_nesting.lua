@@ -13,7 +13,7 @@ do
       local varChange_messages
       updateScreenGui1 = function()
         objScreenGui1:RemoveAllChildren()
-        for _, message in pairs(messages) do
+        for _, message in pairs(self._vars.messages:GetValue()) do
           objTemp = RomlObject("TextLabel", nil)
           objTemp:SetProperties({Text = message.name})
           objTemp:Refresh()
