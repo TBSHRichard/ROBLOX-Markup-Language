@@ -9,7 +9,7 @@ Instead of HTML elements, RoML uses ROBLOX objects as its elements. For example,
 ```
 %Model{Name: MyModel}
 	%Part.red
-	%Part{Name: Blue Part, BrickColor: BrightBlue; Position: 0, 5, 0}
+	%Part{Name: "Blue Part", BrickColor: 0, 0, 255; Position: 0, 5, 0}
 ```
 
 ## RoSS
@@ -18,7 +18,7 @@ RoSS is based off of CSS and, like RoML, compiles into Lua. RoSS can be applied 
 ```
 .red
 	BrickColor: BrightRed
-	Name: Red Part
+	Name: "Red Part"
 ```
 
 RoSS scripts can be applied to RoML objects to dynamically update the styles that they apply to as well. RoSS works with RoML to keep duplicate styles in one place and easily update mass Properties at once. Inline RoML Properties take precedence over RoSS Properties.

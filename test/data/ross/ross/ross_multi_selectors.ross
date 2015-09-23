@@ -1,0 +1,11 @@
+Part.Red
+	BrickColor: 255, 0, 0
+
+ClickDetector#ClickMe
+	MaxActivationRadius = 13.5
+
+Model#MyModel.NiceModel
+	Name: "Nice Model"
+
+Model Model Part
+	Name: "Grandchild"
