@@ -7,8 +7,8 @@ local t = Tester("ParseTest")
 
 local function createParseTest(filename)
 	return function()
-		local parsedRoml = Parser.Parse(File.FileToString("./data/roml/roml_" .. filename .. ".roml"))
-		local parseTree = require("data.parsetrees.parsetree_" .. filename)
+		local parsedRoml = Parser.Parse(File.FileToString("./data/roml/roml/roml_" .. filename .. ".roml"))
+		local parseTree = require("data.roml.parsetrees.parsetree_" .. filename)
 		
 		return Tester.AssertEqual(parsedRoml, parseTree)
 	end

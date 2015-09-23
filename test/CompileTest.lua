@@ -7,8 +7,8 @@ local t = Tester("CompileTest")
 
 local function createCompileTest(className, filename)
 	return function()
-		local compiledSource = Compiler.Compile(className, require("data.parsetrees.parsetree_" .. filename))
-		local checkSource = File.FileToString("./data/lua/lua_" .. filename .. ".lua")
+		local compiledSource = Compiler.Compile(className, require("data.roml.parsetrees.parsetree_" .. filename))
+		local checkSource = File.FileToString("./data/roml/lua/lua_" .. filename .. ".lua")
 		
 		return Tester.AssertEqual(compiledSource, checkSource)
 	end
