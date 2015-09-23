@@ -1,2 +1,2 @@
-for child in myTable
+for child in @myTable
 	%Part

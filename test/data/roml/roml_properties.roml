@@ -1,6 +1,6 @@
 %Part{BrickColor: 51, 153, 102; Size: Vector3.new(63, 0, 15); BottomSurface: Studs}
 %Part{BrickColor: 1001; Size: 43; Position: 38.5, 0.3, 55}
 %Part{BrickColor: BrickColor.new(0.36, 0.67, 0.8); TopSurface: Enum.SurfaceType.Inlet}
-%Part{BrickColor: 'Sand red'}
+%Part{BrickColor: Sand red}
 %ScreenGui
-	%TextButton{BackgroundColor3: 51, 153, 102; BorderColor3: Color3.new(0.93, 1, 0.55); Style: RobloxButton; TextColor3: "Mid gray"; TextStrokeColor3: 12}
+	%TextButton{BackgroundColor3: 51, 153, 102; BorderColor3: Color3.new(0.93, 1, 0.55); Style: RobloxButton; TextColor3: Mid gray; TextStrokeColor3: 12}
