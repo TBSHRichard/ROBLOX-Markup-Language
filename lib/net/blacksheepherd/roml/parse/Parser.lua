@@ -4,6 +4,26 @@ local Stack = require("net.blacksheepherd.datastructure.Stack")
 local C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V
 C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V = lpeg.C, lpeg.Cc, lpeg.Cf, lpeg.Cs, lpeg.Ct, lpeg.Cmt, lpeg.P, lpeg.R, lpeg.S, lpeg.V
 local indentStack
+local NewLine = P("\r") ^ -1 * P("\n")
+local UppercaseLetter = R("AZ")
+local LowercaseLetter = R("az")
+local Number = R("09")
+local Tabs = S("\t ") ^ 0
+local Spaces = S("\r\n\t ") ^ 0
+local LineEnd = Tabs * (NewLine ^ 1 + -1)
+local VariableStart = P("_") + UppercaseLetter + LowercaseLetter
+local VariableBody = (VariableStart + Number) ^ 0
+local VariableName = VariableStart * VariableBody
+local Variable = P("@") * C(VariableName)
+local varReplacement
+varReplacement = function(statement, vars, replacement)
+  for _index_0 = 1, #vars do
+    local var = vars[_index_0]
+    local sub = Cs((P("@") * C(P(var)) / replacement + 1) ^ 0)
+    statement = lpeg.match(sub, statement)
+  end
+  return statement, vars
+end
 local calculateIndentSize
 calculateIndentSize = function(tabs)
   local indentSize = 0
@@ -76,15 +96,9 @@ end
 local Condition
 Condition = function(pattern)
   return pattern / function(condition, ...)
-    local vars = {
+    return varReplacement(condition, {
       ...
-    }
-    for _index_0 = 1, #vars do
-      local var = vars[_index_0]
-      local sub = Cs((P("@") * C(P(var)) / "self._vars.%1:GetValue()" + 1) ^ 0)
-      condition = lpeg.match(sub, condition)
-    end
-    return condition, vars
+    }, "self._vars.%1:GetValue()")
   end
 end
 local ConditionalIfMatch
@@ -131,6 +145,35 @@ ConditionalElseMatch = function(pattern)
     }
   end
 end
+local ForVars
+ForVars = function(pattern)
+  return pattern / function(varOne, varTwo)
+    return tostring(varOne) .. ", " .. tostring(varTwo)
+  end
+end
+local ForHeader
+ForHeader = function(pattern)
+  return pattern / function(condition, ...)
+    local checkForTwoVars = VariableName * Tabs * P(",") * Tabs * VariableName
+    if not (lpeg.match(checkForTwoVars, condition)) then
+      condition = "_, " .. tostring(condition)
+    end
+    return varReplacement(condition, {
+      ...
+    }, "pairs(self._vars.%1:GetValue())")
+  end
+end
+local ForLoopMatch
+ForLoopMatch = function(pattern)
+  return pattern / function(condition, vars, children)
+    return {
+      "for",
+      condition,
+      vars,
+      children
+    }
+  end
+end
 local grammar = P({
   "RoML",
   NewLine = P("\r") ^ -1 * P("\n"),
@@ -142,8 +185,8 @@ local grammar = P({
   Spaces = S("\r\n\t ") ^ 0,
   VariableStart = P("_") + V("UppercaseLetter") + V("LowercaseLetter"),
   VariableBody = (V("VariableStart") + V("Number")) ^ 0,
-  VariableName = C(V("VariableStart") * V("VariableBody")),
-  Variable = P("@") * V("VariableName"),
+  VariableName = V("VariableStart") * V("VariableBody"),
+  Variable = P("@") * C(V("VariableName")),
   Indent = #Cmt(V("Tabs"), Indent),
   CheckIndent = Cmt(V("Tabs"), CheckIndent),
   Dedent = Cmt("", Dedent),
@@ -152,8 +195,8 @@ local grammar = P({
   String = V("SingleString") + V("DoubleString"),
   CloneValue = C((S("\t ") ^ 0 * (1 - S(")\r\n\t "))) ^ 0),
   CloneSource = P("(") * V("Tabs") * V("CloneValue") * V("Tabs") * P(")"),
-  Id = P("#") * V("VariableName"),
-  Classes = Ct(Cc("dynamic") * P(".") * V("Variable") + Cc("static") * Ct((P(".") * V("VariableName")) ^ 1)),
+  Id = P("#") * C(V("VariableName")),
+  Classes = Ct(Cc("dynamic") * P(".") * V("Variable") + Cc("static") * Ct((P(".") * C(V("VariableName"))) ^ 1)),
   PropertyKey = C(V("UppercaseLetter") * (V("UppercaseLetter") + V("LowercaseLetter") + V("Number")) ^ 0),
   PropertyValue = Ct(Cc("var") * V("Variable")) + C((S("\t ") ^ 0 * (1 - S("}:;\r\n\t "))) ^ 0),
   PropertyPair = Ct(V("Tabs") * V("PropertyKey") * V("Tabs") * P(":") * V("Tabs") * V("PropertyValue") * V("Tabs")),
@@ -166,8 +209,11 @@ local grammar = P({
   ConditionalMiddle = V("CheckIndent") * C(P("elseif") + P("elseunless")) * Condition(V("Condition")),
   ConditionalBottom = V("CheckIndent") * P("else"),
   ConditionalBlock = ConditionalIfMatch(V("ConditionalTop") * V("BlockBody") * Ct(ConditionalElseIfMatch((V("ConditionalMiddle") * V("BlockBody")) ^ 0) * ConditionalElseMatch((V("ConditionalBottom") * V("BlockBody")) ^ -1))),
+  ForVars = (V("VariableName") * V("Tabs") * P(",")) ^ -1 * V("Tabs") * V("VariableName"),
+  ForHeader = ForHeader(V("CheckIndent") * P("for") * V("Tabs") * C(V("ForVars") * V("Tabs") * P("in") * V("Tabs") * V("Variable"))),
+  ForBlock = ForLoopMatch(V("ForHeader") * V("BlockBody")),
   BlockBody = V("LineEnd") * (V("Indent") * Ct(V("Block") ^ 0) * V("Dedent") + Cc({ })),
-  Block = V("ObjectBlock") + V("ConditionalBlock"),
+  Block = V("ObjectBlock") + V("ConditionalBlock") + V("ForBlock"),
   RoML = Ct(V("Block") ^ 0)
 })
 local Parse

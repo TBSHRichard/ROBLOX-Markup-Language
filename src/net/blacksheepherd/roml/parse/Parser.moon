@@ -14,6 +14,25 @@ import C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V from lpeg
 
 local indentStack
 
+NewLine =         P"\r"^-1 * P"\n"
+UppercaseLetter = R"AZ"
+LowercaseLetter = R"az"
+Number =          R"09"
+Tabs =            S"\t "^0
+Spaces =          S"\r\n\t "^0
+LineEnd =         Tabs * (NewLine^1 + -1)
+
+VariableStart=   P"_" + UppercaseLetter + LowercaseLetter
+VariableBody=    (VariableStart + Number)^0
+VariableName=    VariableStart * VariableBody
+Variable=        P"@" * C(VariableName)
+
+varReplacement = (statement, vars, replacement) ->
+	for var in *vars
+		sub = Cs((P"@" * C(P(var)) / replacement + 1)^0)
+		statement = lpeg.match(sub, statement)
+	return statement, vars
+
 calculateIndentSize = (tabs) ->
 	indentSize = 0
 
@@ -75,11 +94,7 @@ Dedent = (roml, position, tabs) ->
 
 Condition = (pattern) ->
 	pattern / (condition, ...) ->
-		vars = {...}
-		for var in *vars
-			sub = Cs((P"@" * C(P(var)) / "self._vars.%1:GetValue()" + 1)^0)
-			condition = lpeg.match(sub, condition)
-		return condition, vars
+		varReplacement(condition, {...}, "self._vars.%1:GetValue()")
 
 ConditionalIfMatch = (pattern) ->
 	pattern / (keyword, condition, vars, children, extra) ->
@@ -107,6 +122,25 @@ ConditionalElseMatch = (pattern) ->
 			children
 		}
 
+ForVars = (pattern) ->
+	pattern / (varOne, varTwo) ->
+		"#{varOne}, #{varTwo}"
+
+ForHeader = (pattern) ->
+	pattern / (condition, ...) ->
+		checkForTwoVars = VariableName * Tabs * P"," * Tabs * VariableName
+		unless lpeg.match checkForTwoVars, condition
+			condition = "_, #{condition}" 
+		varReplacement(condition, {...}, "pairs(self._vars.%1:GetValue())")
+
+ForLoopMatch = (pattern) ->
+	pattern / (condition, vars, children) ->
+		{
+			"for",
+			condition,
+			vars,
+			children
+		}
 
 grammar = P {
 	"RoML"
@@ -121,8 +155,8 @@ grammar = P {
 
 	VariableStart:     P"_" + V"UppercaseLetter" + V"LowercaseLetter"
 	VariableBody:      (V"VariableStart" + V"Number")^0
-	VariableName:      C(V"VariableStart" * V"VariableBody")
-	Variable:          P"@" * V"VariableName"
+	VariableName:      V"VariableStart" * V"VariableBody"
+	Variable:          P"@" * C(V"VariableName")
 
 	Indent:            #Cmt(V"Tabs", Indent)
 	CheckIndent:       Cmt(V"Tabs", CheckIndent)
@@ -135,8 +169,8 @@ grammar = P {
 	CloneValue:        C((S"\t "^0 * (1 - S")\r\n\t "))^0)
 	CloneSource:       P"(" * V"Tabs" * V"CloneValue" * V"Tabs" * P")"
 
-	Id:                P"#" * V"VariableName"
-	Classes:           Ct(Cc("dynamic") * P"." * V"Variable" + Cc("static") * Ct((P"." * V"VariableName")^1))
+	Id:                P"#" * C(V"VariableName")
+	Classes:           Ct(Cc("dynamic") * P"." * V"Variable" + Cc("static") * Ct((P"." * C(V"VariableName"))^1))
 
 	PropertyKey:       C(V"UppercaseLetter" * (V"UppercaseLetter" + V"LowercaseLetter" + V"Number")^0)
 	PropertyValue:     Ct(Cc("var") * V"Variable") + C((S"\t "^0 * (1 - S"}:;\r\n\t "))^0)
@@ -153,8 +187,12 @@ grammar = P {
 	ConditionalBottom: V"CheckIndent" * P"else"
 	ConditionalBlock:  ConditionalIfMatch V"ConditionalTop" * V"BlockBody" * Ct(ConditionalElseIfMatch((V"ConditionalMiddle" * V"BlockBody")^0) * ConditionalElseMatch((V"ConditionalBottom" * V"BlockBody")^-1))
 
+	ForVars:           (V"VariableName" * V"Tabs" * P",")^-1 * V"Tabs" * V"VariableName"
+	ForHeader:         ForHeader V"CheckIndent" * P"for" * V"Tabs" * C(V"ForVars" * V"Tabs" * P"in" * V"Tabs" * V"Variable")
+	ForBlock:          ForLoopMatch V"ForHeader" * V"BlockBody"
+
 	BlockBody:         V"LineEnd" * (V"Indent" * Ct(V"Block"^0) * V"Dedent" + Cc({}))
-	Block:             V"ObjectBlock" + V"ConditionalBlock"
+	Block:             V"ObjectBlock" + V"ConditionalBlock" + V"ForBlock"
 	RoML:              Ct(V"Block"^0)
 }
 
