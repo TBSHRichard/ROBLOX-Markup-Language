@@ -8,6 +8,16 @@
 
 class Stack
 	----------------------------------------------------------------
+	-- Create a new Stack.
+	--
+	-- @tparam[opt={}] table stack The initial stack. The end of
+	--  the table is assumed to be the top of the stack.
+	----------------------------------------------------------------
+	new: (stack = {}) =>
+		for el in *stack
+			table.insert self, 1, el
+
+	----------------------------------------------------------------
 	-- Push an element onto the top of the Stack.
 	--
 	-- @tparam Stack self
@@ -45,5 +55,15 @@ class Stack
 	----------------------------------------------------------------
 	IsEmpty: =>
 		#self == 0
+
+	----------------------------------------------------------------
+	-- Performs a shallow clone (new Stack is created, but
+	-- individual elements of the Stack are the same) of this Stack.
+	--
+	-- @tparam Stack self
+	-- @treturn Stack The cloned Stack.
+	----------------------------------------------------------------
+	Clone: =>
+		return Stack(self)
 
 return Stack

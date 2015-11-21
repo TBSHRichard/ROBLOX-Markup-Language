@@ -7,6 +7,8 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+HashMap = require(game\GetService("ServerScriptService").net.blacksheepherd.util.HashMap)
+
 class RomlObject
 	@_currentId: 1
 	
@@ -19,16 +21,21 @@ class RomlObject
 	-- @tparam[opt={}] table classes The list of classes for the
 	-- 	RomlObject.
 	----------------------------------------------------------------
-	new: (object, classes = {}) =>
+	new: (romlDoc, object, objectId, classes = {}) =>
+		@_romlDoc = romlDoc
 		@_id = @@_currentId
 		@@_currentId += 1
 		
 		@_properties = {}
 		@_propertyFilters = {}
+
+		@_objectId = objectId
+
+		object = Instance.new(object) if type(object) == "string"
 		
 		@_robloxObject = object
 		@_classes = classes
-		@_children = {}
+		@_children = HashMap({})
 	
 	----------------------------------------------------------------
 	-- Sets the parent of this RomlObject and updates any children
@@ -63,6 +70,23 @@ class RomlObject
 				filter property, @_robloxObject
 			else
 				@_robloxObject[name] = property
+
+	----------------------------------------------------------------
+	-- Changes the properties of the wrapped ROBLOX object without
+	-- changing the inline properties of this object.
+	--
+	-- @tparam RomlObject self
+	-- @tparam table properties The list of properties to set on
+	--  the ROBLOX object.
+	----------------------------------------------------------------
+	StyleObject: (properties) =>
+		for name, property in pairs properties
+			filter = @_propertyFilters[name]
+			
+			if filter
+				filter property, @_robloxObject
+			else
+				@_robloxObject[name] = property
 	
 	----------------------------------------------------------------
 	-- Add a child RomlObject to this RomlObject.
@@ -73,6 +97,7 @@ class RomlObject
 	AddChild: (child) =>
 		child\SetParent self
 		@_children[child\GetId!] = child
+		return child
 	
 	----------------------------------------------------------------
 	-- Sets the properties to the RomlObject. The associated ROBLOX
@@ -96,7 +121,9 @@ class RomlObject
 	-- @tparam RomlObject self
 	----------------------------------------------------------------
 	RemoveAllChildren: =>
-		for child in *@_children
+		for _, child in @_children\pairs!
+			@_romlDoc\RemoveChild child
+			child\RemoveAllChildren!
 			child._robloxObject\Destroy!
 		@_children = {}
 	
@@ -105,6 +132,19 @@ class RomlObject
 	-- @treturn integer The unique identifier for this RomlObject.
 	----------------------------------------------------------------
 	GetId: => @_id
+
+	----------------------------------------------------------------
+	-- @tparam RomlObject self
+	-- @treturn integer The named identifier for the RomlObject as
+	--  defined in the RomlDoc.
+	----------------------------------------------------------------
+	GetObjectId: => @_objectId
+
+	----------------------------------------------------------------
+	-- @tparam RomlObject self
+	-- @treturn The style classes of this RomlObject.
+	----------------------------------------------------------------
+	GetClasses: => @_classes
 	
 	----------------------------------------------------------------
 	-- Remove the provided child from the list of children.
@@ -115,6 +155,58 @@ class RomlObject
 	RemoveChild: (child) =>
 		child\SetParent nil
 		@_children[child\GetId!] = nil
+
+	----------------------------------------------------------------
+	-- Returns whether or not this RoML Object has the given
+	-- class or not.
+	--
+	-- @tparam RomlObject self
+	-- @tparam string className The class to look for.
+	-- @treturn bool True if this RomlObject has the class, false
+	--  if it does not.
+	----------------------------------------------------------------
+	HasClass: (className) =>
+		for name in *@_classes
+			return true if name == className
+
+		return false
+
+	----------------------------------------------------------------
+	-- Returns whether or not this RoML Object matches the given
+	-- @{Stack} of selectors. Each element of the @{Stack} should
+	-- be a simple table with a object key, a id or class key, or
+	-- both.
+	--
+	-- @tparam RomlObject self
+	-- @tparam Stack selectorStack
+	-- @treturn bool True if the entire @{Stack} matches this
+	--  specific @{RomlObject}, false otherwise.
+	----------------------------------------------------------------
+	MatchesSelector: (selectorStack) =>
+		selector = selectorStack\Pop!
+		matches = false
+
+		if selector.object != nil
+			matches = selector.object == @_robloxObject.ClassName
+
+			if selector.class != nil
+				matches = matches and @\HasClass selector.class
+			elseif selector.id != nil
+				matches = matches and selector.id == @_objectId
+		else
+			-- No object ClassName selector, must have class or id
+			if selector.class != nil
+				matches = @\HasClass selector.class
+			else
+				matches = selector.id == @_objectId
+
+		if matches
+			unless selectorStack\IsEmpty!
+				return @_parent\MatchesSelector(selectorStack)
+			else
+				return true
+		else
+			return false
 	
 	----------------------------------------------------------------
 	-- Find RomlObjects within this RomlObject's hierarchy using the

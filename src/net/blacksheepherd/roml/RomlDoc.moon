@@ -8,6 +8,8 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+HashMap = require(game\GetService("ServerScriptService").net.blacksheepherd.util.HashMap)
+
 class RomlDoc
 	----------------------------------------------------------------
 	-- Create a new RomlDoc.
@@ -17,9 +19,11 @@ class RomlDoc
 	--	to.
 	-- @tparam table vars The starting values for the variables.
 	----------------------------------------------------------------
-	new: (parent, vars) =>
+	new: (parent, vars, ross) =>
 		@_objectIds = {}
 		@_vars = {}
+		@_ross = ross
+		@_children = HashMap({})
 		
 		@\_create parent, vars
 	
@@ -37,6 +41,30 @@ class RomlDoc
 	----------------------------------------------------------------
 	Find: (selector) =>
 		@_rootObject\Find selector
+
+	----------------------------------------------------------------
+	-- 
+	----------------------------------------------------------------
+	AddChild: (romlObject) =>
+		@_children[romlObject\GetId!] = romlObject
+
+		unless @_ross == nil
+			@_ross\StyleObject romlObject
+
+	----------------------------------------------------------------
+	-- 
+	----------------------------------------------------------------
+	RemoveChild: (romlObject) =>
+		@_children[romlObject\GetId!] = nil
+
+	----------------------------------------------------------------
+	-- 
+	----------------------------------------------------------------
+	SetStyleSheet: (ross) =>
+		@_ross = ross
+
+		for _, romlObject in @_children\pairs!
+			@_ross\StyleObject romlObject
 	
 	_create: (parent, vars) =>
 

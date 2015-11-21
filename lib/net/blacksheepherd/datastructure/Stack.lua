@@ -12,11 +12,22 @@ do
     end,
     IsEmpty = function(self)
       return #self == 0
+    end,
+    Clone = function(self)
+      return Stack(self)
     end
   }
   _base_0.__index = _base_0
   local _class_0 = setmetatable({
-    __init = function() end,
+    __init = function(self, stack)
+      if stack == nil then
+        stack = { }
+      end
+      for _index_0 = 1, #stack do
+        local el = stack[_index_0]
+        table.insert(self, 1, el)
+      end
+    end,
     __base = _base_0,
     __name = "Stack"
   }, {

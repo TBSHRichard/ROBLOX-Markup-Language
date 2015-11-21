@@ -104,9 +104,16 @@ TablesAreEqual = function(tableOne, tableTwo)
   end
   return true
 end
+local Swap
+Swap = function(t, i1, i2)
+  local temp = t[i1]
+  t[i1] = t[i2]
+  t[i2] = temp
+end
 return {
   ArrayToSingleLineString = ArrayToSingleLineString,
   HashMapToSingleLineString = HashMapToSingleLineString,
   HashMapToMultiLineString = HashMapToMultiLineString,
-  TablesAreEqual = TablesAreEqual
+  TablesAreEqual = TablesAreEqual,
+  Swap = Swap
 }

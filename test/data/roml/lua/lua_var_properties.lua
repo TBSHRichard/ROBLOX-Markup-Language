@@ -6,19 +6,20 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
       local objPart1
       local varChange_partColor
       varChange_partColor = function()
         objPart1:SetProperties({BrickColor = self._vars.partColor:GetValue()})
+        objPart1:Refresh()
       end
       self._vars.partColor = RomlVar(vars.partColor)
       self._vars.partColor.Changed:connect(varChange_partColor)
-      objPart1 = RomlObject("Part", nil)
+      objPart1 = RomlObject(self, "Part", nil, nil)
       objPart1:SetProperties({TopSurface = Enum.SurfaceType.Weld})
       objPart1:Refresh()
-      self._rootObject:AddChild(objPart1)
+      self:AddChild(self._rootObject:AddChild(objPart1))
       varChange_partColor()
     end
   }

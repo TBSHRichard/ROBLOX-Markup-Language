@@ -126,4 +126,16 @@ TablesAreEqual = (tableOne, tableTwo) ->
 
 	return true
 
-{ :ArrayToSingleLineString, :HashMapToSingleLineString, :HashMapToMultiLineString, :TablesAreEqual }
+----------------------------------------------------------------
+-- Swap the values of two elements in a table.
+--
+-- @tparam table t The table to swap elements in.
+-- @param i1 The key of the first element.
+-- @param i2 The key of the second element.
+----------------------------------------------------------------
+Swap = (t, i1, i2) ->
+	temp = t[i1]
+	t[i1] = t[i2]
+	t[i2] = temp
+
+{ :ArrayToSingleLineString, :HashMapToSingleLineString, :HashMapToMultiLineString, :TablesAreEqual, :Swap }

@@ -6,7 +6,7 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
       local updateParent
       local varChange_foo
@@ -14,14 +14,14 @@ do
       updateParent = function()
         self._rootObject:RemoveAllChildren()
         if 5 == 5 then
-          objTemp = RomlObject("Part", nil)
-          self._rootObject:AddChild(objTemp)
+          objTemp = RomlObject(self, "Part", nil, nil)
+          self:AddChild(self._rootObject:AddChild(objTemp))
         elseif self._vars.foo:GetValue() < self._vars.bar:GetValue() then
-          objTemp = RomlObject("Model", nil)
-          self._rootObject:AddChild(objTemp)
+          objTemp = RomlObject(self, "Model", nil, nil)
+          self:AddChild(self._rootObject:AddChild(objTemp))
         else
-          objTemp = RomlObject("ScreenGui", nil)
-          self._rootObject:AddChild(objTemp)
+          objTemp = RomlObject(self, "ScreenGui", nil, nil)
+          self:AddChild(self._rootObject:AddChild(objTemp))
         end
       end
       varChange_foo = function()

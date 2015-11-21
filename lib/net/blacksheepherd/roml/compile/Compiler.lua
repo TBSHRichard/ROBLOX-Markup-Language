@@ -67,7 +67,8 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
         properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
       else
         objectName = writeVarCode(className, value[2], function(varChange, objectName, varName)
-          return varChange:AddChild(Line(tostring(objectName) .. ":SetProperties({" .. tostring(name) .. " = self._vars." .. tostring(varName) .. ":GetValue()})"))
+          varChange:AddChild(Line(tostring(objectName) .. ":SetProperties({" .. tostring(name) .. " = self._vars." .. tostring(varName) .. ":GetValue()})"))
+          return varChange:AddChild(Line(tostring(objectName) .. ":Refresh()"))
         end)
         properties[name] = nil
       end
@@ -80,17 +81,23 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   if not objectName then
     objectName = "objTemp"
   end
+  local idString
+  if id == nil then
+    idString = "nil"
+  else
+    idString = "\"" .. tostring(id) .. "\""
+  end
   local lines = {
-    Line(tostring(objectName) .. " = RomlObject(" .. tostring(builderParam) .. ", " .. tostring(classesString) .. ")")
+    Line(tostring(objectName) .. " = RomlObject(self, " .. tostring(builderParam) .. ", " .. tostring(idString) .. ", " .. tostring(classesString) .. ")")
   }
   if id then
-    table.insert(lines, Line("self._objectIds[\"" .. tostring(id) .. "\"] = " .. tostring(objectName)))
+    table.insert(lines, Line("self._objectIds[" .. tostring(idString) .. "] = " .. tostring(objectName)))
   end
   if properties then
     table.insert(lines, Line(tostring(objectName) .. ":SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
     table.insert(lines, Line(tostring(objectName) .. ":Refresh()"))
   end
-  table.insert(lines, Line(tostring(parentNameStack:Peek()) .. ":AddChild(" .. tostring(objectName) .. ")"))
+  table.insert(lines, Line("self:AddChild(" .. tostring(parentNameStack:Peek()) .. ":AddChild(" .. tostring(objectName) .. "))"))
   creationFunctionStack:Peek()(lines)
   creationFunctionStack:Push(creationFunctionStack:Peek())
   parentNameStack:Push(objectName)

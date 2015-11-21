@@ -1,3 +1,4 @@
+local HashMap = require(game:GetService("ServerScriptService").net.blacksheepherd.util.HashMap)
 local RomlDoc
 do
   local _base_0 = {
@@ -7,13 +8,30 @@ do
     Find = function(self, selector)
       return self._rootObject:Find(selector)
     end,
+    AddChild = function(self, romlObject)
+      self._children[romlObject:GetId()] = romlObject
+      if not (self._ross == nil) then
+        return self._ross:StyleObject(romlObject)
+      end
+    end,
+    RemoveChild = function(self, romlObject)
+      self._children[romlObject:GetId()] = nil
+    end,
+    SetStyleSheet = function(self, ross)
+      self._ross = ross
+      for _, romlObject in self._children:pairs() do
+        self._ross:StyleObject(romlObject)
+      end
+    end,
     _create = function(self, parent, vars) end
   }
   _base_0.__index = _base_0
   local _class_0 = setmetatable({
-    __init = function(self, parent, vars)
+    __init = function(self, parent, vars, ross)
       self._objectIds = { }
       self._vars = { }
+      self._ross = ross
+      self._children = HashMap({ })
       return self:_create(parent, vars)
     end,
     __base = _base_0,

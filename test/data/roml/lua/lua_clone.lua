@@ -6,10 +6,10 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
-      objTemp = RomlObject(game.Workspace.CloneScript, nil)
-      self._rootObject:AddChild(objTemp)
+      objTemp = RomlObject(self, game.Workspace.CloneScript, nil, nil)
+      self:AddChild(self._rootObject:AddChild(objTemp))
     end
   }
   _base_0.__index = _base_0

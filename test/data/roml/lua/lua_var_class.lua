@@ -6,7 +6,7 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
       local objPart1
       local varChange_partClasses
@@ -15,8 +15,8 @@ do
       end
       self._vars.partClasses = RomlVar(vars.partClasses)
       self._vars.partClasses.Changed:connect(varChange_partClasses)
-      objPart1 = RomlObject("Part", nil)
-      self._rootObject:AddChild(objPart1)
+      objPart1 = RomlObject(self, "Part", nil, nil)
+      self:AddChild(self._rootObject:AddChild(objPart1))
       varChange_partClasses()
     end
   }

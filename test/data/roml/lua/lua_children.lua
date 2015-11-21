@@ -6,23 +6,23 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
       local objModel1
       local objModel2
       local objPart1
-      objModel1 = RomlObject("Model", nil)
-      self._rootObject:AddChild(objModel1)
-      objModel2 = RomlObject("Model", nil)
-      objModel1:AddChild(objModel2)
-      objTemp = RomlObject("WedgePart", nil)
-      objModel2:AddChild(objTemp)
-      objTemp = RomlObject("Part", nil)
-      objModel1:AddChild(objTemp)
-      objPart1 = RomlObject("Part", nil)
-      self._rootObject:AddChild(objPart1)
-      objTemp = RomlObject("ClickDetector", nil)
-      objPart1:AddChild(objTemp)
+      objModel1 = RomlObject(self, "Model", nil, nil)
+      self:AddChild(self._rootObject:AddChild(objModel1))
+      objModel2 = RomlObject(self, "Model", nil, nil)
+      self:AddChild(objModel1:AddChild(objModel2))
+      objTemp = RomlObject(self, "WedgePart", nil, nil)
+      self:AddChild(objModel2:AddChild(objTemp))
+      objTemp = RomlObject(self, "Part", nil, nil)
+      self:AddChild(objModel1:AddChild(objTemp))
+      objPart1 = RomlObject(self, "Part", nil, nil)
+      self:AddChild(self._rootObject:AddChild(objPart1))
+      objTemp = RomlObject(self, "ClickDetector", nil, nil)
+      self:AddChild(objPart1:AddChild(objTemp))
     end
   }
   _base_0.__index = _base_0

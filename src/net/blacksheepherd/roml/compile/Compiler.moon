@@ -40,7 +40,6 @@ writeLineToVarChangeFunction = (varName, lineString) ->
 
 	functionTable[varName]\AddLineIfNotAdded lineString
 
-
 writeVarCode = (className, varName, changeFunction) ->
 	functionTable[varName] = FunctionBlock "varChange_#{varName}", "" unless functionTable[varName]
 
@@ -73,6 +72,7 @@ writeObjectToBlock = (builderParam, className, id, classes, properties, children
 			else
 				objectName = writeVarCode className, value[2], (varChange, objectName, varName) ->
 					varChange\AddChild Line("#{objectName}:SetProperties({#{name} = self._vars.#{varName}:GetValue()})")
+					varChange\AddChild Line("#{objectName}:Refresh()")
 				properties[name] = nil
 
 	if #children > 0 and not objectName
@@ -81,12 +81,13 @@ writeObjectToBlock = (builderParam, className, id, classes, properties, children
 
 	objectName = "objTemp" if not objectName
 
-	lines = {Line("#{objectName} = RomlObject(#{builderParam}, #{classesString})")}
-	table.insert(lines, Line("self._objectIds[\"#{id}\"] = #{objectName}")) if id
+	idString = if id == nil then "nil" else "\"#{id}\""
+	lines = {Line("#{objectName} = RomlObject(self, #{builderParam}, #{idString}, #{classesString})")}
+	table.insert(lines, Line("self._objectIds[#{idString}] = #{objectName}")) if id
 	if properties
 		table.insert(lines, Line("#{objectName}:SetProperties(#{Table.HashMapToSingleLineString(properties)})"))
 		table.insert(lines, Line("#{objectName}:Refresh()"))
-	table.insert(lines, Line("#{parentNameStack\Peek!}:AddChild(#{objectName})"))
+	table.insert(lines, Line("self:AddChild(#{parentNameStack\Peek!}:AddChild(#{objectName}))"))
 	creationFunctionStack\Peek!(lines)
 
 	creationFunctionStack\Push creationFunctionStack\Peek!

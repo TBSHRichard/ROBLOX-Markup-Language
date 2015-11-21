@@ -6,15 +6,15 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
       local updateParent
       local varChange_myTable
       updateParent = function()
         self._rootObject:RemoveAllChildren()
         for _, child in pairs(self._vars.myTable:GetValue()) do
-          objTemp = RomlObject("Part", nil)
-          self._rootObject:AddChild(objTemp)
+          objTemp = RomlObject(self, "Part", nil, nil)
+          self:AddChild(self._rootObject:AddChild(objTemp))
         end
       end
       varChange_myTable = function()

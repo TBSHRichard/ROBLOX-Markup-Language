@@ -6,14 +6,14 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
       local objPart1
-      objPart1 = RomlObject("Part", nil)
-      self._rootObject:AddChild(objPart1)
-      objTemp = RomlObject("ClickDetector", nil)
+      objPart1 = RomlObject(self, "Part", nil, nil)
+      self:AddChild(self._rootObject:AddChild(objPart1))
+      objTemp = RomlObject(self, "ClickDetector", "ClickMe", nil)
       self._objectIds["ClickMe"] = objTemp
-      objPart1:AddChild(objTemp)
+      self:AddChild(objPart1:AddChild(objTemp))
     end
   }
   _base_0.__index = _base_0

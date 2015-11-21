@@ -68,7 +68,7 @@ class MainBlock
 		baseBlock = TableBlock("_base_0")
 		
 		createFunctionBlock = FunctionBlock("_create", "self, parent, vars")
-		createFunctionBlock\AddChild Line("self._rootObject = RomlObject(parent)")
+		createFunctionBlock\AddChild Line("self._rootObject = RomlObject(self, parent)")
 		createFunctionBlock\AddChild Line("local objTemp")
 		@_varsBlock = SpaceBlock!
 		@_updateFunctionsBlock = SpaceBlock!
@@ -86,8 +86,8 @@ class MainBlock
 		cBlock\AddChild Line("setmetatable(_base_0, _parent_0.__base)")
 
 		metatableBlock = MetatableBlock("_class_0")
-		initFunctionBlock = FunctionBlock("__init", "self, parent, vars")
-		initFunctionBlock\AddChild Line("return _parent_0.__init(self, parent, vars)")
+		initFunctionBlock = FunctionBlock("__init", "self, parent, vars, ross")
+		initFunctionBlock\AddChild Line("return _parent_0.__init(self, parent, vars, ross)")
 		metatableBlock\AddChild DoubleBlock.TOP, initFunctionBlock
 		metatableBlock\AddChild DoubleBlock.TOP, Line("__base = _base_0")
 		metatableBlock\AddChild DoubleBlock.TOP, Line("__name = \"#{name}\"")
@@ -110,8 +110,8 @@ class MainBlock
 		cBlock\AddChild metatableBlock
 		cBlock\AddChild Line("_base_0.__class = _class_0")
 		cBlock\AddChild Line("local self = _class_0")
-		newFunctionBlock = FunctionBlock("self.new", "parent, vars")
-		newFunctionBlock\AddChild Line("return #{name}(parent, vars)")
+		newFunctionBlock = FunctionBlock("self.new", "parent, vars, ross")
+		newFunctionBlock\AddChild Line("return #{name}(parent, vars, ross)")
 		cBlock\AddChild newFunctionBlock
 
 		inheritanceIfBlock = IfBlock("_parent_0.__inherited")

@@ -6,7 +6,7 @@ do
   local _parent_0 = RomlDoc
   local _base_0 = {
     _create = function(self, parent, vars)
-      self._rootObject = RomlObject(parent)
+      self._rootObject = RomlObject(self, parent)
       local objTemp
       local objScreenGui1
       local updateScreenGui1
@@ -14,27 +14,27 @@ do
       updateScreenGui1 = function()
         objScreenGui1:RemoveAllChildren()
         for _, message in pairs(self._vars.messages:GetValue()) do
-          objTemp = RomlObject("TextLabel", nil)
+          objTemp = RomlObject(self, "TextLabel", nil, nil)
           objTemp:SetProperties({Text = message.name})
           objTemp:Refresh()
-          objScreenGui1:AddChild(objTemp)
-          objTemp = RomlObject("TextLabel", nil)
+          self:AddChild(objScreenGui1:AddChild(objTemp))
+          objTemp = RomlObject(self, "TextLabel", nil, nil)
           objTemp:SetProperties({Text = message.body})
           objTemp:Refresh()
-          objScreenGui1:AddChild(objTemp)
+          self:AddChild(objScreenGui1:AddChild(objTemp))
           if message.author == "Admin" then
-            objTemp = RomlObject("ImageLabel", nil)
+            objTemp = RomlObject(self, "ImageLabel", nil, nil)
             objTemp:SetProperties({Image = "rbxassetid://0"})
             objTemp:Refresh()
-            objScreenGui1:AddChild(objTemp)
+            self:AddChild(objScreenGui1:AddChild(objTemp))
           end
         end
       end
       varChange_messages = function()
         updateScreenGui1()
       end
-      objScreenGui1 = RomlObject("ScreenGui", nil)
-      self._rootObject:AddChild(objScreenGui1)
+      objScreenGui1 = RomlObject(self, "ScreenGui", nil, nil)
+      self:AddChild(self._rootObject:AddChild(objScreenGui1))
       self._vars.messages = RomlVar(vars.messages)
       self._vars.messages.Changed:connect(varChange_messages)
       varChange_messages()
