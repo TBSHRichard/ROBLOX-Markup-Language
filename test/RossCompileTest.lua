@@ -1,8 +1,8 @@
 package.path = package.path .. ";../lib/?.lua;?.lua"
 
-local Compiler = require("net.blacksheepherd.ross.RossCompiler")
-local Tester = require("net.blacksheepherd.test.Tester")
-local File = require("net.blacksheepherd.io.File")
+local Compiler = require("com.blacksheepherd.ross.RossCompiler")
+local Tester = require("com.blacksheepherd.test.Tester")
+local File = require("com.blacksheepherd.io.File")
 local t = Tester("RossCompileTest")
 
 local function createCompileTest(className, filename)

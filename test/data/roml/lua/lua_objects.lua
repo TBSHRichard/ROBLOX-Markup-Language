@@ -1,6 +1,6 @@
-local RomlVar = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlVar)
-local RomlDoc = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlDoc)
-local RomlObject = require(game:GetService("ServerScriptService").net.blacksheepherd.roml.RomlObject)
+local RomlVar = require(game:GetService("ServerScriptService").com.blacksheepherd.roml.RomlVar)
+local RomlDoc = require(game:GetService("ServerScriptService").com.blacksheepherd.roml.RomlDoc)
+local RomlObject = require(game:GetService("ServerScriptService").com.blacksheepherd.roml.RomlObject)
 local Objects
 do
   local _parent_0 = RomlDoc

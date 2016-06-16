@@ -1,8 +1,8 @@
 package.path = package.path .. ";../lib/?.lua;?.lua"
 
-local Parser = require("net.blacksheepherd.ross.RossParser")
-local Tester = require("net.blacksheepherd.test.Tester")
-local File = require("net.blacksheepherd.io.File")
+local Parser = require("com.blacksheepherd.ross.RossParser")
+local Tester = require("com.blacksheepherd.test.Tester")
+local File = require("com.blacksheepherd.io.File")
 local t = Tester("RossParseTest")
 
 local function createParseTest(filename)
