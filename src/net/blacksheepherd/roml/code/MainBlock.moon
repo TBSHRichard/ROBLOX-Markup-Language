@@ -23,21 +23,21 @@ class MainBlock
 	--
 	-- @prop BLOCK_VARS
 	----------------------------------------------------------------
-	@BLOCK_VARS = "block vars"
+	@BLOCK_VARS = 1
 
 	----------------------------------------------------------------
 	-- Constant for adding children to the update function @{Block}.
 	--
 	-- @prop BLOCK_UPDATE_FUNCTIONS
 	----------------------------------------------------------------
-	@BLOCK_UPDATE_FUNCTIONS = "block update functions"
+	@BLOCK_UPDATE_FUNCTIONS = 2
 
 	----------------------------------------------------------------
 	-- Constant for adding children to the object creation @{Block}.
 	--
 	-- @prop BLOCK_CREATION
 	----------------------------------------------------------------
-	@BLOCK_CREATION = "block creation"
+	@BLOCK_CREATION = 4
 
 	----------------------------------------------------------------
 	-- Constant for adding children to the update function call
@@ -45,7 +45,7 @@ class MainBlock
 	--
 	-- @prop BLOCK_FUNCTION_CALLS
 	----------------------------------------------------------------
-	@BLOCK_FUNCTION_CALLS = "block function call"
+	@BLOCK_FUNCTION_CALLS = 8
 
 	----------------------------------------------------------------
 	-- Create the MainBlock.

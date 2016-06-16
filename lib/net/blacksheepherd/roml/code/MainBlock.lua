@@ -106,10 +106,10 @@ do
   })
   _base_0.__class = _class_0
   local self = _class_0
-  self.BLOCK_VARS = "block vars"
-  self.BLOCK_UPDATE_FUNCTIONS = "block update functions"
-  self.BLOCK_CREATION = "block creation"
-  self.BLOCK_FUNCTION_CALLS = "block function call"
+  self.BLOCK_VARS = 1
+  self.BLOCK_UPDATE_FUNCTIONS = 2
+  self.BLOCK_CREATION = 4
+  self.BLOCK_FUNCTION_CALLS = 8
   MainBlock = _class_0
 end
 return MainBlock

@@ -2,13 +2,11 @@ return {
 	{
 		selectorStack = {
 			{
-				classes = {
-					"Red"
-				}
+				class = "Red"
 			}
 		},
 		properties = {
-			BrickColor = BrickColor.new(1, 0, 0)
+			BrickColor = "255, 0, 0"
 		}
 	}
 }
