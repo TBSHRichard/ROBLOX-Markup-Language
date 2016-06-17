@@ -43,8 +43,8 @@ StableSort = (array) ->
 			else
 				table.insert(left, el)
 
-		StableSort left
-		StableSort right
+		left = StableSort left
+		right = StableSort right
 
 		return Merge left, right
 

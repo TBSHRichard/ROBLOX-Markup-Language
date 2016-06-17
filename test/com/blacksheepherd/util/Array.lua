@@ -6,7 +6,7 @@ local t = Tester("ArrayTest")
 
 local function createSortingTest(unsorted, sorted)
 	return function()
-		Array.StableSort(unsorted)
+		unsorted = Array.StableSort(unsorted)
 
 		return Tester.AssertEqual(unsorted, sorted)
 	end
