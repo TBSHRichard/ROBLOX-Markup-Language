@@ -9,6 +9,9 @@ do
     end,
     __eq = function(self, rhs)
       return self._id == rhs:Id() and self._element == rhs:Element()
+    end,
+    __tostring = function(self)
+      return "IdElement<Id: " .. tostring(self._id) .. ";   Element: " .. tostring(self._element) .. ">"
     end
   }
   _base_0.__index = _base_0

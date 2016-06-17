@@ -38,9 +38,28 @@ t:AddTest("Sorting an array with > 32 elements.", createSortingTest(
 	}
 ))
 t:AddTest("Sorting an array in descending order.", createSortingTest({5, 2, 9, 4, 32, 16, 4}, {32, 16, 9, 5, 4, 4, 2}, Array.ComparisonOrder.Descending))
-t:AddTest("Sort is stable.", createSortingTest(
+t:AddTest("Sort is stable in an array with <= 32 elements.", createSortingTest(
 	{IdElement(7, 32), IdElement(6, 4), IdElement(1, 9), IdElement(3, 4), IdElement(4, 32), IdElement(2, 16), IdElement(5, 4)}, 
 	{IdElement(6, 4), IdElement(3, 4), IdElement(5, 4), IdElement(1, 9), IdElement(2, 16), IdElement(7, 32), IdElement(4, 32)}, 
+	function(left, right) return left:Element() <= right:Element() end
+))
+t:AddTest("Sort is stable in an array with > 32 elements.", createSortingTest(
+	{
+		IdElement(32, 6), IdElement(21, 3), IdElement(11, 18), IdElement(31, 5), IdElement(5, 99), IdElement(23, 14),
+		IdElement(30, 2), IdElement(3, 7), IdElement(19, 1), IdElement(1, 4), IdElement(13, 18), IdElement(9, 1),
+		IdElement(15, 72), IdElement(26, 63), IdElement(25, 9), IdElement(36, 0), IdElement(18, -3), IdElement(2, 13),
+		IdElement(27, -15), IdElement(14, 6), IdElement(28, 45), IdElement(7, 33), IdElement(6, -33), IdElement(33, 0),
+		IdElement(4, 45), IdElement(8, 78), IdElement(16, -1), IdElement(22, 1), IdElement(29, 12), IdElement(24, 36),
+		IdElement(20, 81), IdElement(35, 19), IdElement(12, 22), IdElement(34, 34), IdElement(17, -5), IdElement(10, 9)
+	},
+	{
+		IdElement(6, -33), IdElement(27, -15), IdElement(17, -5), IdElement(18, -3), IdElement(16, -1), IdElement(36, 0),
+		IdElement(33, 0), IdElement(19, 1), IdElement(9, 1), IdElement(22, 1), IdElement(30, 2), IdElement(21, 3),
+		IdElement(1, 4), IdElement(31, 5), IdElement(32, 6), IdElement(14, 6), IdElement(3, 7), IdElement(25, 9),
+		IdElement(10, 9), IdElement(29, 12), IdElement(2, 13), IdElement(23, 14), IdElement(11, 18), IdElement(13, 18),
+		IdElement(35, 19), IdElement(12, 22), IdElement(7, 33), IdElement(34, 34), IdElement(24, 36), IdElement(28, 45),
+		IdElement(4, 45), IdElement(26, 63), IdElement(15, 72), IdElement(8, 78), IdElement(20, 81), IdElement(5, 99)
+	},
 	function(left, right) return left:Element() <= right:Element() end
 ))
 

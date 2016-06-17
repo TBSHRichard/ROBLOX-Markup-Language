@@ -9,3 +9,6 @@ class IdElement
 
 	__eq: (rhs) =>
 		@_id == rhs\Id! and @_element == rhs\Element!
+
+	__tostring: =>
+		"IdElement<Id: #{@_id};   Element: #{@_element}>"
