@@ -2,19 +2,24 @@ package.path = package.path .. ";../../../../lib/?.lua;?.lua"
 
 local Array = require("com.blacksheepherd.util.Array")
 local Tester = require("com.blacksheepherd.test.Tester")
+local IdElement = require("com.blacksheepherd.test.IdElement")
 local t = Tester("ArrayTest")
 
-local function createSortingTest(unsorted, sorted)
+local function createSortingTest(unsorted, sorted, sortingFn)
+	if sortingFn == nil then
+		sortingFn = Array.ComparisonOrder.Ascending
+	end
+
 	return function()
-		unsorted = Array.StableSort(unsorted)
+		unsorted = Array.StableSort(unsorted, sortingFn)
 
 		return Tester.AssertEqual(unsorted, sorted)
 	end
 end
 
 t:AddTest("Sorting an array with 0 elements.", createSortingTest({}, {}))
-t:AddTest("Sorting an array with <32 elements.", createSortingTest({5, 2, 9, 4, 32, 16}, {2, 4, 5, 9, 16, 32}))
-t:AddTest("Sorting an array with >32 elements.", createSortingTest(
+t:AddTest("Sorting an array with <= 32 elements.", createSortingTest({5, 2, 9, 4, 32, 16}, {2, 4, 5, 9, 16, 32}))
+t:AddTest("Sorting an array with > 32 elements.", createSortingTest(
 	{
 		6, 3, 18, 5, 99, 14,
 		2, 7, 1, 4, 18, 1,
@@ -31,6 +36,12 @@ t:AddTest("Sorting an array with >32 elements.", createSortingTest(
 		19, 22, 33, 34, 36, 45,
 		45, 63, 72, 78, 81, 99
 	}
+))
+t:AddTest("Sorting an array in descending order.", createSortingTest({5, 2, 9, 4, 32, 16, 4}, {32, 16, 9, 5, 4, 4, 2}, Array.ComparisonOrder.Descending))
+t:AddTest("Sort is stable.", createSortingTest(
+	{IdElement(7, 32), IdElement(6, 4), IdElement(1, 9), IdElement(3, 4), IdElement(4, 32), IdElement(2, 16), IdElement(5, 4)}, 
+	{IdElement(6, 4), IdElement(3, 4), IdElement(5, 4), IdElement(1, 9), IdElement(2, 16), IdElement(7, 32), IdElement(4, 32)}, 
+	function(left, right) return left:Element() <= right:Element() end
 ))
 
 t:RunTests()

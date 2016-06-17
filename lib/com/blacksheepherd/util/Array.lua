@@ -1,9 +1,17 @@
+local ascendingCompare
+ascendingCompare = function(left, right)
+  return left <= right
+end
+local descendingCompare
+descendingCompare = function(left, right)
+  return left >= right
+end
 local InsertionSort
-InsertionSort = function(array)
+InsertionSort = function(array, comparisonFn)
   for i = 2, #array do
     local x = array[i]
     local j = i
-    while j > 1 and array[j - 1] > x do
+    while j > 1 and not comparisonFn(array[j - 1], x) do
       array[j] = array[j - 1]
       j = j - 1
     end
@@ -12,10 +20,10 @@ InsertionSort = function(array)
   return array
 end
 local Merge
-Merge = function(left, right)
+Merge = function(left, right, comparisonFn)
   local result = { }
   while #left ~= 0 and #right ~= 0 do
-    if left[1] <= right[1] then
+    if comparisonFn(left[1], right[1]) then
       table.insert(result, left[1])
       table.remove(left, 1)
     else
@@ -33,10 +41,22 @@ Merge = function(left, right)
   end
   return result
 end
+local ComparisonOrder = {
+  Ascending = 0,
+  Descending = 1
+}
 local StableSort
-StableSort = function(array)
+StableSort = function(array, comparisonFn)
+  if comparisonFn == nil then
+    comparisonFn = ComparisonOrder.Ascending
+  end
+  if comparisonFn == ComparisonOrder.Ascending then
+    comparisonFn = ascendingCompare
+  elseif comparisonFn == ComparisonOrder.Descending then
+    comparisonFn = descendingCompare
+  end
   if #array <= 32 then
-    return InsertionSort(array)
+    return InsertionSort(array, comparisonFn)
   else
     local left = { }
     local right = { }
@@ -47,11 +67,12 @@ StableSort = function(array)
         table.insert(left, el)
       end
     end
-    StableSort(left)
-    StableSort(right)
-    return Merge(left, right)
+    left = StableSort(left, comparisonFn)
+    right = StableSort(right, comparisonFn)
+    return Merge(left, right, comparisonFn)
   end
 end
 return {
+  ComparisonOrder = ComparisonOrder,
   StableSort = StableSort
 }
