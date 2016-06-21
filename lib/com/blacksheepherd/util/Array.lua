@@ -72,7 +72,16 @@ StableSort = function(array, comparisonFn)
     return Merge(left, right, comparisonFn)
   end
 end
+local Reverse
+Reverse = function(array)
+  for i = 1, math.floor(#array / 2) do
+    local temp = array[i]
+    array[i] = array[#array - (i - 1)]
+    array[#array - (i - 1)] = temp
+  end
+end
 return {
   ComparisonOrder = ComparisonOrder,
+  Reverse = Reverse,
   StableSort = StableSort
 }

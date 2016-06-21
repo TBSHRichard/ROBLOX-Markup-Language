@@ -16,10 +16,6 @@ local isAGuiClass
 isAGuiClass = function(className)
   return className == "Frame" or className == "ImageButton" or className == "TextButton" or className == "ImageLabel" or className == "TextLabel" or className == "Scale9Frame" or className == "ScrollingFrame" or className == "TextBox"
 end
-local stringFilter
-stringFilter = function(className, value)
-  return value
-end
 local udim2Filter
 udim2Filter = function(value)
   do
@@ -159,7 +155,6 @@ local propertyFilters = {
   LeftSurfaceInput = enumFilter("InputType"),
   Material = enumFilter("Material"),
   MeshType = enumFilter("MeshType"),
-  Name = stringFilter,
   NameOcclusion = enumFilter("NameOcclusion"),
   Position = positionAndSizeFilter,
   Purpose = enumFilter("DialogPurpose"),

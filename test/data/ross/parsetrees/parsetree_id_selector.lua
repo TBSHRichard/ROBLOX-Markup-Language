@@ -8,8 +8,8 @@ return {
 			}
 		},
 		properties = HashMap({
-			Name = "Click Me",
-			MaxActivationDistance = 13.5
+			Name = "\"Click Me\"",
+			MaxActivationDistance = "13.5"
 		})
 	}
 }

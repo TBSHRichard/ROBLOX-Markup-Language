@@ -10,7 +10,7 @@ local function createParseTest(filename)
 		local parsedRoss = Parser.Parse(File.FileToString("./data/ross/ross/ross_" .. filename .. ".ross"))
 		local parseTree = require("data.ross.parsetrees.parsetree_" .. filename)
 		
-		return Tester.AssertEqual(parsedRoml, parseTree)
+		return Tester.AssertEqual(parsedRoss, parseTree)
 	end
 end
 

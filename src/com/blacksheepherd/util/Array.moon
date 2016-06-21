@@ -62,4 +62,10 @@ StableSort = (array, comparisonFn = ComparisonOrder.Ascending) ->
 
 		return Merge left, right, comparisonFn
 
-{ :ComparisonOrder, :StableSort }
+Reverse = (array) ->
+	for i = 1, math.floor(#array / 2)
+		temp = array[i]
+		array[i] = array[#array - (i - 1)]
+		array[#array - (i - 1)] = temp
+
+{ :ComparisonOrder, :Reverse, :StableSort }

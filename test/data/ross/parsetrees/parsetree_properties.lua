@@ -8,7 +8,7 @@ return {
 			}
 		},
 		properties = HashMap({
-			Name = "My part",
+			Name = "\"My part\"",
 			BrickColor = "1001"
 		})
 	}

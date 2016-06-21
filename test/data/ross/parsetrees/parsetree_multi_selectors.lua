@@ -25,7 +25,7 @@ return {
 			}
 		},
 		properties = HashMap({
-			MaxActivationRadius = 13.5
+			MaxActivationRadius = "13.5"
 		})
 	},
 	{
@@ -41,7 +41,7 @@ return {
 			}
 		},
 		properties = HashMap({
-			Name = "Grandchild"
+			Name = "\"Grandchild\""
 		})
 	}
 }

@@ -32,9 +32,6 @@ isAGuiClass = (className) ->
 	className == "ScrollingFrame" or
 	className == "TextBox"
 
-stringFilter = (className, value) ->
-	return value
-
 udim2Filter = (value) ->
 	if match = numberQuartetOrNumberDuo\match value
 		if #match == 2
@@ -132,7 +129,6 @@ propertyFilters =
 	LeftSurfaceInput: enumFilter "InputType"
 	Material: enumFilter "Material"
 	MeshType: enumFilter "MeshType"
-	Name: stringFilter
 	NameOcclusion: enumFilter "NameOcclusion"
 	Position: positionAndSizeFilter
 	Purpose: enumFilter "DialogPurpose"
@@ -144,7 +140,6 @@ propertyFilters =
 	SizeConstraint: enumFilter "SizeConstraint"
 	SparkleColor: color3Filter
 	Style: styleEnumFilter
-	Texture: stringFilter
 	TextXAlignment: enumFilter "TextXAlignment"
 	TextYAlignment: enumFilter "TextYAlignment"
 	Tone: enumFilter "DialogTone"
