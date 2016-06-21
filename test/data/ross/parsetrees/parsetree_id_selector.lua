@@ -1,3 +1,5 @@
+HashMap = require("com.blacksheepherd.util.HashMap")
+
 return {
 	{
 		selectorStack = {
@@ -5,9 +7,9 @@ return {
 				id = "ClickMe"
 			}
 		},
-		properties = {
+		properties = HashMap({
 			Name = "Click Me",
 			MaxActivationDistance = 13.5
-		}
+		})
 	}
 }

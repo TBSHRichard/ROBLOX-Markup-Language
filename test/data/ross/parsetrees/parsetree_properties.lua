@@ -1,3 +1,5 @@
+HashMap = require("com.blacksheepherd.util.HashMap")
+
 return {
 	{
 		selectorStack = {
@@ -5,9 +7,9 @@ return {
 				object = "Part"
 			}
 		},
-		properties = {
+		properties = HashMap({
 			Name = "My part",
-			BrickColor = BrickColor.new(1001)
-		}
+			BrickColor = "1001"
+		})
 	}
 }

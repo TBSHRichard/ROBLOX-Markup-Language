@@ -4,7 +4,6 @@ return {
 			{
 				object = "Part"
 			}
-		},
-		properties = {}
+		}
 	}
 }

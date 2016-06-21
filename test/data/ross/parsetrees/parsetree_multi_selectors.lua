@@ -1,3 +1,5 @@
+HashMap = require("com.blacksheepherd.util.HashMap")
+
 return {
 	{
 		selectorStack = {
@@ -8,9 +10,9 @@ return {
 				object = "Model"
 			}
 		},
-		properties = {
+		properties = HashMap({
 			BrickColor = "255, 0, 0"
-		}
+		})
 	},
 	{
 		selectorStack = {
@@ -22,9 +24,9 @@ return {
 				object = "Part"
 			}
 		},
-		properties = {
+		properties = HashMap({
 			MaxActivationRadius = 13.5
-		}
+		})
 	},
 	{
 		selectorStack = {
@@ -38,8 +40,8 @@ return {
 				object = "Model"
 			}
 		},
-		properties = {
+		properties = HashMap({
 			Name = "Grandchild"
-		}
+		})
 	}
 }
