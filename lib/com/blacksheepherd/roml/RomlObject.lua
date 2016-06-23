@@ -1,4 +1,9 @@
-local HashMap = require(game:GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
+local HashMap
+if game then
+  HashMap = require(game:GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
+else
+  HashMap = require("com.blacksheepherd.util.HashMap")
+end
 local RomlObject
 do
   local _base_0 = {
@@ -32,9 +37,13 @@ do
       end
     end,
     AddChild = function(self, child)
-      child:SetParent(self)
-      self._children[child:GetId()] = child
-      return child
+      if self:AllowsChildren() then
+        child:SetParent(self)
+        self._children[child:GetId()] = child
+        return child
+      else
+        return error("RomlObject '" .. tostring(self.__class.__name) .. "' does not allow children objects.")
+      end
     end,
     SetProperties = function(self, properties)
       for name, value in pairs(properties) do
@@ -101,6 +110,9 @@ do
       else
         return false
       end
+    end,
+    AllowsChildren = function(self)
+      return true
     end,
     Find = function(self, selector) end
   }

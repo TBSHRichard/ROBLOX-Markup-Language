@@ -7,7 +7,11 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-HashMap = require(game\GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
+local HashMap
+if game
+	HashMap = require(game\GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
+else
+	HashMap = require "com.blacksheepherd.util.HashMap"
 
 class RomlObject
 	@_currentId: 1
@@ -89,15 +93,19 @@ class RomlObject
 				@_robloxObject[name] = property
 	
 	----------------------------------------------------------------
-	-- Add a child RomlObject to this RomlObject.
+	-- Add a child RomlObject to this RomlObject. Throws an error if
+	-- this RomlObject does not allow children.
 	--
 	-- @tparam RomlObject self
 	-- @tparam RomlObject child The child to add.
 	----------------------------------------------------------------
 	AddChild: (child) =>
-		child\SetParent self
-		@_children[child\GetId!] = child
-		return child
+		if @\AllowsChildren!
+			child\SetParent self
+			@_children[child\GetId!] = child
+			return child
+		else
+			error("RomlObject '#{@@__name}' does not allow children objects.")
 	
 	----------------------------------------------------------------
 	-- Sets the properties to the RomlObject. The associated ROBLOX
@@ -207,6 +215,13 @@ class RomlObject
 				return true
 		else
 			return false
+
+	----------------------------------------------------------------
+	-- @tparam RomlObject self
+	-- @treturn bool Whether or not this RomlObject can have
+	--  children RomlObjects.
+	----------------------------------------------------------------
+	AllowsChildren: => true
 	
 	----------------------------------------------------------------
 	-- Find RomlObjects within this RomlObject's hierarchy using the

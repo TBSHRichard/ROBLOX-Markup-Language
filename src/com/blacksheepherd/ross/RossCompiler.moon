@@ -5,6 +5,7 @@ StackBlock = require "com.blacksheepherd.code.StackBlock"
 Line = require "com.blacksheepherd.code.Line"
 MainRossBlock = require "com.blacksheepherd.code.MainRossBlock"
 CompilerPropertyFilter = require "com.blacksheepherd.compile.CompilerPropertyFilter"
+CustomObjectBuilder = require "com.blacksheepherd.customobject.CustomObjectBuilder"
 
 local mainBlock
 
@@ -54,7 +55,10 @@ createAndAddSelectorBlock = (block) ->
 
 	if block.properties
 		for name, value in block.properties\pairs!
-			block.properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
+			if CustomObjectBuilder.IsACustomObject(className)
+				block.properties[name] = CustomObjectBuilder.FilterProperty className, name, value
+			else
+				block.properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
 
 		selectorBlock\AddChild Line("properties = #{Table.HashMapToSingleLineString(block.properties)}")
 	else

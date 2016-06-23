@@ -16,6 +16,7 @@ FunctionBlock = require "com.blacksheepherd.code.FunctionBlock"
 Line = require "com.blacksheepherd.code.Line"
 VariableNamer = require "com.blacksheepherd.compile.VariableNamer"
 CompilerPropertyFilter = require "com.blacksheepherd.compile.CompilerPropertyFilter"
+CustomObjectBuilder = require "com.blacksheepherd.customobject.CustomObjectBuilder"
 
 local addCode
 local addCodeFunctions
@@ -68,7 +69,10 @@ writeObjectToBlock = (builderParam, className, id, classes, properties, children
 	if properties
 		for name, value in properties\pairs!
 			if type(value) == "string"
-				properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
+				if CustomObjectBuilder.IsACustomObject(className)
+					properties[name] = CustomObjectBuilder.FilterProperty className, name, value
+				else
+					properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
 			else
 				objectName = writeVarCode className, value[2], (varChange, objectName, varName) ->
 					varChange\AddChild Line("#{objectName}:SetProperties({#{name} = self._vars.#{varName}:GetValue()})")
@@ -82,7 +86,14 @@ writeObjectToBlock = (builderParam, className, id, classes, properties, children
 	objectName = "objTemp" if not objectName
 
 	idString = if id == nil then "nil" else "\"#{id}\""
-	lines = {Line("#{objectName} = RomlObject(self, #{builderParam}, #{idString}, #{classesString})")}
+	lines = {}
+
+	if CustomObjectBuilder.IsACustomObject(className)
+		mainBlock\AddCustomObjectBuilderRequire!
+		table.insert(lines, Line("#{objectName} = CustomObjectBuilder.CreateObject(\"#{className}\", self, #{idString}, #{classesString})"))
+	else
+		table.insert(lines, Line("#{objectName} = RomlObject(self, #{builderParam}, #{idString}, #{classesString})"))
+
 	table.insert(lines, Line("self._objectIds[#{idString}] = #{objectName}")) if id
 	if properties
 		table.insert(lines, Line("#{objectName}:SetProperties(#{Table.HashMapToSingleLineString(properties)})"))

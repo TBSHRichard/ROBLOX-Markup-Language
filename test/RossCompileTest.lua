@@ -19,5 +19,6 @@ t:AddTest("Selector with properties attached.", createCompileTest("Properties", 
 t:AddTest("Selector with a class.", createCompileTest("ClassSelector", "class_selector"))
 t:AddTest("Selector with an id.", createCompileTest("IdSelector", "id_selector"))
 t:AddTest("Multiple selectors on the stack.", createCompileTest("MultiSelectors", "multi_selectors"))
+t:AddTest("Custom Object property filter.", createCompileTest("CustomObject", "custom_object"))
 
 t:RunTests()

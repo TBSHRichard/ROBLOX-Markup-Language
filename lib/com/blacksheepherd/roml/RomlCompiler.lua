@@ -8,6 +8,7 @@ local FunctionBlock = require("com.blacksheepherd.code.FunctionBlock")
 local Line = require("com.blacksheepherd.code.Line")
 local VariableNamer = require("com.blacksheepherd.compile.VariableNamer")
 local CompilerPropertyFilter = require("com.blacksheepherd.compile.CompilerPropertyFilter")
+local CustomObjectBuilder = require("com.blacksheepherd.customobject.CustomObjectBuilder")
 local addCode
 local addCodeFunctions
 local mainBlock
@@ -64,7 +65,11 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   if properties then
     for name, value in properties:pairs() do
       if type(value) == "string" then
-        properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
+        if CustomObjectBuilder.IsACustomObject(className) then
+          properties[name] = CustomObjectBuilder.FilterProperty(className, name, value)
+        else
+          properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
+        end
       else
         objectName = writeVarCode(className, value[2], function(varChange, objectName, varName)
           varChange:AddChild(Line(tostring(objectName) .. ":SetProperties({" .. tostring(name) .. " = self._vars." .. tostring(varName) .. ":GetValue()})"))
@@ -87,9 +92,13 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   else
     idString = "\"" .. tostring(id) .. "\""
   end
-  local lines = {
-    Line(tostring(objectName) .. " = RomlObject(self, " .. tostring(builderParam) .. ", " .. tostring(idString) .. ", " .. tostring(classesString) .. ")")
-  }
+  local lines = { }
+  if CustomObjectBuilder.IsACustomObject(className) then
+    mainBlock:AddCustomObjectBuilderRequire()
+    table.insert(lines, Line(tostring(objectName) .. " = CustomObjectBuilder.CreateObject(\"" .. tostring(className) .. "\", self, " .. tostring(idString) .. ", " .. tostring(classesString) .. ")"))
+  else
+    table.insert(lines, Line(tostring(objectName) .. " = RomlObject(self, " .. tostring(builderParam) .. ", " .. tostring(idString) .. ", " .. tostring(classesString) .. ")"))
+  end
   if id then
     table.insert(lines, Line("self._objectIds[" .. tostring(idString) .. "] = " .. tostring(objectName)))
   end

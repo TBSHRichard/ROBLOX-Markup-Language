@@ -5,6 +5,7 @@ local StackBlock = require("com.blacksheepherd.code.StackBlock")
 local Line = require("com.blacksheepherd.code.Line")
 local MainRossBlock = require("com.blacksheepherd.code.MainRossBlock")
 local CompilerPropertyFilter = require("com.blacksheepherd.compile.CompilerPropertyFilter")
+local CustomObjectBuilder = require("com.blacksheepherd.customobject.CustomObjectBuilder")
 local mainBlock
 local calculateAndAddSpecificity
 calculateAndAddSpecificity = function(block)
@@ -53,7 +54,11 @@ createAndAddSelectorBlock = function(block)
   selectorBlock:AddChild(selectorStackBlock)
   if block.properties then
     for name, value in block.properties:pairs() do
-      block.properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
+      if CustomObjectBuilder.IsACustomObject(className) then
+        block.properties[name] = CustomObjectBuilder.FilterProperty(className, name, value)
+      else
+        block.properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
+      end
     end
     selectorBlock:AddChild(Line("properties = " .. tostring(Table.HashMapToSingleLineString(block.properties))))
   else

@@ -10,14 +10,15 @@ local numberTrio = numberDuo * "," * number
 local numberQuartet = numberTrio * "," * number
 local numberQuartetOrNumberDuo = Ct(numberQuartet + numberDuo) * -1
 local numberTrioOrNumber = Ct(numberTrio + number) * -1
+local numberDuoCapture = Ct(numberDuo) * -1
 local colorName = C(R("AZ") * (R("AZ") + R("az") + " " + ".") ^ 1) * -1
 local enumName = C(R("AZ") * (R("AZ") + R("az") + R("09")) ^ 1) * -1
 local isAGuiClass
 isAGuiClass = function(className)
   return className == "Frame" or className == "ImageButton" or className == "TextButton" or className == "ImageLabel" or className == "TextLabel" or className == "Scale9Frame" or className == "ScrollingFrame" or className == "TextBox"
 end
-local udim2Filter
-udim2Filter = function(value)
+local Udim2Filter
+Udim2Filter = function(value)
   do
     local match = numberQuartetOrNumberDuo:match(value)
     if match then
@@ -31,8 +32,19 @@ udim2Filter = function(value)
     end
   end
 end
-local vector3Filter
-vector3Filter = function(value)
+local Vector2Filter
+Vector2Filter = function(value)
+  do
+    local match = numberDuoCapture:match(value)
+    if match then
+      return LiteralString("Vector2.new(" .. tostring(match[1]) .. ", " .. tostring(match[2]) .. ")")
+    else
+      return LiteralString(value)
+    end
+  end
+end
+local Vector3Filter
+Vector3Filter = function(value)
   do
     local match = numberTrioOrNumber:match(value)
     if match then
@@ -46,16 +58,16 @@ vector3Filter = function(value)
     end
   end
 end
-local positionAndSizeFilter
-positionAndSizeFilter = function(className, value)
+local PositionAndSizeFilter
+PositionAndSizeFilter = function(className, value)
   if isAGuiClass(className) then
-    return udim2Filter(value)
+    return Udim2Filter(value)
   else
-    return vector3Filter(value)
+    return Vector3Filter(value)
   end
 end
-local brickColorFilter
-brickColorFilter = function(className, value)
+local BrickColorFilter
+BrickColorFilter = function(className, value)
   do
     local match = numberTrioOrNumber:match(value)
     if match then
@@ -76,8 +88,8 @@ brickColorFilter = function(className, value)
     end
   end
 end
-local color3Filter
-color3Filter = function(className, value)
+local Color3Filter
+Color3Filter = function(className, value)
   do
     local match = numberTrioOrNumber:match(value)
     if match then
@@ -98,8 +110,8 @@ color3Filter = function(className, value)
     end
   end
 end
-local enumFilter
-enumFilter = function(enum)
+local EnumFilter
+EnumFilter = function(enum)
   return function(className, value)
     do
       local match = enumName:match(value)
@@ -111,70 +123,70 @@ enumFilter = function(enum)
     end
   end
 end
-local styleEnumFilter
-styleEnumFilter = function(className, value)
+local StyleEnumFilter
+StyleEnumFilter = function(className, value)
   local _exp_0 = className
   if "ImageButton" == _exp_0 or "TextButton" == _exp_0 then
-    return enumFilter("ButtonStyle")(className, value)
+    return EnumFilter("ButtonStyle")(className, value)
   elseif "Frame" == _exp_0 then
-    return enumFilter("FrameStyle")(className, value)
+    return EnumFilter("FrameStyle")(className, value)
   elseif "Handles" == _exp_0 then
-    return enumFilter("HandlesStyle")(className, value)
+    return EnumFilter("HandlesStyle")(className, value)
   elseif "TrussPart" == _exp_0 then
-    return enumFilter("Style")(className, value)
+    return EnumFilter("Style")(className, value)
   else
     return LiteralString(value)
   end
 end
 local propertyFilters = {
-  AnimationPriority = enumFilter("AnimationPriority"),
-  BackgroundColor3 = color3Filter,
-  BackSurface = enumFilter("SurfaceType"),
-  BackSurfaceInput = enumFilter("InputType"),
-  BinType = enumFilter("BinType"),
-  BodyPart = enumFilter("BodyPart"),
-  BorderColor3 = color3Filter,
-  BottomSurface = enumFilter("SurfaceType"),
-  BottomSurfaceInput = enumFilter("InputType"),
-  BrickColor = brickColorFilter,
-  CameraMode = enumFilter("CameraMode"),
-  CameraType = enumFilter("CameraType"),
-  Color = color3Filter,
-  DisplayDistanceType = enumFilter("HumanoidDisplayDistanceType"),
-  ExplosionType = enumFilter("ExplosionType"),
-  Face = enumFilter("NormalId"),
-  FaceId = enumFilter("NormalId"),
-  Font = enumFilter("Font"),
-  FontSize = enumFilter("FontSize"),
-  FormFactor = enumFilter("FormFactor"),
-  FrontSurface = enumFilter("SurfaceType"),
-  FrontSurfaceInput = enumFilter("InputType"),
-  InOut = enumFilter("InOut"),
-  LeftRight = enumFilter("LeftRight"),
-  LeftSurface = enumFilter("SurfaceType"),
-  LeftSurfaceInput = enumFilter("InputType"),
-  Material = enumFilter("Material"),
-  MeshType = enumFilter("MeshType"),
-  NameOcclusion = enumFilter("NameOcclusion"),
-  Position = positionAndSizeFilter,
-  Purpose = enumFilter("DialogPurpose"),
-  RightSurface = enumFilter("SurfaceType"),
-  RightSurfaceInput = enumFilter("InputType"),
-  SecondaryColor = color3Filter,
-  Shape = enumFilter("PartType"),
-  Size = positionAndSizeFilter,
-  SizeConstraint = enumFilter("SizeConstraint"),
-  SparkleColor = color3Filter,
-  Style = styleEnumFilter,
-  TextXAlignment = enumFilter("TextXAlignment"),
-  TextYAlignment = enumFilter("TextYAlignment"),
-  Tone = enumFilter("DialogTone"),
-  TargetSurface = enumFilter("NormalId"),
-  TextColor3 = color3Filter,
-  TextStrokeColor3 = color3Filter,
-  TopBottom = enumFilter("TopBottom"),
-  TopSurface = enumFilter("SurfaceType"),
-  TopSurfaceInput = enumFilter("InputType")
+  AnimationPriority = EnumFilter("AnimationPriority"),
+  BackgroundColor3 = Color3Filter,
+  BackSurface = EnumFilter("SurfaceType"),
+  BackSurfaceInput = EnumFilter("InputType"),
+  BinType = EnumFilter("BinType"),
+  BodyPart = EnumFilter("BodyPart"),
+  BorderColor3 = Color3Filter,
+  BottomSurface = EnumFilter("SurfaceType"),
+  BottomSurfaceInput = EnumFilter("InputType"),
+  BrickColor = BrickColorFilter,
+  CameraMode = EnumFilter("CameraMode"),
+  CameraType = EnumFilter("CameraType"),
+  Color = Color3Filter,
+  DisplayDistanceType = EnumFilter("HumanoidDisplayDistanceType"),
+  ExplosionType = EnumFilter("ExplosionType"),
+  Face = EnumFilter("NormalId"),
+  FaceId = EnumFilter("NormalId"),
+  Font = EnumFilter("Font"),
+  FontSize = EnumFilter("FontSize"),
+  FormFactor = EnumFilter("FormFactor"),
+  FrontSurface = EnumFilter("SurfaceType"),
+  FrontSurfaceInput = EnumFilter("InputType"),
+  InOut = EnumFilter("InOut"),
+  LeftRight = EnumFilter("LeftRight"),
+  LeftSurface = EnumFilter("SurfaceType"),
+  LeftSurfaceInput = EnumFilter("InputType"),
+  Material = EnumFilter("Material"),
+  MeshType = EnumFilter("MeshType"),
+  NameOcclusion = EnumFilter("NameOcclusion"),
+  Position = PositionAndSizeFilter,
+  Purpose = EnumFilter("DialogPurpose"),
+  RightSurface = EnumFilter("SurfaceType"),
+  RightSurfaceInput = EnumFilter("InputType"),
+  SecondaryColor = Color3Filter,
+  Shape = EnumFilter("PartType"),
+  Size = PositionAndSizeFilter,
+  SizeConstraint = EnumFilter("SizeConstraint"),
+  SparkleColor = Color3Filter,
+  Style = StyleEnumFilter,
+  TextXAlignment = EnumFilter("TextXAlignment"),
+  TextYAlignment = EnumFilter("TextYAlignment"),
+  Tone = EnumFilter("DialogTone"),
+  TargetSurface = EnumFilter("NormalId"),
+  TextColor3 = Color3Filter,
+  TextStrokeColor3 = Color3Filter,
+  TopBottom = EnumFilter("TopBottom"),
+  TopSurface = EnumFilter("SurfaceType"),
+  TopSurfaceInput = EnumFilter("InputType")
 }
 local FilterProperty
 FilterProperty = function(className, propertyName, propertyValue)
@@ -188,5 +200,13 @@ FilterProperty = function(className, propertyName, propertyValue)
   end
 end
 return {
-  FilterProperty = FilterProperty
+  BrickColorFilter = BrickColorFilter,
+  Color3Filter = Color3Filter,
+  EnumFilter = EnumFilter,
+  FilterProperty = FilterProperty,
+  PositionAndSizeFilter = PositionAndSizeFilter,
+  StyleEnumFilter = StyleEnumFilter,
+  Udim2Filter = Udim2Filter,
+  Vector2Filter = Vector2Filter,
+  Vector3Filter = Vector3Filter
 }

@@ -25,5 +25,6 @@ t:AddTest("Objects with variable properties.", createCompileTest("VarProperties"
 t:AddTest("Conditional statements.", createCompileTest("Conditionals", "conditionals"))
 t:AddTest("For loops.", createCompileTest("Loops", "loops"))
 t:AddTest("Nested conditionals/for loops.", createCompileTest("Nesting", "nesting"))
+t:AddTest("Custom object with property.", createCompileTest("CustomObject", "custom_object"))
 
 t:RunTests()

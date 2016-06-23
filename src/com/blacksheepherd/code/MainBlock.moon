@@ -60,6 +60,11 @@ class MainBlock
 		table.insert @_children, RequireLine("com.blacksheepherd.roml", "RomlVar")
 		table.insert @_children, RequireLine("com.blacksheepherd.roml", "RomlDoc")
 		table.insert @_children, RequireLine("com.blacksheepherd.roml", "RomlObject")
+
+		@_extraRequiresBlock = SpaceBlock!
+		@_hasCustomObjectBuilderRequire = false
+		table.insert @_children, @_extraRequiresBlock
+
 		table.insert @_children, Line("local #{name}")
 		
 		cBlock = DoBlock!
@@ -142,6 +147,10 @@ class MainBlock
 				@_creationBlock\AddChild child
 			when @@BLOCK_FUNCTION_CALLS
 				@_functionCallsBlock\AddChild child
+
+	AddCustomObjectBuilderRequire: =>
+		unless @_hasCustomObjectBuilderRequire
+			@_extraRequiresBlock\AddChild RequireLine("com.blacksheepherd.customobject", "CustomObjectBuilder")
 	
 	----------------------------------------------------------------
 	-- Render the MainBlock and all children @{Block}s/@{Line}s.

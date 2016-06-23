@@ -23,6 +23,11 @@ do
         return self._functionCallsBlock:AddChild(child)
       end
     end,
+    AddCustomObjectBuilderRequire = function(self)
+      if not (self._hasCustomObjectBuilderRequire) then
+        return self._extraRequiresBlock:AddChild(RequireLine("com.blacksheepherd.customobject", "CustomObjectBuilder"))
+      end
+    end,
     Render = function(self)
       local buffer = ""
       local _list_0 = self._children
@@ -43,6 +48,9 @@ do
       table.insert(self._children, RequireLine("com.blacksheepherd.roml", "RomlVar"))
       table.insert(self._children, RequireLine("com.blacksheepherd.roml", "RomlDoc"))
       table.insert(self._children, RequireLine("com.blacksheepherd.roml", "RomlObject"))
+      self._extraRequiresBlock = SpaceBlock()
+      self._hasCustomObjectBuilderRequire = false
+      table.insert(self._children, self._extraRequiresBlock)
       table.insert(self._children, Line("local " .. tostring(name)))
       local cBlock = DoBlock()
       cBlock:AddChild(Line("local _parent_0 = RomlDoc"))

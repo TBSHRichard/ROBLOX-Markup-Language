@@ -19,6 +19,7 @@ numberTrio = numberDuo * "," * number
 numberQuartet = numberTrio * "," * number
 numberQuartetOrNumberDuo = Ct(numberQuartet + numberDuo) * -1
 numberTrioOrNumber = Ct(numberTrio + number) * -1
+numberDuoCapture = Ct(numberDuo) * -1
 colorName = C(R"AZ" * (R"AZ" + R"az" + " " + ".")^1) * -1
 enumName = C(R"AZ" * (R"AZ" + R"az" + R"09")^1) * -1
 
@@ -32,7 +33,7 @@ isAGuiClass = (className) ->
 	className == "ScrollingFrame" or
 	className == "TextBox"
 
-udim2Filter = (value) ->
+Udim2Filter = (value) ->
 	if match = numberQuartetOrNumberDuo\match value
 		if #match == 2
 			return LiteralString "UDim2.new(0, #{match[1]}, 0, #{match[2]})"
@@ -41,7 +42,13 @@ udim2Filter = (value) ->
 	else
 		return LiteralString value
 
-vector3Filter = (value) ->
+Vector2Filter = (value) ->
+	if match = numberDuoCapture\match value
+		return LiteralString "Vector2.new(#{match[1]}, #{match[2]})"
+	else
+		return LiteralString value
+
+Vector3Filter = (value) ->
 	if match = numberTrioOrNumber\match value
 		if #match == 1
 			return LiteralString "Vector3.new(#{match[1]}, #{match[1]}, #{match[1]})"
@@ -50,13 +57,13 @@ vector3Filter = (value) ->
 	else
 		return LiteralString value
 
-positionAndSizeFilter = (className, value) ->
+PositionAndSizeFilter = (className, value) ->
 	if isAGuiClass className
-		return udim2Filter value
+		return Udim2Filter value
 	else
-		return vector3Filter value
+		return Vector3Filter value
 
-brickColorFilter = (className, value) ->
+BrickColorFilter = (className, value) ->
 	if match = numberTrioOrNumber\match value
 		if #match == 1
 			return LiteralString "BrickColor.new(#{match[1]})"
@@ -68,7 +75,7 @@ brickColorFilter = (className, value) ->
 		else
 			return LiteralString value
 
-color3Filter = (className, value) ->
+Color3Filter = (className, value) ->
 	if match = numberTrioOrNumber\match value
 		if #match == 1
 			return LiteralString "BrickColor.new(#{match[1]}).Color"
@@ -80,75 +87,75 @@ color3Filter = (className, value) ->
 		else
 			return LiteralString value
 
-enumFilter = (enum) ->
+EnumFilter = (enum) ->
 	(className, value) ->
 		if match = enumName\match value
 			return LiteralString "Enum.#{enum}.#{value}"
 		else
 			return LiteralString value
 
-styleEnumFilter = (className, value) ->
+StyleEnumFilter = (className, value) ->
 	return switch className
 		when "ImageButton", "TextButton"
-			enumFilter("ButtonStyle")(className, value)
+			EnumFilter("ButtonStyle")(className, value)
 		when "Frame"
-			enumFilter("FrameStyle")(className, value)
+			EnumFilter("FrameStyle")(className, value)
 		when "Handles"
-			enumFilter("HandlesStyle")(className, value)
+			EnumFilter("HandlesStyle")(className, value)
 		when "TrussPart"
-			enumFilter("Style")(className, value)
+			EnumFilter("Style")(className, value)
 		else
 			LiteralString value
 
 propertyFilters =
-	AnimationPriority: enumFilter "AnimationPriority"
-	BackgroundColor3: color3Filter
-	BackSurface: enumFilter "SurfaceType"
-	BackSurfaceInput: enumFilter "InputType"
-	BinType: enumFilter "BinType"
-	BodyPart: enumFilter "BodyPart"
-	BorderColor3: color3Filter
-	BottomSurface: enumFilter "SurfaceType"
-	BottomSurfaceInput: enumFilter "InputType"
-	BrickColor: brickColorFilter
-	CameraMode: enumFilter "CameraMode"
-	CameraType: enumFilter "CameraType"
-	Color: color3Filter
-	DisplayDistanceType: enumFilter "HumanoidDisplayDistanceType"
-	ExplosionType: enumFilter "ExplosionType"
-	Face: enumFilter "NormalId"
-	FaceId: enumFilter "NormalId"
-	Font: enumFilter "Font"
-	FontSize: enumFilter "FontSize"
-	FormFactor: enumFilter "FormFactor"
-	FrontSurface: enumFilter "SurfaceType"
-	FrontSurfaceInput: enumFilter "InputType"
-	InOut: enumFilter "InOut"
-	LeftRight: enumFilter "LeftRight"
-	LeftSurface: enumFilter "SurfaceType"
-	LeftSurfaceInput: enumFilter "InputType"
-	Material: enumFilter "Material"
-	MeshType: enumFilter "MeshType"
-	NameOcclusion: enumFilter "NameOcclusion"
-	Position: positionAndSizeFilter
-	Purpose: enumFilter "DialogPurpose"
-	RightSurface: enumFilter "SurfaceType"
-	RightSurfaceInput: enumFilter "InputType"
-	SecondaryColor: color3Filter
-	Shape: enumFilter "PartType"
-	Size: positionAndSizeFilter
-	SizeConstraint: enumFilter "SizeConstraint"
-	SparkleColor: color3Filter
-	Style: styleEnumFilter
-	TextXAlignment: enumFilter "TextXAlignment"
-	TextYAlignment: enumFilter "TextYAlignment"
-	Tone: enumFilter "DialogTone"
-	TargetSurface: enumFilter "NormalId"
-	TextColor3: color3Filter
-	TextStrokeColor3: color3Filter
-	TopBottom: enumFilter "TopBottom"
-	TopSurface: enumFilter "SurfaceType"
-	TopSurfaceInput: enumFilter "InputType"
+	AnimationPriority: EnumFilter "AnimationPriority"
+	BackgroundColor3: Color3Filter
+	BackSurface: EnumFilter "SurfaceType"
+	BackSurfaceInput: EnumFilter "InputType"
+	BinType: EnumFilter "BinType"
+	BodyPart: EnumFilter "BodyPart"
+	BorderColor3: Color3Filter
+	BottomSurface: EnumFilter "SurfaceType"
+	BottomSurfaceInput: EnumFilter "InputType"
+	BrickColor: BrickColorFilter
+	CameraMode: EnumFilter "CameraMode"
+	CameraType: EnumFilter "CameraType"
+	Color: Color3Filter
+	DisplayDistanceType: EnumFilter "HumanoidDisplayDistanceType"
+	ExplosionType: EnumFilter "ExplosionType"
+	Face: EnumFilter "NormalId"
+	FaceId: EnumFilter "NormalId"
+	Font: EnumFilter "Font"
+	FontSize: EnumFilter "FontSize"
+	FormFactor: EnumFilter "FormFactor"
+	FrontSurface: EnumFilter "SurfaceType"
+	FrontSurfaceInput: EnumFilter "InputType"
+	InOut: EnumFilter "InOut"
+	LeftRight: EnumFilter "LeftRight"
+	LeftSurface: EnumFilter "SurfaceType"
+	LeftSurfaceInput: EnumFilter "InputType"
+	Material: EnumFilter "Material"
+	MeshType: EnumFilter "MeshType"
+	NameOcclusion: EnumFilter "NameOcclusion"
+	Position: PositionAndSizeFilter
+	Purpose: EnumFilter "DialogPurpose"
+	RightSurface: EnumFilter "SurfaceType"
+	RightSurfaceInput: EnumFilter "InputType"
+	SecondaryColor: Color3Filter
+	Shape: EnumFilter "PartType"
+	Size: PositionAndSizeFilter
+	SizeConstraint: EnumFilter "SizeConstraint"
+	SparkleColor: Color3Filter
+	Style: StyleEnumFilter
+	TextXAlignment: EnumFilter "TextXAlignment"
+	TextYAlignment: EnumFilter "TextYAlignment"
+	Tone: EnumFilter "DialogTone"
+	TargetSurface: EnumFilter "NormalId"
+	TextColor3: Color3Filter
+	TextStrokeColor3: Color3Filter
+	TopBottom: EnumFilter "TopBottom"
+	TopSurface: EnumFilter "SurfaceType"
+	TopSurfaceInput: EnumFilter "InputType"
 
 ----------------------------------------------------------------
 -- Filter a property if there is a filter available, or output
@@ -165,4 +172,4 @@ FilterProperty = (className, propertyName, propertyValue) ->
 	else
 		LiteralString propertyValue
 
-{ :FilterProperty }
+{ :BrickColorFilter, :Color3Filter, :EnumFilter, :FilterProperty, :PositionAndSizeFilter, :StyleEnumFilter, :Udim2Filter, :Vector2Filter, :Vector3Filter }
