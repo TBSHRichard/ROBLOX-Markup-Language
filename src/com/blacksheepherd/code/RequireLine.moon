@@ -6,7 +6,12 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-Line = require "com.blacksheepherd.code.Line"
+local Line
+
+if game
+	Line = require(plugin.com.blacksheepherd.code.Line)
+else
+	Line = require "com.blacksheepherd.code.Line"
 
 class RequireLine extends Line
 	new: (package, name) =>

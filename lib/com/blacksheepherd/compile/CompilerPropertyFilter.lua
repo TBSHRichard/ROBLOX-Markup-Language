@@ -1,5 +1,12 @@
-local LiteralString = require("com.blacksheepherd.compile.LiteralString")
-local lpeg = require("lpeg")
+local LiteralString
+local lpeg
+if game then
+  LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
+  lpeg = require(plugin.lulpeg.lulpeg)
+else
+  LiteralString = require("com.blacksheepherd.compile.LiteralString")
+  lpeg = require("lpeg")
+end
 local C, Ct, P, R
 C, Ct, P, R = lpeg.C, lpeg.Ct, lpeg.P, lpeg.R
 local digit = R("09")

@@ -8,6 +8,7 @@
 ----------------------------------------------------------------
 
 local HashMap
+
 if game
 	HashMap = require(game\GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
 else

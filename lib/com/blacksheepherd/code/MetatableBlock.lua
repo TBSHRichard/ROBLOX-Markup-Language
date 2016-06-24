@@ -1,5 +1,12 @@
-local DoubleBlock = require("com.blacksheepherd.code.DoubleBlock")
-local InnerMetatableBlock = require("com.blacksheepherd.code.InnerMetatableBlock")
+local DoubleBlock
+local InnerMetatableBlock
+if game then
+  DoubleBlock = require(plugin.com.blacksheepherd.code.DoubleBlock)
+  InnerMetatableBlock = require(plugin.com.blacksheepherd.code.InnerMetatableBlock)
+else
+  DoubleBlock = require("com.blacksheepherd.code.DoubleBlock")
+  InnerMetatableBlock = require("com.blacksheepherd.code.InnerMetatableBlock")
+end
 local MetatableBlock
 do
   local _parent_0 = DoubleBlock

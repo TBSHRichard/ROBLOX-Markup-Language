@@ -6,8 +6,15 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-HashMap = require "com.blacksheepherd.util.HashMap"
-String = require "com.blacksheepherd.util.String"
+local HashMap
+local String
+
+if game
+	HashMap = require(plugin.com.blacksheepherd.util.HashMap)
+	String = require(plugin.com.blacksheepherd.util.String)
+else
+	HashMap = require "com.blacksheepherd.util.HashMap"
+	String = require "com.blacksheepherd.util.String"
 
 ----------------------------------------------------------------
 -- Reads an array-like table and converts it into a single-line

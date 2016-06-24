@@ -1,4 +1,9 @@
-local Line = require("com.blacksheepherd.code.Line")
+local Line
+if game then
+  Line = require(plugin.com.blacksheepherd.code.Line)
+else
+  Line = require("com.blacksheepherd.code.Line")
+end
 local RequireLine
 do
   local _parent_0 = Line

@@ -1,5 +1,12 @@
-local Block = require("com.blacksheepherd.code.Block")
-local SpaceBlock = require("com.blacksheepherd.code.SpaceBlock")
+local Block
+local SpaceBlock
+if game then
+  Block = require(plugin.com.blacksheepherd.code.Block)
+  SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
+else
+  Block = require("com.blacksheepherd.code.Block")
+  SpaceBlock = require("com.blacksheepherd.code.SpaceBlock")
+end
 local ConditionalBlock
 do
   local _parent_0 = Block

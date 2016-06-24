@@ -1,6 +1,9 @@
-local CustomObject = require("com.blacksheepherd.roml.CustomObject")
-local LiteralString = require("com.blacksheepherd.compile.LiteralString")
-local CompilerPropertyFilter = require("com.blacksheepherd.compile.CompilerPropertyFilter")
+local CustomObject
+if game then
+  CustomObject = require(game:GetService("ServerScriptService").com.blacksheepherd.roml.CustomObject)
+else
+  CustomObject = require("com.blacksheepherd.roml.CustomObject")
+end
 local CustomObjectBuilder
 do
   local _base_0 = {
@@ -26,7 +29,7 @@ do
     GetObject = function(self, name)
       return self._customObjects[name].customObject
     end,
-    FilterProperty = function(self, objectName, propertyName, value)
+    FilterProperty = function(self, objectName, propertyName, value, LiteralString, CompilerPropertyFilter)
       return self._customObjects[objectName].FilterProperty(propertyName, value, LiteralString, CompilerPropertyFilter)
     end
   }
@@ -34,7 +37,16 @@ do
   local _class_0 = setmetatable({
     __init = function(self)
       self._customObjects = { }
-      return self:Build("SpriteSheet", require("com.blacksheepherd.customobject.SpriteSheet"))
+      if game then
+        self:Build("SpriteSheet", require(plugin.com.blacksheepherd.customobject.SpriteSheet))
+        local _list_0 = game:GetService("ServerScriptService").com.blacksheepherd.customobject.user:GetChildren()
+        for _index_0 = 1, #_list_0 do
+          local moduleScript = _list_0[_index_0]
+          self:Build(moduleScript.name, require(moduleScript))
+        end
+      else
+        return self:Build("SpriteSheet", require("com.blacksheepherd.customobject.SpriteSheet"))
+      end
     end,
     __base = _base_0,
     __name = "CustomObjectBuilder"
@@ -65,8 +77,8 @@ CreateObject = function(name, romlDoc, objectId, classes)
   return CustomObjectBuilder.Instance():GetObject(name)(romlDoc, objectId, classes)
 end
 local FilterProperty
-FilterProperty = function(objectName, propertyName, value)
-  return CustomObjectBuilder.Instance():FilterProperty(objectName, propertyName, value)
+FilterProperty = function(objectName, propertyName, value, LiteralString, CompilerPropertyFilter)
+  return CustomObjectBuilder.Instance():FilterProperty(objectName, propertyName, value, LiteralString, CompilerPropertyFilter)
 end
 return {
   CreateObject = CreateObject,

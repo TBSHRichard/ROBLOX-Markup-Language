@@ -1,4 +1,9 @@
-local Table = require("com.blacksheepherd.util.Table")
+local Table
+if game then
+  Table = require(plugin.com.blacksheepherd.util.Table)
+else
+  Table = require("com.blacksheepherd.util.Table")
+end
 local BinaryHeap
 do
   local _base_0 = {

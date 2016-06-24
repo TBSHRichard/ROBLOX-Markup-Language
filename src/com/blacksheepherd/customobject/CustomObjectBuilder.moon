@@ -1,6 +1,9 @@
-CustomObject = require "com.blacksheepherd.roml.CustomObject"
-LiteralString = require "com.blacksheepherd.compile.LiteralString"
-CompilerPropertyFilter = require "com.blacksheepherd.compile.CompilerPropertyFilter"
+local CustomObject
+
+if game
+	CustomObject = require(game\GetService("ServerScriptService").com.blacksheepherd.roml.CustomObject)
+else
+	CustomObject = require "com.blacksheepherd.roml.CustomObject"
 
 class CustomObjectBuilder
 	@Instance: ->
@@ -12,7 +15,13 @@ class CustomObjectBuilder
 	new: =>
 		@_customObjects = {}
 
-		@\Build "SpriteSheet", require("com.blacksheepherd.customobject.SpriteSheet")
+		if game
+			@\Build "SpriteSheet", require(plugin.com.blacksheepherd.customobject.SpriteSheet)
+
+			for moduleScript in *game\GetService("ServerScriptService").com.blacksheepherd.customobject.user\GetChildren!
+				@\Build moduleScript.name, require(moduleScript)
+		else
+			@\Build "SpriteSheet", require("com.blacksheepherd.customobject.SpriteSheet")
 
 	Build: (name, t) =>
 		unless @\HasObject(name)
@@ -34,7 +43,7 @@ class CustomObjectBuilder
 	GetObject: (name) =>
 		@_customObjects[name].customObject
 
-	FilterProperty: (objectName, propertyName, value) =>
+	FilterProperty: (objectName, propertyName, value, LiteralString, CompilerPropertyFilter) =>
 		@_customObjects[objectName].FilterProperty(propertyName, value, LiteralString, CompilerPropertyFilter)
 
 IsACustomObject = (name) ->
@@ -43,7 +52,7 @@ IsACustomObject = (name) ->
 CreateObject = (name, romlDoc, objectId, classes) ->
 	CustomObjectBuilder.Instance!\GetObject(name)(romlDoc, objectId, classes)
 
-FilterProperty = (objectName, propertyName, value) ->
-	CustomObjectBuilder.Instance!\FilterProperty(objectName, propertyName, value)
+FilterProperty = (objectName, propertyName, value, LiteralString, CompilerPropertyFilter) ->
+	CustomObjectBuilder.Instance!\FilterProperty(objectName, propertyName, value, LiteralString, CompilerPropertyFilter)
 
 { :CreateObject, :CustomObjectBuilder, :FilterProperty, :IsACustomObject }

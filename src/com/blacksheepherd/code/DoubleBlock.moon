@@ -7,8 +7,15 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-Block = require "com.blacksheepherd.code.Block"
-SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
+local Block
+local SpaceBlock
+
+if game
+	Block = require(plugin.com.blacksheepherd.code.Block)
+	SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
+else
+	Block = require "com.blacksheepherd.code.Block"
+	SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
 
 class DoubleBlock extends Block
 	----------------------------------------------------------------

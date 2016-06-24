@@ -1,7 +1,18 @@
-local lpeg = require("lpeg")
-local HashMap = require("com.blacksheepherd.util.HashMap")
-local Array = require("com.blacksheepherd.util.Array")
-local Stack = require("com.blacksheepherd.datastructure.Stack")
+local lpeg
+local HashMap
+local Array
+local Stack
+if game then
+  lpeg = require(plugin.lulpeg.lulpeg)
+  HashMap = require(plugin.com.blacksheepherd.util.HashMap)
+  Array = require(plugin.com.blacksheepherd.util.Array)
+  Stack = require(plugin.com.blacksheepherd.datastructure.Stack)
+else
+  lpeg = require("lpeg")
+  HashMap = require("com.blacksheepherd.util.HashMap")
+  Array = require("com.blacksheepherd.util.Array")
+  Stack = require("com.blacksheepherd.datastructure.Stack")
+end
 local C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V
 C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V = lpeg.C, lpeg.Cc, lpeg.Cf, lpeg.Cs, lpeg.Ct, lpeg.Cmt, lpeg.P, lpeg.R, lpeg.S, lpeg.V
 local indentStack

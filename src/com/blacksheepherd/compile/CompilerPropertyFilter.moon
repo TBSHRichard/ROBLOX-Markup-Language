@@ -6,8 +6,15 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-LiteralString = require "com.blacksheepherd.compile.LiteralString"
-lpeg = require "lpeg"
+local LiteralString
+local lpeg
+
+if game
+	LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
+	lpeg = require(plugin.lulpeg.lulpeg)
+else
+	LiteralString = require "com.blacksheepherd.compile.LiteralString"
+	lpeg = require "lpeg"
 
 import C, Ct, P, R from lpeg
 

@@ -1,4 +1,9 @@
-local DoubleBlock = require("com.blacksheepherd.code.DoubleBlock")
+local DoubleBlock
+if game then
+  DoubleBlock = require(plugin.com.blacksheepherd.code.DoubleBlock)
+else
+  DoubleBlock = require("com.blacksheepherd.code.DoubleBlock")
+end
 local IfElseBlock
 do
   local _parent_0 = DoubleBlock

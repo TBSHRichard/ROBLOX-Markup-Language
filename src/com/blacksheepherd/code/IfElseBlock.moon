@@ -6,7 +6,12 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-DoubleBlock = require "com.blacksheepherd.code.DoubleBlock"
+local DoubleBlock
+
+if game
+	DoubleBlock = require(plugin.com.blacksheepherd.code.DoubleBlock)
+else
+	DoubleBlock = require "com.blacksheepherd.code.DoubleBlock"
 
 class IfElseBlock extends DoubleBlock
 	----------------------------------------------------------------

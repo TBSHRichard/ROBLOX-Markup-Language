@@ -1,4 +1,9 @@
-Block = require "com.blacksheepherd.code.Block"
+local Block
+
+if game
+	Block = require(plugin.com.blacksheepherd.code.Block)
+else
+	Block = require "com.blacksheepherd.code.Block"
 
 class StackBlock extends Block
 	new: (name) =>

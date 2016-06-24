@@ -1,14 +1,39 @@
-local FunctionBlock = require("com.blacksheepherd.code.FunctionBlock")
-local DoBlock = require("com.blacksheepherd.code.DoBlock")
-local SpaceBlock = require("com.blacksheepherd.code.SpaceBlock")
-local DoubleBlock = require("com.blacksheepherd.code.DoubleBlock")
-local TableBlock = require("com.blacksheepherd.code.TableBlock")
-local TableAssignmentBlock = require("com.blacksheepherd.code.TableAssignmentBlock")
-local MetatableBlock = require("com.blacksheepherd.code.MetatableBlock")
-local IfElseBlock = require("com.blacksheepherd.code.IfElseBlock")
-local IfBlock = require("com.blacksheepherd.code.IfBlock")
-local Line = require("com.blacksheepherd.code.Line")
-local RequireLine = require("com.blacksheepherd.code.RequireLine")
+local FunctionBlock
+local DoBlock
+local SpaceBlock
+local DoubleBlock
+local TableBlock
+local TableAssignmentBlock
+local MetatableBlock
+local IfElseBlock
+local IfBlock
+local Line
+local RequireLine
+if game then
+  FunctionBlock = require(plugin.com.blacksheepherd.code.FunctionBlock)
+  DoBlock = require(plugin.com.blacksheepherd.code.DoBlock)
+  SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
+  DoubleBlock = require(plugin.com.blacksheepherd.code.DoubleBlock)
+  TableBlock = require(plugin.com.blacksheepherd.code.TableBlock)
+  TableAssignmentBlock = require(plugin.com.blacksheepherd.code.TableAssignmentBlock)
+  MetatableBlock = require(plugin.com.blacksheepherd.code.MetatableBlock)
+  IfElseBlock = require(plugin.com.blacksheepherd.code.IfElseBlock)
+  IfBlock = require(plugin.com.blacksheepherd.code.IfBlock)
+  Line = require(plugin.com.blacksheepherd.code.Line)
+  RequireLine = require(plugin.com.blacksheepherd.code.RequireLine)
+else
+  FunctionBlock = require("com.blacksheepherd.code.FunctionBlock")
+  DoBlock = require("com.blacksheepherd.code.DoBlock")
+  SpaceBlock = require("com.blacksheepherd.code.SpaceBlock")
+  DoubleBlock = require("com.blacksheepherd.code.DoubleBlock")
+  TableBlock = require("com.blacksheepherd.code.TableBlock")
+  TableAssignmentBlock = require("com.blacksheepherd.code.TableAssignmentBlock")
+  MetatableBlock = require("com.blacksheepherd.code.MetatableBlock")
+  IfElseBlock = require("com.blacksheepherd.code.IfElseBlock")
+  IfBlock = require("com.blacksheepherd.code.IfBlock")
+  Line = require("com.blacksheepherd.code.Line")
+  RequireLine = require("com.blacksheepherd.code.RequireLine")
+end
 local MainRossBlock
 do
   local _base_0 = {

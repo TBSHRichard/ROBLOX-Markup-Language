@@ -1,4 +1,9 @@
-Table = require("com.blacksheepherd.util.Table")
+local Table
+
+if game
+	Table = require(plugin.com.blacksheepherd.util.Table)
+else
+	Table = require "com.blacksheepherd.util.Table"
 
 class BinaryHeap
 	Insert: (el) =>

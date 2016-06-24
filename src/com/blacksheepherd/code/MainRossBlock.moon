@@ -1,14 +1,39 @@
-FunctionBlock = require "com.blacksheepherd.code.FunctionBlock"
-DoBlock = require "com.blacksheepherd.code.DoBlock"
-SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
-DoubleBlock = require "com.blacksheepherd.code.DoubleBlock"
-TableBlock = require "com.blacksheepherd.code.TableBlock"
-TableAssignmentBlock = require "com.blacksheepherd.code.TableAssignmentBlock"
-MetatableBlock = require "com.blacksheepherd.code.MetatableBlock"
-IfElseBlock = require "com.blacksheepherd.code.IfElseBlock"
-IfBlock = require "com.blacksheepherd.code.IfBlock"
-Line = require "com.blacksheepherd.code.Line"
-RequireLine = require "com.blacksheepherd.code.RequireLine"
+local FunctionBlock
+local DoBlock
+local SpaceBlock
+local DoubleBlock
+local TableBlock
+local TableAssignmentBlock
+local MetatableBlock
+local IfElseBlock
+local IfBlock
+local Line
+local RequireLine
+
+if game
+	FunctionBlock = require(plugin.com.blacksheepherd.code.FunctionBlock)
+	DoBlock = require(plugin.com.blacksheepherd.code.DoBlock)
+	SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
+	DoubleBlock = require(plugin.com.blacksheepherd.code.DoubleBlock)
+	TableBlock = require(plugin.com.blacksheepherd.code.TableBlock)
+	TableAssignmentBlock = require(plugin.com.blacksheepherd.code.TableAssignmentBlock)
+	MetatableBlock = require(plugin.com.blacksheepherd.code.MetatableBlock)
+	IfElseBlock = require(plugin.com.blacksheepherd.code.IfElseBlock)
+	IfBlock = require(plugin.com.blacksheepherd.code.IfBlock)
+	Line = require(plugin.com.blacksheepherd.code.Line)
+	RequireLine = require(plugin.com.blacksheepherd.code.RequireLine)
+else
+	FunctionBlock = require "com.blacksheepherd.code.FunctionBlock"
+	DoBlock = require "com.blacksheepherd.code.DoBlock"
+	SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
+	DoubleBlock = require "com.blacksheepherd.code.DoubleBlock"
+	TableBlock = require "com.blacksheepherd.code.TableBlock"
+	TableAssignmentBlock = require "com.blacksheepherd.code.TableAssignmentBlock"
+	MetatableBlock = require "com.blacksheepherd.code.MetatableBlock"
+	IfElseBlock = require "com.blacksheepherd.code.IfElseBlock"
+	IfBlock = require "com.blacksheepherd.code.IfBlock"
+	Line = require "com.blacksheepherd.code.Line"
+	RequireLine = require "com.blacksheepherd.code.RequireLine"
 
 class MainRossBlock
 	new: (name) =>

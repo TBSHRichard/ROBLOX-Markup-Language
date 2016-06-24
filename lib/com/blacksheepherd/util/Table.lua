@@ -1,5 +1,12 @@
-local HashMap = require("com.blacksheepherd.util.HashMap")
-local String = require("com.blacksheepherd.util.String")
+local HashMap
+local String
+if game then
+  HashMap = require(plugin.com.blacksheepherd.util.HashMap)
+  String = require(plugin.com.blacksheepherd.util.String)
+else
+  HashMap = require("com.blacksheepherd.util.HashMap")
+  String = require("com.blacksheepherd.util.String")
+end
 local ArrayToSingleLineString
 ArrayToSingleLineString = function(array)
   if not (array == nil) then

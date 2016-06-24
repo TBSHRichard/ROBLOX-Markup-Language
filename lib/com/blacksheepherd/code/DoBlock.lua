@@ -1,4 +1,9 @@
-local Block = require("com.blacksheepherd.code.Block")
+local Block
+if game then
+  Block = require(plugin.com.blacksheepherd.code.Block)
+else
+  Block = require("com.blacksheepherd.code.Block")
+end
 local DoBlock
 do
   local _parent_0 = Block

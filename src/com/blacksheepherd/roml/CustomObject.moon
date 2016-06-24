@@ -1,4 +1,9 @@
-RomlObject = require "com.blacksheepherd.roml.RomlObject"
+local RomlObject
+
+if game
+	RomlObject = require(game\GetService("ServerScriptService").com.blacksheepherd.roml.RomlObject)
+else
+	RomlObject = require "com.blacksheepherd.roml.RomlObject"
 
 class CustomObject extends RomlObject
 	new: (romlDoc, objectId, classes) =>

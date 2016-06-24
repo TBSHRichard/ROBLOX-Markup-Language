@@ -6,9 +6,18 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-lpeg = require "lpeg"
-HashMap = require "com.blacksheepherd.util.HashMap"
-Stack = require "com.blacksheepherd.datastructure.Stack"
+local lpeg
+local HashMap
+local Stack
+
+if game
+	lpeg = require(plugin.lulpeg.lulpeg)
+	HashMap = require(plugin.com.blacksheepherd.util.HashMap)
+	Stack = require(plugin.com.blacksheepherd.datastructure.Stack)
+else
+	lpeg = require "lpeg"
+	HashMap = require "com.blacksheepherd.util.HashMap"
+	Stack = require "com.blacksheepherd.datastructure.Stack"
 
 import C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V from lpeg
 

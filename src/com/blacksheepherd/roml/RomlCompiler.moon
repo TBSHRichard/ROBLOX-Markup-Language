@@ -6,17 +6,45 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-Stack = require "com.blacksheepherd.datastructure.Stack"
-Table = require "com.blacksheepherd.util.Table"
-MainBlock = require "com.blacksheepherd.code.MainBlock"
-ConditionalBlock = require "com.blacksheepherd.code.ConditionalBlock"
-ForBlock = require "com.blacksheepherd.code.ForBlock"
-SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
-FunctionBlock = require "com.blacksheepherd.code.FunctionBlock"
-Line = require "com.blacksheepherd.code.Line"
-VariableNamer = require "com.blacksheepherd.compile.VariableNamer"
-CompilerPropertyFilter = require "com.blacksheepherd.compile.CompilerPropertyFilter"
-CustomObjectBuilder = require "com.blacksheepherd.customobject.CustomObjectBuilder"
+local Stack
+local Table
+local MainBlock
+local ConditionalBlock
+local ForBlock
+local SpaceBlock
+local FunctionBlock
+local Line
+local VariableNamer
+local LiteralString
+local CompilerPropertyFilter
+local CustomObjectBuilder
+
+if game
+	Stack = require(plugin.com.blacksheepherd.datastructure.Stack)
+	Table = require(plugin.com.blacksheepherd.util.Table)
+	MainBlock = require(plugin.com.blacksheepherd.code.MainBlock)
+	ConditionalBlock = require(plugin.com.blacksheepherd.code.ConditionalBlock)
+	ForBlock = require(plugin.com.blacksheepherd.code.ForBlock)
+	SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
+	FunctionBlock = require(plugin.com.blacksheepherd.code.FunctionBlock)
+	Line = require(plugin.com.blacksheepherd.code.Line)
+	VariableNamer = require(plugin.com.blacksheepherd.compile.VariableNamer)
+	LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
+	CompilerPropertyFilter = require(plugin.com.blacksheepherd.compile.CompilerPropertyFilter)
+	CustomObjectBuilder = require(plugin.com.blacksheepherd.customobject.CustomObjectBuilder)
+else
+	Stack = require "com.blacksheepherd.datastructure.Stack"
+	Table = require "com.blacksheepherd.util.Table"
+	MainBlock = require "com.blacksheepherd.code.MainBlock"
+	ConditionalBlock = require "com.blacksheepherd.code.ConditionalBlock"
+	ForBlock = require "com.blacksheepherd.code.ForBlock"
+	SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
+	FunctionBlock = require "com.blacksheepherd.code.FunctionBlock"
+	Line = require "com.blacksheepherd.code.Line"
+	VariableNamer = require "com.blacksheepherd.compile.VariableNamer"
+	LiteralString = require "com.blacksheepherd.compile.LiteralString"
+	CompilerPropertyFilter = require "com.blacksheepherd.compile.CompilerPropertyFilter"
+	CustomObjectBuilder = require "com.blacksheepherd.customobject.CustomObjectBuilder"
 
 local addCode
 local addCodeFunctions
@@ -70,7 +98,7 @@ writeObjectToBlock = (builderParam, className, id, classes, properties, children
 		for name, value in properties\pairs!
 			if type(value) == "string"
 				if CustomObjectBuilder.IsACustomObject(className)
-					properties[name] = CustomObjectBuilder.FilterProperty className, name, value
+					properties[name] = CustomObjectBuilder.FilterProperty className, name, value, LiteralString, CompilerPropertyFilter
 				else
 					properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
 			else

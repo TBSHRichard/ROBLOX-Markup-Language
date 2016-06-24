@@ -1,11 +1,33 @@
-local Array = require("com.blacksheepherd.util.Array")
-local Table = require("com.blacksheepherd.util.Table")
-local AnonymousTableBlock = require("com.blacksheepherd.code.AnonymousTableBlock")
-local StackBlock = require("com.blacksheepherd.code.StackBlock")
-local Line = require("com.blacksheepherd.code.Line")
-local MainRossBlock = require("com.blacksheepherd.code.MainRossBlock")
-local CompilerPropertyFilter = require("com.blacksheepherd.compile.CompilerPropertyFilter")
-local CustomObjectBuilder = require("com.blacksheepherd.customobject.CustomObjectBuilder")
+local Array
+local Table
+local AnonymousTableBlock
+local StackBlock
+local Line
+local MainRossBlock
+local LiteralString
+local CompilerPropertyFilter
+local CustomObjectBuilder
+if game then
+  Array = require(plugin.com.blacksheepherd.util.Array)
+  Table = require(plugin.com.blacksheepherd.util.Table)
+  AnonymousTableBlock = require(plugin.com.blacksheepherd.code.AnonymousTableBlock)
+  StackBlock = require(plugin.com.blacksheepherd.code.StackBlock)
+  Line = require(plugin.com.blacksheepherd.code.Line)
+  MainRossBlock = require(plugin.com.blacksheepherd.code.MainRossBlock)
+  LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
+  CompilerPropertyFilter = require(plugin.com.blacksheepherd.compile.CompilerPropertyFilter)
+  CustomObjectBuilder = require(plugin.com.blacksheepherd.customobject.CustomObjectBuilder)
+else
+  Array = require("com.blacksheepherd.util.Array")
+  Table = require("com.blacksheepherd.util.Table")
+  AnonymousTableBlock = require("com.blacksheepherd.code.AnonymousTableBlock")
+  StackBlock = require("com.blacksheepherd.code.StackBlock")
+  Line = require("com.blacksheepherd.code.Line")
+  MainRossBlock = require("com.blacksheepherd.code.MainRossBlock")
+  LiteralString = require("com.blacksheepherd.compile.LiteralString")
+  CompilerPropertyFilter = require("com.blacksheepherd.compile.CompilerPropertyFilter")
+  CustomObjectBuilder = require("com.blacksheepherd.customobject.CustomObjectBuilder")
+end
 local mainBlock
 local calculateAndAddSpecificity
 calculateAndAddSpecificity = function(block)
@@ -55,7 +77,7 @@ createAndAddSelectorBlock = function(block)
   if block.properties then
     for name, value in block.properties:pairs() do
       if CustomObjectBuilder.IsACustomObject(className) then
-        block.properties[name] = CustomObjectBuilder.FilterProperty(className, name, value)
+        block.properties[name] = CustomObjectBuilder.FilterProperty(className, name, value, LiteralString, CompilerPropertyFilter)
       else
         block.properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
       end

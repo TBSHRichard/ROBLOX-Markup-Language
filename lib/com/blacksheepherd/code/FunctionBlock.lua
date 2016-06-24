@@ -1,5 +1,12 @@
-local Block = require("com.blacksheepherd.code.Block")
-local Line = require("com.blacksheepherd.code.Line")
+local Block
+local Line
+if game then
+  Block = require(plugin.com.blacksheepherd.code.Block)
+  Line = require(plugin.com.blacksheepherd.code.Line)
+else
+  Block = require("com.blacksheepherd.code.Block")
+  Line = require("com.blacksheepherd.code.Line")
+end
 local FunctionBlock
 do
   local _parent_0 = Block

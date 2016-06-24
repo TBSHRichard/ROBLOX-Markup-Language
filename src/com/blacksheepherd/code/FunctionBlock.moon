@@ -6,8 +6,15 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-Block = require "com.blacksheepherd.code.Block"
-Line = require "com.blacksheepherd.code.Line"
+local Block
+local Line
+
+if game
+	Block = require(plugin.com.blacksheepherd.code.Block)
+	Line = require(plugin.com.blacksheepherd.code.Line)
+else
+	Block = require "com.blacksheepherd.code.Block"
+	Line = require "com.blacksheepherd.code.Line"
 
 class FunctionBlock extends Block
 	----------------------------------------------------------------

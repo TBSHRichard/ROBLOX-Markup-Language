@@ -1,4 +1,9 @@
-local RomlObject = require("com.blacksheepherd.roml.RomlObject")
+local RomlObject
+if game then
+  RomlObject = require(game:GetService("ServerScriptService").com.blacksheepherd.roml.RomlObject)
+else
+  RomlObject = require("com.blacksheepherd.roml.RomlObject")
+end
 local CustomObject
 do
   local _parent_0 = RomlObject
