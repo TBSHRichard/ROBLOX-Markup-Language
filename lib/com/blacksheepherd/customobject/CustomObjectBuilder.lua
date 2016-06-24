@@ -82,7 +82,6 @@ FilterProperty = function(objectName, propertyName, value, LiteralString, Compil
 end
 return {
   CreateObject = CreateObject,
-  CustomObjectBuilder = CustomObjectBuilder,
   FilterProperty = FilterProperty,
   IsACustomObject = IsACustomObject
 }

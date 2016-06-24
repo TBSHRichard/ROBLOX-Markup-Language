@@ -38,21 +38,21 @@
 
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/File.html">File</a></li>
-  <li><a href="../modules/Compiler.html">Compiler</a></li>
   <li><strong>CompilerPropertyFilter</strong></li>
-  <li><a href="../modules/Parser.html">Parser</a></li>
+  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="../modules/RossParser.html">RossParser</a></li>
+  <li><a href="../modules/Array.html">Array</a></li>
   <li><a href="../modules/String.html">String</a></li>
   <li><a href="../modules/Table.html">Table</a></li>
 </ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../classes/Stack.html">Stack</a></li>
-  <li><a href="../classes/Event.html">Event</a></li>
-  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
-  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
-  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
-  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
   <li><a href="../classes/Block.html">Block</a></li>
   <li><a href="../classes/ConditionalBlock.html">ConditionalBlock</a></li>
   <li><a href="../classes/DoBlock.html">DoBlock</a></li>
@@ -64,12 +64,23 @@
   <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
   <li><a href="../classes/Line.html">Line</a></li>
   <li><a href="../classes/MainBlock.html">MainBlock</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
   <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
   <li><a href="../classes/RequireLine.html">RequireLine</a></li>
   <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
+  <li><a href="../classes/StackBlock.html">StackBlock</a></li>
+  <li><a href="../classes/TableAssignmentBlock.html">TableAssignmentBlock</a></li>
   <li><a href="../classes/TableBlock.html">TableBlock</a></li>
   <li><a href="../classes/LiteralString.html">LiteralString</a></li>
   <li><a href="../classes/VariableNamer.html">VariableNamer</a></li>
+  <li><a href="../classes/Stack.html">Stack</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/RossDoc.html">RossDoc</a></li>
   <li><a href="../classes/Tester.html">Tester</a></li>
   <li><a href="../classes/HashMap.html">HashMap</a></li>
 </ul>
@@ -95,6 +106,39 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#Udim2Filter">Udim2Filter (value)</a></td>
+	<td class="summary">Return a UDim2 LiteralString from an input string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector2Filter">Vector2Filter (value)</a></td>
+	<td class="summary">Return a Vector2 LiteralString from an input string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Vector3Filter">Vector3Filter (value)</a></td>
+	<td class="summary">Return a Vector3 LiteralString from an input string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#PositionAndSizeFilter">PositionAndSizeFilter (className, value)</a></td>
+	<td class="summary">Parses a string for a Position or Size parameter.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#BrickColorFilter">BrickColorFilter (className, value)</a></td>
+	<td class="summary">Return a BrickColor LiteralString from an input string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Color3Filter">Color3Filter (className, value)</a></td>
+	<td class="summary">Return a Color3 LiteralString from an input string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#EnumFilter">EnumFilter (enum)</a></td>
+	<td class="summary">Return a function for a Enum LiteralString filter from an
+ input string.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#StyleEnumFilter">StyleEnumFilter (className, value)</a></td>
+	<td class="summary">A specific enum filter for the 'Style' enum type.</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#FilterProperty">FilterProperty (className, propertyName, propertyValue)</a></td>
 	<td class="summary">Filter a property if there is a filter available, or output
  the property as-is.</td>
@@ -108,6 +152,298 @@
     <h2 class="section-header "><a name="Functions"></a>Functions</h2>
 
     <dl class="function">
+    <dt>
+    <a name = "Udim2Filter"></a>
+    <strong>Udim2Filter (value)</strong>
+    </dt>
+    <dd>
+    Return a UDim2 LiteralString from an input string.  If the
+ string has 2 numbers separated by a comma, then these are
+ assumed to be the X and Y offsets. If there are 4 numbers
+ separated by a comma, these are assumed to be all 4
+ arguments to the UDim2 constructor. Otherwise, the string is
+ returned as-is (assumed to be Lua code constructing the
+ UDim2).
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> with a UDim2
+  constructor contained within.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Vector2Filter"></a>
+    <strong>Vector2Filter (value)</strong>
+    </dt>
+    <dd>
+    Return a Vector2 LiteralString from an input string.  If the
+ string has 2 numbers separated by a comma, then these are
+ assumed to be the X and Y parameters. Otherwise, the string
+ is returned as-is (assumed to be Lua code constructing the
+ Vector2).
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> with a Vector2
+  constructor contained within.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Vector3Filter"></a>
+    <strong>Vector3Filter (value)</strong>
+    </dt>
+    <dd>
+    Return a Vector3 LiteralString from an input string.  If the
+ string has 1 number separated, then this number is used for
+ the X, Y, and Z parameters. If there are 3 numbers separated
+ by a comma, these are assumed to be the X, Y, and Z
+ parameters. Otherwise, the string is returned as-is (assumed
+ to be Lua code constructing the Vector3).
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> with a Vector3
+  constructor contained within.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "PositionAndSizeFilter"></a>
+    <strong>PositionAndSizeFilter (className, value)</strong>
+    </dt>
+    <dd>
+    Parses a string for a Position or Size parameter.  If the
+ class is a Gui class, then the ??? is used.
+ Otherwise the <a href="../modules/CompilerPropertyFilter.html#Vector3Filter">Vector3Filter</a> is used.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">className</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the object's class.
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> with a UDim2 or
+  Vector3 constructor contained within.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "BrickColorFilter"></a>
+    <strong>BrickColorFilter (className, value)</strong>
+    </dt>
+    <dd>
+    Return a BrickColor LiteralString from an input string.  If
+ string has 1 number, this is assumed to be a
+ [BrickColor code](wiki.roblox.com/index.php?title=BrickColor_codes).
+ If there are 3 numbers separated by a comma, these are
+ assumed to be the R, G, and B values, in the range of
+ [0, 255]. If there is a name, this is assumed to be a
+ [BrickColor name](wiki.roblox.com/index.php?title=BrickColor_codes).
+ Otherwise the string is returned as-is (assumed to be Lua
+ code with a BrickColor constructor).
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">className</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the object's class.
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> with a BrickColor
+  constructor contained within.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Color3Filter"></a>
+    <strong>Color3Filter (className, value)</strong>
+    </dt>
+    <dd>
+    Return a Color3 LiteralString from an input string.  It has
+ the same rules as <a href="../modules/CompilerPropertyFilter.html#BrickColorFilter">BrickColorFilter</a>, except for returning
+ the string as-is; a Color3 constructor is assumed as input
+ in that case (instead of a BrickColor).
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">className</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the object's class.
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> with a Color3
+  constructor contained within.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "EnumFilter"></a>
+    <strong>EnumFilter (enum)</strong>
+    </dt>
+    <dd>
+    Return a function for a Enum LiteralString filter from an
+ input string.  The filter returned has the same parameters as
+ the <a href="../modules/CompilerPropertyFilter.html#BrickColorFilter">BrickColorFilter</a> & <a href="../modules/CompilerPropertyFilter.html#Color3Filter">Color3Filter</a>. If the input
+ string to the filter is a single enum name, the string is
+ returned as Enum.(enumType).(enumValue). Otherwise, the
+ string is returned as-is (assuming that the input was the
+ full enum value).
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">enum</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the enum group.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">function</span></span>
+         A filter functions with className and
+  value parameters which returns a <a href="../classes/LiteralString.html#">LiteralString</a> with an
+  Enum value contained within.
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "StyleEnumFilter"></a>
+    <strong>StyleEnumFilter (className, value)</strong>
+    </dt>
+    <dd>
+    A specific enum filter for the 'Style' enum type.  There are
+ 4 different ROBLOX classes that use this enum.
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">className</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the object's class.
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> with a Enum
+  value contained within.
+
+    </ol>
+
+
+
+
+</dd>
     <dt>
     <a name = "FilterProperty"></a>
     <strong>FilterProperty (className, propertyName, propertyValue)</strong>
@@ -146,7 +482,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-09-14 15:10:37 </i>
+<i style="float:right;">Last updated 2016-06-24 19:14:01 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

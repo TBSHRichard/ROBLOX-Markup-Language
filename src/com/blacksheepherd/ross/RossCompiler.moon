@@ -1,3 +1,11 @@
+----------------------------------------------------------------
+-- The module for compiling RoSS parsetrees into Lua files.
+--
+-- @module RossCompiler
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 local Array
 local Table
 local AnonymousTableBlock
@@ -106,6 +114,13 @@ addCode = (tree) ->
 		for rossBlock in *tree
 			createAndAddSelectorBlock rossBlock
 
+----------------------------------------------------------------
+-- Compile the parsetree into a Lua string.
+--
+-- @tparam string name The name of the Lua subclass.
+-- @tparam table parsetree The parse tree.
+-- @treturn string The compiled Lua code.
+----------------------------------------------------------------
 Compile = (name, parseTree) ->
 	mainBlock = MainRossBlock name
 

@@ -46,9 +46,9 @@
   <li><a href="../modules/RomlParser.html">RomlParser</a></li>
   <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
   <li><a href="../modules/RossParser.html">RossParser</a></li>
-  <li><a href="../modules/Array.html">Array</a></li>
+  <li><strong>Array</strong></li>
   <li><a href="../modules/String.html">String</a></li>
-  <li><strong>Table</strong></li>
+  <li><a href="../modules/Table.html">Table</a></li>
 </ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -93,8 +93,8 @@
 
 <div id="content">
 
-<h1>Module <code>Table</code></h1>
-<p>A module with helper functions related to tables.</p>
+<h1>Module <code>Array</code></h1>
+<p>A module with helper functions related to array style tables.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -106,27 +106,29 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#ArrayToSingleLineString">ArrayToSingleLineString (array)</a></td>
-	<td class="summary">Reads an array-like table and converts it into a single-line
- string.</td>
+	<td class="name" nowrap><a href="#InsertionSort">InsertionSort (array, comparisonFn)</a></td>
+	<td class="summary">Perform an insertion sort on the array.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#HashMapToSingleLineString">HashMapToSingleLineString (map)</a></td>
-	<td class="summary">Reads a <a href="../classes/HashMap.html#">HashMap</a> and converts it into a single-line string.</td>
+	<td class="name" nowrap><a href="#Merge">Merge (left, right, comparisonFn)</a></td>
+	<td class="summary">The merge operation of the merge sort; merges two halves of
+ an array into one.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#HashMapToMultiLineString">HashMapToMultiLineString (map, depth)</a></td>
-	<td class="summary">Returns a <a href="../classes/HashMap.html#">HashMap</a> as a string representation across
- multiple lines.</td>
+	<td class="name" nowrap><a href="#ComparisonOrder">ComparisonOrder ()</a></td>
+	<td class="summary">An enum type that allows for default sorting functions in
+ the <a href="../modules/Array.html#StableSort">StableSort</a> if the user doesn't one to define their
+ own.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#TablesAreEqual">TablesAreEqual (tableOne, tableTwo)</a></td>
-	<td class="summary">Performs a deep comparison of two tables to check if they
- are equal.</td>
+	<td class="name" nowrap><a href="#StableSort">StableSort (array[, comparisonFn=ComparisonOrder.Ascending])</a></td>
+	<td class="summary">Sort an array, making sure the order of elements with the
+ same sorting value appear in the same order they were in
+ before.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Swap">Swap (t, i1, i2)</a></td>
-	<td class="summary">Swap the values of two elements in a table.</td>
+	<td class="name" nowrap><a href="#Reverse">Reverse (array)</a></td>
+	<td class="summary">Reverses the order of the elements in an array.</td>
 	</tr>
 </table>
 
@@ -138,28 +140,32 @@
 
     <dl class="function">
     <dt>
-    <a name = "ArrayToSingleLineString"></a>
-    <strong>ArrayToSingleLineString (array)</strong>
+    <a name = "InsertionSort"></a>
+    <strong>InsertionSort (array, comparisonFn)</strong>
     </dt>
     <dd>
-    Reads an array-like table and converts it into a single-line
- string.
+    Perform an insertion sort on the array.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">array</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The array-like table to turn into a
-	string.
+            <span class="types"><span class="type">array</span></span>
+         The array to be sorted.
+        </li>
+        <li><span class="parameter">comparisonFn</span>
+            <span class="types"><span class="type">function</span></span>
+         The function to compare any
+  two elements in the array. Parameters are the left and right
+  side.
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The array as a single-line string.
+           <span class="types"><span class="type">array</span></span>
+        The sorted array.
     </ol>
 
 
@@ -167,26 +173,37 @@
 
 </dd>
     <dt>
-    <a name = "HashMapToSingleLineString"></a>
-    <strong>HashMapToSingleLineString (map)</strong>
+    <a name = "Merge"></a>
+    <strong>Merge (left, right, comparisonFn)</strong>
     </dt>
     <dd>
-    Reads a <a href="../classes/HashMap.html#">HashMap</a> and converts it into a single-line string.
+    The merge operation of the merge sort; merges two halves of
+ an array into one.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">map</span>
-            <span class="types"><a class="type" href="../classes/HashMap.html#">HashMap</a></span>
-         The <a href="../classes/HashMap.html#">HashMap</a> to turn into a string.
+        <li><span class="parameter">left</span>
+            <span class="types"><span class="type">array</span></span>
+         The left half of the array.
+        </li>
+        <li><span class="parameter">right</span>
+            <span class="types"><span class="type">array</span></span>
+         The right half of the array.
+        </li>
+        <li><span class="parameter">comparisonFn</span>
+            <span class="types"><span class="type">function</span></span>
+         The function to compare any
+  two elements in the array. Parameters are the left and right
+  side.
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The <a href="../classes/HashMap.html#">HashMap</a> as a single-line string.
+           <span class="types"><span class="type">array</span></span>
+        The merged array.
     </ol>
 
 
@@ -194,32 +211,53 @@
 
 </dd>
     <dt>
-    <a name = "HashMapToMultiLineString"></a>
-    <strong>HashMapToMultiLineString (map, depth)</strong>
+    <a name = "ComparisonOrder"></a>
+    <strong>ComparisonOrder ()</strong>
     </dt>
     <dd>
-    Returns a <a href="../classes/HashMap.html#">HashMap</a> as a string representation across
- multiple lines.
+    An enum type that allows for default sorting functions in
+ the <a href="../modules/Array.html#StableSort">StableSort</a> if the user doesn't one to define their
+ own.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "StableSort"></a>
+    <strong>StableSort (array[, comparisonFn=ComparisonOrder.Ascending])</strong>
+    </dt>
+    <dd>
+    Sort an array, making sure the order of elements with the
+ same sorting value appear in the same order they were in
+ before.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">map</span>
-            <span class="types"><a class="type" href="../classes/HashMap.html#">HashMap</a></span>
-         The <a href="../classes/HashMap.html#">HashMap</a> to turn into a string.
+        <li><span class="parameter">array</span>
+            <span class="types"><span class="type">array</span></span>
+         The array to sort
         </li>
-        <li><span class="parameter">depth</span>
-            <span class="types"><span class="type">integer</span></span>
-        [opt=0] How many tabs to print at the
-  start of the string.
+        <li><span class="parameter">comparisonFn</span>
+            <span class="types"><span class="type">function/ComparisonOrder</span></span>
+
+  The function to compare any two elements in the array.
+  Parameters are the left and right side. May also use
+  <a href="../modules/Array.html#ComparisonOrder">ComparisonOrder</a> to use on of the default comparison
+  functions.
+         (<em>default</em> ComparisonOrder.Ascending)
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The <a href="../classes/HashMap.html#">HashMap</a> as a multi-line string.
+           <span class="types"><span class="type">array</span></span>
+        The sorted array.
     </ol>
 
 
@@ -227,56 +265,18 @@
 
 </dd>
     <dt>
-    <a name = "TablesAreEqual"></a>
-    <strong>TablesAreEqual (tableOne, tableTwo)</strong>
+    <a name = "Reverse"></a>
+    <strong>Reverse (array)</strong>
     </dt>
     <dd>
-    Performs a deep comparison of two tables to check if they
- are equal.
+    Reverses the order of the elements in an array.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">tableOne</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The first table to compare.
-        </li>
-        <li><span class="parameter">tableTwo</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The second table to compare.
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">boolean</span></span>
-        True if the two tables are equal.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Swap"></a>
-    <strong>Swap (t, i1, i2)</strong>
-    </dt>
-    <dd>
-    Swap the values of two elements in a table.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">t</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The table to swap elements in.
-        </li>
-        <li><span class="parameter">i1</span>
-         The key of the first element.
-        </li>
-        <li><span class="parameter">i2</span>
-         The key of the second element.
+        <li><span class="parameter">array</span>
+            <span class="types"><span class="type">array</span></span>
+         The array to reverse.
         </li>
     </ul>
 

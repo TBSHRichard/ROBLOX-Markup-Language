@@ -1,3 +1,12 @@
+----------------------------------------------------------------
+-- A @{Block} that allows a variable in a @{TableBlock} or
+-- @{AnonmyousTableBlock} to be a Stack.
+--
+-- @classmod StackBlock
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 local Block
 
 if game
@@ -6,6 +15,13 @@ else
 	Block = require "com.blacksheepherd.code.Block"
 
 class StackBlock extends Block
+	----------------------------------------------------------------
+	-- Create the StackBlock.
+	--
+	-- @tparam MainBlock self
+	-- @tparam string name The name of the variable that the Stack
+	--  is assigned to.
+	----------------------------------------------------------------
 	new: (name) =>
 		super!
 		@_name = name

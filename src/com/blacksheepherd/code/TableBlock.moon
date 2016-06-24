@@ -14,6 +14,13 @@ else
 	Block = require "com.blacksheepherd.code.Block"
 
 class TableBlock extends Block
+	----------------------------------------------------------------
+	-- Create the TableBlock.
+	--
+	-- @tparam TableBlock self
+	-- @tparam string name The name of the variable that this table
+	--  is assigned to.
+	----------------------------------------------------------------
 	new: (name) =>
 		super!
 		@_name = name

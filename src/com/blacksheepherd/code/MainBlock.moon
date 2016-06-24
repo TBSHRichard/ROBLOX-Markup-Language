@@ -171,6 +171,12 @@ class MainBlock
 			when @@BLOCK_FUNCTION_CALLS
 				@_functionCallsBlock\AddChild child
 
+	----------------------------------------------------------------
+	-- Adds the require for the @{CustomObjectBuilder} class to the
+	-- top of the @{RomlDoc} if it is not already there.
+	--
+	-- @tparam MainBlock self
+	----------------------------------------------------------------
 	AddCustomObjectBuilderRequire: =>
 		unless @_hasCustomObjectBuilderRequire
 			@_extraRequiresBlock\AddChild RequireLine("com.blacksheepherd.customobject", "CustomObjectBuilder")

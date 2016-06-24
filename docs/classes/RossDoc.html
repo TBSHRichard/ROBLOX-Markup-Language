@@ -32,24 +32,10 @@
 
 <h2>Contents</h2>
 <ul>
-<li><a href="#Functions">Functions</a></li>
+<li><a href="#Methods">Methods</a></li>
 </ul>
 
 
-<h2>Modules</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
-  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
-  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
-  <li><strong>File</strong></li>
-  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
-  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
-  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
-  <li><a href="../modules/RossParser.html">RossParser</a></li>
-  <li><a href="../modules/Array.html">Array</a></li>
-  <li><a href="../modules/String.html">String</a></li>
-  <li><a href="../modules/Table.html">Table</a></li>
-</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
@@ -80,9 +66,23 @@
   <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
   <li><a href="../classes/RomlObject.html">RomlObject</a></li>
   <li><a href="../classes/RomlVar.html">RomlVar</a></li>
-  <li><a href="../classes/RossDoc.html">RossDoc</a></li>
+  <li><strong>RossDoc</strong></li>
   <li><a href="../classes/Tester.html">Tester</a></li>
   <li><a href="../classes/HashMap.html">HashMap</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
+  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="../modules/RossParser.html">RossParser</a></li>
+  <li><a href="../modules/Array.html">Array</a></li>
+  <li><a href="../modules/String.html">String</a></li>
+  <li><a href="../modules/Table.html">Table</a></li>
 </ul>
 <h2>Examples</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -93,9 +93,12 @@
 
 <div id="content">
 
-<h1>Module <code>File</code></h1>
-<p>Contains helper methods for file reading and writing.</p>
-<p></p>
+<h1>Class <code>RossDoc</code></h1>
+<p>The base class for RoSS object creation.</p>
+<p> All compiled RoSS
+ files will be compiled into a Lua class with this class as
+ its base.
+</p>
     <h3>Info:</h3>
     <ul>
         <li><strong>License</strong>: MIT</li>
@@ -103,12 +106,16 @@
     </ul>
 
 
-<h2><a href="#Functions">Functions</a></h2>
+<h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#FileToString">FileToString (path)</a></td>
-	<td class="summary">Reads the contents of a file and places them inside of
- string, which is returned.</td>
+	<td class="name" nowrap><a href="#RossDoc.new">RossDoc.new (self)</a></td>
+	<td class="summary">Create a new RossDoc.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#RossDoc.StyleObject">RossDoc.StyleObject (self, romlObject)</a></td>
+	<td class="summary">Styles a <a href="../classes/RomlObject.html#">RomlObject</a> based on the rules within this
+ <a href="../classes/RossDoc.html#">RossDoc</a>.</td>
 	</tr>
 </table>
 
@@ -116,32 +123,51 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
 
     <dl class="function">
     <dt>
-    <a name = "FileToString"></a>
-    <strong>FileToString (path)</strong>
+    <a name = "RossDoc.new"></a>
+    <strong>RossDoc.new (self)</strong>
     </dt>
     <dd>
-    Reads the contents of a file and places them inside of
- string, which is returned.
+    Create a new RossDoc.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">path</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The path to the file.
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/RossDoc.html#">RossDoc</a></span>
+
         </li>
     </ul>
 
-    <h3>Returns:</h3>
-    <ol>
 
-           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The contents of the file.
-    </ol>
+
+
+
+</dd>
+    <dt>
+    <a name = "RossDoc.StyleObject"></a>
+    <strong>RossDoc.StyleObject (self, romlObject)</strong>
+    </dt>
+    <dd>
+    Styles a <a href="../classes/RomlObject.html#">RomlObject</a> based on the rules within this
+ <a href="../classes/RossDoc.html#">RossDoc</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/RossDoc.html#">RossDoc</a></span>
+
+        </li>
+        <li><span class="parameter">romlObject</span>
+            <span class="types"><a class="type" href="../classes/RomlObject.html#">RomlObject</a></span>
+         The <a href="../classes/RomlObject.html#">RomlObject</a> to style.
+        </li>
+    </ul>
+
 
 
 

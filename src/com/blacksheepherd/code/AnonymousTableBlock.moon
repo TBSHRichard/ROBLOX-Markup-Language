@@ -1,3 +1,12 @@
+----------------------------------------------------------------
+-- A table @{Block} that is not assigned to any variable.
+-- Useful to have a table within a @{TableBlock}.
+--
+-- @classmod AnonymousTableBlock
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 local Block
 
 if game

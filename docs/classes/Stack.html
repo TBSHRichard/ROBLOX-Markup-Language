@@ -38,12 +38,7 @@
 
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><strong>Stack</strong></li>
-  <li><a href="../classes/Event.html">Event</a></li>
-  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
-  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
-  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
-  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
   <li><a href="../classes/Block.html">Block</a></li>
   <li><a href="../classes/ConditionalBlock.html">ConditionalBlock</a></li>
   <li><a href="../classes/DoBlock.html">DoBlock</a></li>
@@ -55,21 +50,37 @@
   <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
   <li><a href="../classes/Line.html">Line</a></li>
   <li><a href="../classes/MainBlock.html">MainBlock</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
   <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
   <li><a href="../classes/RequireLine.html">RequireLine</a></li>
   <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
+  <li><a href="../classes/StackBlock.html">StackBlock</a></li>
+  <li><a href="../classes/TableAssignmentBlock.html">TableAssignmentBlock</a></li>
   <li><a href="../classes/TableBlock.html">TableBlock</a></li>
   <li><a href="../classes/LiteralString.html">LiteralString</a></li>
   <li><a href="../classes/VariableNamer.html">VariableNamer</a></li>
+  <li><strong>Stack</strong></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/RossDoc.html">RossDoc</a></li>
   <li><a href="../classes/Tester.html">Tester</a></li>
   <li><a href="../classes/HashMap.html">HashMap</a></li>
 </ul>
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/File.html">File</a></li>
-  <li><a href="../modules/Compiler.html">Compiler</a></li>
   <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
-  <li><a href="../modules/Parser.html">Parser</a></li>
+  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="../modules/RossParser.html">RossParser</a></li>
+  <li><a href="../modules/Array.html">Array</a></li>
   <li><a href="../modules/String.html">String</a></li>
   <li><a href="../modules/Table.html">Table</a></li>
 </ul>
@@ -95,6 +106,10 @@
 <h2><a href="#Methods">Methods</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#Stack.new">Stack.new ([stack={}])</a></td>
+	<td class="summary">Create a new Stack.</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#Stack.Push">Stack.Push (self, el)</a></td>
 	<td class="summary">Push an element onto the top of the Stack.</td>
 	</tr>
@@ -111,6 +126,11 @@
 	<td class="summary">Returns whether or not the Stack is empty (length of the
  Stack is 0).</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Stack.Clone">Stack.Clone (self)</a></td>
+	<td class="summary">Performs a shallow clone (new Stack is created, but
+ individual elements of the Stack are the same) of this Stack.</td>
+	</tr>
 </table>
 
 <br/>
@@ -120,6 +140,30 @@
     <h2 class="section-header "><a name="Methods"></a>Methods</h2>
 
     <dl class="function">
+    <dt>
+    <a name = "Stack.new"></a>
+    <strong>Stack.new ([stack={}])</strong>
+    </dt>
+    <dd>
+    Create a new Stack.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">stack</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The initial stack. The end of
+  the table is assumed to be the top of the stack.
+
+         (<em>default</em> {})
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
     <dt>
     <a name = "Stack.Push"></a>
     <strong>Stack.Push (self, el)</strong>
@@ -228,6 +272,34 @@
 
 
 </dd>
+    <dt>
+    <a name = "Stack.Clone"></a>
+    <strong>Stack.Clone (self)</strong>
+    </dt>
+    <dd>
+    Performs a shallow clone (new Stack is created, but
+ individual elements of the Stack are the same) of this Stack.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+            <span class="types"><a class="type" href="../classes/Stack.html#">Stack</a></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="../classes/Stack.html#">Stack</a></span>
+        The cloned Stack.
+    </ol>
+
+
+
+
+</dd>
 </dl>
 
 
@@ -235,7 +307,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-09-14 15:10:37 </i>
+<i style="float:right;">Last updated 2016-06-24 19:14:01 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

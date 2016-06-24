@@ -1,6 +1,23 @@
+----------------------------------------------------------------
+-- A module with helper functions related to array style tables.
+--
+-- @module Array
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 ascendingCompare = (left, right) -> left <= right
 descendingCompare = (left, right) -> left >= right
 
+----------------------------------------------------------------
+-- Perform an insertion sort on the array.
+--
+-- @tparam array array The array to be sorted.
+-- @tparam function comparisonFn The function to compare any
+--  two elements in the array. Parameters are the left and right
+--  side.
+-- @treturn array The sorted array.
+----------------------------------------------------------------
 InsertionSort = (array, comparisonFn) ->
 	for i = 2, #array
 		x = array[i]
@@ -13,6 +30,17 @@ InsertionSort = (array, comparisonFn) ->
 
 	return array
 
+----------------------------------------------------------------
+-- The merge operation of the merge sort; merges two halves of
+-- an array into one.
+--
+-- @tparam array left The left half of the array.
+-- @tparam array right The right half of the array.
+-- @tparam function comparisonFn The function to compare any
+--  two elements in the array. Parameters are the left and right
+--  side.
+-- @treturn array The merged array.
+----------------------------------------------------------------
 Merge = (left, right, comparisonFn) ->
 	result = {}
 
@@ -35,10 +63,31 @@ Merge = (left, right, comparisonFn) ->
 
 	return result
 
+----------------------------------------------------------------
+-- An enum type that allows for default sorting functions in
+-- the @{StableSort} if the user doesn't one to define their
+-- own.
+--
+-- @field Ascending Sort the array in ascending order.
+-- @field Descending Sort the array in descending order.
+----------------------------------------------------------------
 ComparisonOrder =
 	Ascending:  0
 	Descending: 1
 
+----------------------------------------------------------------
+-- Sort an array, making sure the order of elements with the
+-- same sorting value appear in the same order they were in
+-- before.
+--
+-- @tparam array array The array to sort
+-- @tparam[opt=ComparisonOrder.Ascending] function/ComparisonOrder comparisonFn
+--  The function to compare any two elements in the array.
+--  Parameters are the left and right side. May also use
+--  @{ComparisonOrder} to use on of the default comparison
+--  functions.
+-- @treturn array The sorted array.
+----------------------------------------------------------------
 StableSort = (array, comparisonFn = ComparisonOrder.Ascending) ->
 	if comparisonFn == ComparisonOrder.Ascending
 		comparisonFn = ascendingCompare
@@ -62,6 +111,11 @@ StableSort = (array, comparisonFn = ComparisonOrder.Ascending) ->
 
 		return Merge left, right, comparisonFn
 
+----------------------------------------------------------------
+-- Reverses the order of the elements in an array.
+--
+-- @tparam array array The array to reverse.
+----------------------------------------------------------------
 Reverse = (array) ->
 	for i = 1, math.floor(#array / 2)
 		temp = array[i]

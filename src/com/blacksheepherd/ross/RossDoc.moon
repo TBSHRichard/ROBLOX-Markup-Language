@@ -1,9 +1,31 @@
+----------------------------------------------------------------
+-- The base class for RoSS object creation. All compiled RoSS
+-- files will be compiled into a Lua class with this class as
+-- its base.
+--
+-- @classmod RossDoc
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 class RossDoc
+	----------------------------------------------------------------
+	-- Create a new RossDoc.
+	--
+	-- @tparam RossDoc self
+	----------------------------------------------------------------
 	new: =>
 		@_objects = @\_setupObjects!
 		@_classes = @\_setupClasses!
 		@_ids = @\_setupIds!
 
+	----------------------------------------------------------------
+	-- Styles a @{RomlObject} based on the rules within this
+	-- @{RossDoc}.
+	--
+	-- @tparam RossDoc self
+	-- @tparam RomlObject romlObject The @{RomlObject} to style.
+	----------------------------------------------------------------
 	StyleObject: (romlObject) =>
 		objectName = romlObject\GetRobloxObject!.ClassName
 		@\_styleWithTable(romlObject, @_objects[objectName])

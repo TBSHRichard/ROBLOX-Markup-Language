@@ -1,3 +1,15 @@
+----------------------------------------------------------------
+-- The base class used for creating custom @{RomlObject}s.
+-- Creating custom objects has been simplified for the purposes
+-- of coding them in Lua; they only are simple tables with the
+-- specific functions within them. The library creates the
+-- sub-class from that (inside @{CustomObjectBuilder}).
+--
+-- @classmod MainRossBlock
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 local RomlObject
 
 if game

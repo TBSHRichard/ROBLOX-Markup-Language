@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
 -- A module with helper functions related to parsing of RoML.
 --
--- @module Parser
+-- @module RomlParser
 -- @author Richard Voelker
 -- @license MIT
 ----------------------------------------------------------------
@@ -194,7 +194,7 @@ grammar = P {
 
 ----------------------------------------------------------------
 -- Parses a RoML string into a parse tree to be sent to the
--- @{Compiler}.
+-- @{RomlCompiler}.
 --
 -- @tparam string roml The RoML string.
 -- @treturn table The parse tree.

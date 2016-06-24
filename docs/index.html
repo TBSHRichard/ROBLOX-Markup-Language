@@ -31,21 +31,21 @@
 
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="modules/File.html">File</a></li>
-  <li><a href="modules/Compiler.html">Compiler</a></li>
   <li><a href="modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
-  <li><a href="modules/Parser.html">Parser</a></li>
+  <li><a href="modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="modules/File.html">File</a></li>
+  <li><a href="modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="modules/RossParser.html">RossParser</a></li>
+  <li><a href="modules/Array.html">Array</a></li>
   <li><a href="modules/String.html">String</a></li>
   <li><a href="modules/Table.html">Table</a></li>
 </ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="classes/Stack.html">Stack</a></li>
-  <li><a href="classes/Event.html">Event</a></li>
-  <li><a href="classes/ObjectBuilder.html">ObjectBuilder</a></li>
-  <li><a href="classes/RomlDoc.html">RomlDoc</a></li>
-  <li><a href="classes/RomlObject.html">RomlObject</a></li>
-  <li><a href="classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
   <li><a href="classes/Block.html">Block</a></li>
   <li><a href="classes/ConditionalBlock.html">ConditionalBlock</a></li>
   <li><a href="classes/DoBlock.html">DoBlock</a></li>
@@ -57,12 +57,23 @@
   <li><a href="classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
   <li><a href="classes/Line.html">Line</a></li>
   <li><a href="classes/MainBlock.html">MainBlock</a></li>
+  <li><a href="classes/MainRossBlock.html">MainRossBlock</a></li>
   <li><a href="classes/MetatableBlock.html">MetatableBlock</a></li>
   <li><a href="classes/RequireLine.html">RequireLine</a></li>
   <li><a href="classes/SpaceBlock.html">SpaceBlock</a></li>
+  <li><a href="classes/StackBlock.html">StackBlock</a></li>
+  <li><a href="classes/TableAssignmentBlock.html">TableAssignmentBlock</a></li>
   <li><a href="classes/TableBlock.html">TableBlock</a></li>
   <li><a href="classes/LiteralString.html">LiteralString</a></li>
   <li><a href="classes/VariableNamer.html">VariableNamer</a></li>
+  <li><a href="classes/Stack.html">Stack</a></li>
+  <li><a href="classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="classes/Event.html">Event</a></li>
+  <li><a href="classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="classes/RossDoc.html">RossDoc</a></li>
   <li><a href="classes/Tester.html">Tester</a></li>
   <li><a href="classes/HashMap.html">HashMap</a></li>
 </ul>
@@ -80,20 +91,42 @@
 <h2>Modules</h2>
 <table class="module_list">
 	<tr>
-		<td class="name"  nowrap><a href="modules/File.html">File</a></td>
-		<td class="summary">Contains helper methods for file reading and writing.</td>
-	</tr>
-	<tr>
-		<td class="name"  nowrap><a href="modules/Compiler.html">Compiler</a></td>
-		<td class="summary">The module for compiling Roml parsetrees into Lua files.</td>
-	</tr>
-	<tr>
 		<td class="name"  nowrap><a href="modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></td>
 		<td class="summary">Module for compile-time filter related methods.</td>
 	</tr>
 	<tr>
-		<td class="name"  nowrap><a href="modules/Parser.html">Parser</a></td>
+		<td class="name"  nowrap><a href="modules/CustomObject.html">CustomObject</a></td>
+		<td class="summary">Module that contains functions for creating custom objects
+ and filtering their associated properties.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="modules/SpriteSheet.html">SpriteSheet</a></td>
+		<td class="summary">The SpriteSheet <a href="modules/CustomObject.html#">CustomObject</a> is used to easily display
+ only part of an ImageLabel.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="modules/File.html">File</a></td>
+		<td class="summary">Contains helper methods for file reading and writing.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="modules/RomlCompiler.html">RomlCompiler</a></td>
+		<td class="summary">The module for compiling RoML parsetrees into Lua files.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="modules/RomlParser.html">RomlParser</a></td>
 		<td class="summary">A module with helper functions related to parsing of RoML.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="modules/RossCompiler.html">RossCompiler</a></td>
+		<td class="summary">The module for compiling RoSS parsetrees into Lua files.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="modules/RossParser.html">RossParser</a></td>
+		<td class="summary">A module with helper functions related to parsing of RoSS.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="modules/Array.html">Array</a></td>
+		<td class="summary">A module with helper functions related to array style tables.</td>
 	</tr>
 	<tr>
 		<td class="name"  nowrap><a href="modules/String.html">String</a></td>
@@ -107,32 +140,8 @@
 <h2>Classes</h2>
 <table class="module_list">
 	<tr>
-		<td class="name"  nowrap><a href="classes/Stack.html">Stack</a></td>
-		<td class="summary">A standard Stack data structure.</td>
-	</tr>
-	<tr>
-		<td class="name"  nowrap><a href="classes/Event.html">Event</a></td>
-		<td class="summary">The Event class, with the EventConnection class, is used
- to mimic the structure of ROBLOX's Events.</td>
-	</tr>
-	<tr>
-		<td class="name"  nowrap><a href="classes/ObjectBuilder.html">ObjectBuilder</a></td>
-		<td class="summary">A specialized stack which is used to build a RomlObject
- hierarchy.</td>
-	</tr>
-	<tr>
-		<td class="name"  nowrap><a href="classes/RomlDoc.html">RomlDoc</a></td>
-		<td class="summary">The base class for RoML object creation.</td>
-	</tr>
-	<tr>
-		<td class="name"  nowrap><a href="classes/RomlObject.html">RomlObject</a></td>
-		<td class="summary">A wrapper for ROBLOX objects that contains methods for
- finding objects within the hierarchy.</td>
-	</tr>
-	<tr>
-		<td class="name"  nowrap><a href="classes/RomlVar.html">RomlVar</a></td>
-		<td class="summary">A RoML variable that holds a generic data type value (string,
- number, boolean).</td>
+		<td class="name"  nowrap><a href="classes/AnonymousTableBlock.html">AnonymousTableBlock</a></td>
+		<td class="summary">A table <a href="classes/Block.html#">Block</a> that is not assigned to any variable.</td>
 	</tr>
 	<tr>
 		<td class="name"  nowrap><a href="classes/Block.html">Block</a></td>
@@ -180,6 +189,10 @@
 		<td class="summary">A <a href="classes/Block.html#">Block</a> for the main <a href="classes/RomlDoc.html#">RomlDoc</a> compiled files.</td>
 	</tr>
 	<tr>
+		<td class="name"  nowrap><a href="classes/MainRossBlock.html">MainRossBlock</a></td>
+		<td class="summary">A <a href="classes/Block.html#">Block</a> for the main <a href="classes/RossDoc.html#">RossDoc</a> compiled files.</td>
+	</tr>
+	<tr>
 		<td class="name"  nowrap><a href="classes/MetatableBlock.html">MetatableBlock</a></td>
 		<td class="summary">A <a href="classes/DoubleBlock.html#">DoubleBlock</a> that has two tables within it.</td>
 	</tr>
@@ -193,6 +206,16 @@
  code <a href="classes/Block.html#">Block</a>s or <a href="classes/Line.html#">Line</a>s.</td>
 	</tr>
 	<tr>
+		<td class="name"  nowrap><a href="classes/StackBlock.html">StackBlock</a></td>
+		<td class="summary">A <a href="classes/Block.html#">Block</a> that allows a variable in a <a href="classes/TableBlock.html#">TableBlock</a> or
+ ??? to be a Stack.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/TableAssignmentBlock.html">TableAssignmentBlock</a></td>
+		<td class="summary">A <a href="classes/Block.html#">Block</a> that is similar to to <a href="classes/TableBlock.html#">TableBlock</a> but assigns
+ the table to a table key instead of a local variable.</td>
+	</tr>
+	<tr>
 		<td class="name"  nowrap><a href="classes/TableBlock.html">TableBlock</a></td>
 		<td class="summary">A <a href="classes/Block.html#">Block</a> that represents a Lua table.</td>
 	</tr>
@@ -204,6 +227,42 @@
 	<tr>
 		<td class="name"  nowrap><a href="classes/VariableNamer.html">VariableNamer</a></td>
 		<td class="summary">Variable naming for ROBLOX objects.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/Stack.html">Stack</a></td>
+		<td class="summary">A standard Stack data structure.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/MainRossBlock.html">MainRossBlock</a></td>
+		<td class="summary">The base class used for creating custom <a href="classes/RomlObject.html#">RomlObject</a>s.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/Event.html">Event</a></td>
+		<td class="summary">The Event class, with the EventConnection class, is used
+ to mimic the structure of ROBLOX's Events.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/ObjectBuilder.html">ObjectBuilder</a></td>
+		<td class="summary">A specialized stack which is used to build a RomlObject
+ hierarchy.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/RomlDoc.html">RomlDoc</a></td>
+		<td class="summary">The base class for RoML object creation.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/RomlObject.html">RomlObject</a></td>
+		<td class="summary">A wrapper for ROBLOX objects that contains methods for
+ finding objects within the hierarchy.</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/RomlVar.html">RomlVar</a></td>
+		<td class="summary">A RoML variable that holds a generic data type value (string,
+ number, boolean).</td>
+	</tr>
+	<tr>
+		<td class="name"  nowrap><a href="classes/RossDoc.html">RossDoc</a></td>
+		<td class="summary">The base class for RoSS object creation.</td>
 	</tr>
 	<tr>
 		<td class="name"  nowrap><a href="classes/Tester.html">Tester</a></td>
@@ -227,7 +286,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2015-09-14 15:10:37 </i>
+<i style="float:right;">Last updated 2016-06-24 19:14:01 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

@@ -41,8 +41,8 @@
   <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
   <li><a href="../modules/CustomObject.html">CustomObject</a></li>
   <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
-  <li><strong>File</strong></li>
-  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><strong>RomlCompiler</strong></li>
   <li><a href="../modules/RomlParser.html">RomlParser</a></li>
   <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
   <li><a href="../modules/RossParser.html">RossParser</a></li>
@@ -93,8 +93,8 @@
 
 <div id="content">
 
-<h1>Module <code>File</code></h1>
-<p>Contains helper methods for file reading and writing.</p>
+<h1>Module <code>RomlCompiler</code></h1>
+<p>The module for compiling RoML parsetrees into Lua files.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -106,9 +106,8 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#FileToString">FileToString (path)</a></td>
-	<td class="summary">Reads the contents of a file and places them inside of
- string, which is returned.</td>
+	<td class="name" nowrap><a href="#Compile">Compile (name, parsetree)</a></td>
+	<td class="summary">Compile the parsetree into a Lua string.</td>
 	</tr>
 </table>
 
@@ -120,19 +119,22 @@
 
     <dl class="function">
     <dt>
-    <a name = "FileToString"></a>
-    <strong>FileToString (path)</strong>
+    <a name = "Compile"></a>
+    <strong>Compile (name, parsetree)</strong>
     </dt>
     <dd>
-    Reads the contents of a file and places them inside of
- string, which is returned.
+    Compile the parsetree into a Lua string.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">path</span>
+        <li><span class="parameter">name</span>
             <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         The path to the file.
+         The name of the Lua subclass.
+        </li>
+        <li><span class="parameter">parsetree</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The parse tree.
         </li>
     </ul>
 
@@ -140,7 +142,7 @@
     <ol>
 
            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The contents of the file.
+        The compiled Lua code.
     </ol>
 
 

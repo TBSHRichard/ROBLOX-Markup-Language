@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
--- The module for compiling Roml parsetrees into Lua files.
+-- The module for compiling RoML parsetrees into Lua files.
 --
--- @module Compiler
+-- @module RomlCompiler
 -- @author Richard Voelker
 -- @license MIT
 ----------------------------------------------------------------

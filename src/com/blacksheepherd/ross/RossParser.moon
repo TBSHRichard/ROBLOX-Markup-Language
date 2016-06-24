@@ -1,3 +1,11 @@
+----------------------------------------------------------------
+-- A module with helper functions related to parsing of RoSS.
+--
+-- @module RossParser
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 local lpeg
 local HashMap
 local Array
@@ -130,6 +138,13 @@ grammar = P {
 	RoSS:               Ct(V"Block"^0)
 }
 
+----------------------------------------------------------------
+-- Parses a RoSS string into a parse tree to be sent to the
+-- @{RossCompiler}.
+--
+-- @tparam string roml The RoSS string.
+-- @treturn table The parse tree.
+----------------------------------------------------------------
 Parse = (ross) ->
 	indentStack = nil -- To avoid weird ROBLOX GC problems
 	indentStack = Stack!

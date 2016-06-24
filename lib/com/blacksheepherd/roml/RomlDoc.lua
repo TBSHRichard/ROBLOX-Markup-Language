@@ -1,4 +1,5 @@
 local HashMap = require(game:GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
+local RossDoc = require(game:GetService("ServerScriptService").com.blacksheepherd.ross.RossDoc)
 local RomlDoc
 do
   local _base_0 = {
@@ -28,6 +29,9 @@ do
   _base_0.__index = _base_0
   local _class_0 = setmetatable({
     __init = function(self, parent, vars, ross)
+      if ross == nil then
+        ross = RossDoc()
+      end
       self._objectIds = { }
       self._vars = { }
       self._ross = ross

@@ -39,7 +39,7 @@
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
-  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><strong>CustomObject</strong></li>
   <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
   <li><a href="../modules/File.html">File</a></li>
   <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
@@ -48,7 +48,7 @@
   <li><a href="../modules/RossParser.html">RossParser</a></li>
   <li><a href="../modules/Array.html">Array</a></li>
   <li><a href="../modules/String.html">String</a></li>
-  <li><strong>Table</strong></li>
+  <li><a href="../modules/Table.html">Table</a></li>
 </ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
@@ -93,8 +93,9 @@
 
 <div id="content">
 
-<h1>Module <code>Table</code></h1>
-<p>A module with helper functions related to tables.</p>
+<h1>Module <code>CustomObject</code></h1>
+<p>Module that contains functions for creating custom objects
+ and filtering their associated properties.</p>
 <p></p>
     <h3>Info:</h3>
     <ul>
@@ -106,27 +107,16 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#ArrayToSingleLineString">ArrayToSingleLineString (array)</a></td>
-	<td class="summary">Reads an array-like table and converts it into a single-line
- string.</td>
+	<td class="name" nowrap><a href="#IsACustomObject">IsACustomObject (name)</a></td>
+	<td class="summary"></td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#HashMapToSingleLineString">HashMapToSingleLineString (map)</a></td>
-	<td class="summary">Reads a <a href="../classes/HashMap.html#">HashMap</a> and converts it into a single-line string.</td>
+	<td class="name" nowrap><a href="#CreateObject">CreateObject (name, romlDoc, objectId, classes)</a></td>
+	<td class="summary">Creates a <a href="../modules/CustomObject.html#">CustomObject</a>.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#HashMapToMultiLineString">HashMapToMultiLineString (map, depth)</a></td>
-	<td class="summary">Returns a <a href="../classes/HashMap.html#">HashMap</a> as a string representation across
- multiple lines.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#TablesAreEqual">TablesAreEqual (tableOne, tableTwo)</a></td>
-	<td class="summary">Performs a deep comparison of two tables to check if they
- are equal.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Swap">Swap (t, i1, i2)</a></td>
-	<td class="summary">Swap the values of two elements in a table.</td>
+	<td class="name" nowrap><a href="#FilterProperty">FilterProperty (objectName, propertyName, value, LiteralString, CompilerPropertyFilter)</a></td>
+	<td class="summary">Filter a property based on the <a href="../modules/CustomObject.html#">CustomObject</a>'s rules.</td>
 	</tr>
 </table>
 
@@ -138,28 +128,28 @@
 
     <dl class="function">
     <dt>
-    <a name = "ArrayToSingleLineString"></a>
-    <strong>ArrayToSingleLineString (array)</strong>
+    <a name = "IsACustomObject"></a>
+    <strong>IsACustomObject (name)</strong>
     </dt>
     <dd>
-    Reads an array-like table and converts it into a single-line
- string.
+
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">array</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The array-like table to turn into a
-	string.
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the <a href="../modules/CustomObject.html#">CustomObject</a>.
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The array as a single-line string.
+           <span class="types"><span class="type">bool</span></span>
+         Whether or not the object name is a
+  <a href="../modules/CustomObject.html#">CustomObject</a>.
+
     </ol>
 
 
@@ -167,26 +157,41 @@
 
 </dd>
     <dt>
-    <a name = "HashMapToSingleLineString"></a>
-    <strong>HashMapToSingleLineString (map)</strong>
+    <a name = "CreateObject"></a>
+    <strong>CreateObject (name, romlDoc, objectId, classes)</strong>
     </dt>
     <dd>
-    Reads a <a href="../classes/HashMap.html#">HashMap</a> and converts it into a single-line string.
+    Creates a <a href="../modules/CustomObject.html#">CustomObject</a>.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">map</span>
-            <span class="types"><a class="type" href="../classes/HashMap.html#">HashMap</a></span>
-         The <a href="../classes/HashMap.html#">HashMap</a> to turn into a string.
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the <a href="../modules/CustomObject.html#">CustomObject</a>.
+        </li>
+        <li><span class="parameter">romlDoc</span>
+            <span class="types"><a class="type" href="../classes/RomlDoc.html#">RomlDoc</a></span>
+         The <a href="../classes/RomlDoc.html#">RomlDoc</a> object that this
+  <a href="../modules/CustomObject.html#">CustomObject</a> will be a part of.
+        </li>
+        <li><span class="parameter">objectId</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The ID of the object, or nil if there
+  is none.
+        </li>
+        <li><span class="parameter">classes</span>
+            <span class="types"><span class="type">array</span></span>
+         An array of strings for the classes, or
+  nil if there are none.
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The <a href="../classes/HashMap.html#">HashMap</a> as a single-line string.
+           <span class="types"><span class="type">CustomObject</span></span>
+        The created <a href="../modules/CustomObject.html#">CustomObject</a>.
     </ol>
 
 
@@ -194,92 +199,46 @@
 
 </dd>
     <dt>
-    <a name = "HashMapToMultiLineString"></a>
-    <strong>HashMapToMultiLineString (map, depth)</strong>
+    <a name = "FilterProperty"></a>
+    <strong>FilterProperty (objectName, propertyName, value, LiteralString, CompilerPropertyFilter)</strong>
     </dt>
     <dd>
-    Returns a <a href="../classes/HashMap.html#">HashMap</a> as a string representation across
- multiple lines.
+    Filter a property based on the <a href="../modules/CustomObject.html#">CustomObject</a>'s rules.
+
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">map</span>
-            <span class="types"><a class="type" href="../classes/HashMap.html#">HashMap</a></span>
-         The <a href="../classes/HashMap.html#">HashMap</a> to turn into a string.
+        <li><span class="parameter">objectName</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the <a href="../modules/CustomObject.html#">CustomObject</a>.
         </li>
-        <li><span class="parameter">depth</span>
-            <span class="types"><span class="type">integer</span></span>
-        [opt=0] How many tabs to print at the
-  start of the string.
+        <li><span class="parameter">propertyName</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The name of the property to
+  filter.
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The input string.
+        </li>
+        <li><span class="parameter">LiteralString</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The <a href="../classes/LiteralString.html#">LiteralString</a> class.
+        </li>
+        <li><span class="parameter">CompilerPropertyFilter</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The
+  <a href="../modules/CompilerPropertyFilter.html#">CompilerPropertyFilter</a> class.
         </li>
     </ul>
 
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        The <a href="../classes/HashMap.html#">HashMap</a> as a multi-line string.
+           <span class="types"><a class="type" href="../classes/LiteralString.html#">LiteralString</a></span>
+        The filtered property value.
     </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "TablesAreEqual"></a>
-    <strong>TablesAreEqual (tableOne, tableTwo)</strong>
-    </dt>
-    <dd>
-    Performs a deep comparison of two tables to check if they
- are equal.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">tableOne</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The first table to compare.
-        </li>
-        <li><span class="parameter">tableTwo</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The second table to compare.
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">boolean</span></span>
-        True if the two tables are equal.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Swap"></a>
-    <strong>Swap (t, i1, i2)</strong>
-    </dt>
-    <dd>
-    Swap the values of two elements in a table.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">t</span>
-            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The table to swap elements in.
-        </li>
-        <li><span class="parameter">i1</span>
-         The key of the first element.
-        </li>
-        <li><span class="parameter">i2</span>
-         The key of the second element.
-        </li>
-    </ul>
-
 
 
 

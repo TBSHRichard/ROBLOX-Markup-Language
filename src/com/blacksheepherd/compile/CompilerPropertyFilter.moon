@@ -40,6 +40,19 @@ isAGuiClass = (className) ->
 	className == "ScrollingFrame" or
 	className == "TextBox"
 
+----------------------------------------------------------------
+-- Return a UDim2 LiteralString from an input string. If the
+-- string has 2 numbers separated by a comma, then these are
+-- assumed to be the X and Y offsets. If there are 4 numbers
+-- separated by a comma, these are assumed to be all 4
+-- arguments to the UDim2 constructor. Otherwise, the string is
+-- returned as-is (assumed to be Lua code constructing the
+-- UDim2).
+--
+-- @tparam string value The input string to parse.
+-- @treturn LiteralString The @{LiteralString} with a UDim2
+--  constructor contained within.
+----------------------------------------------------------------
 Udim2Filter = (value) ->
 	if match = numberQuartetOrNumberDuo\match value
 		if #match == 2
@@ -49,12 +62,35 @@ Udim2Filter = (value) ->
 	else
 		return LiteralString value
 
+----------------------------------------------------------------
+-- Return a Vector2 LiteralString from an input string. If the
+-- string has 2 numbers separated by a comma, then these are
+-- assumed to be the X and Y parameters. Otherwise, the string
+-- is returned as-is (assumed to be Lua code constructing the
+-- Vector2).
+--
+-- @tparam string value The input string to parse.
+-- @treturn LiteralString The @{LiteralString} with a Vector2
+--  constructor contained within.
+----------------------------------------------------------------
 Vector2Filter = (value) ->
 	if match = numberDuoCapture\match value
 		return LiteralString "Vector2.new(#{match[1]}, #{match[2]})"
 	else
 		return LiteralString value
 
+----------------------------------------------------------------
+-- Return a Vector3 LiteralString from an input string. If the
+-- string has 1 number separated, then this number is used for
+-- the X, Y, and Z parameters. If there are 3 numbers separated
+-- by a comma, these are assumed to be the X, Y, and Z
+-- parameters. Otherwise, the string is returned as-is (assumed
+-- to be Lua code constructing the Vector3).
+--
+-- @tparam string value The input string to parse.
+-- @treturn LiteralString The @{LiteralString} with a Vector3
+--  constructor contained within.
+----------------------------------------------------------------
 Vector3Filter = (value) ->
 	if match = numberTrioOrNumber\match value
 		if #match == 1
@@ -64,12 +100,38 @@ Vector3Filter = (value) ->
 	else
 		return LiteralString value
 
+----------------------------------------------------------------
+-- Parses a string for a Position or Size parameter. If the
+-- class is a Gui class, then the @{UDim2Filter} is used.
+-- Otherwise the @{Vector3Filter} is used.
+--
+-- @tparam string className The name of the object's class.
+-- @tparam string value The input string to parse.
+-- @treturn LiteralString The @{LiteralString} with a UDim2 or
+--  Vector3 constructor contained within.
+----------------------------------------------------------------
 PositionAndSizeFilter = (className, value) ->
 	if isAGuiClass className
 		return Udim2Filter value
 	else
 		return Vector3Filter value
 
+----------------------------------------------------------------
+-- Return a BrickColor LiteralString from an input string. If
+-- string has 1 number, this is assumed to be a
+-- [BrickColor code](wiki.roblox.com/index.php?title=BrickColor_codes).
+-- If there are 3 numbers separated by a comma, these are
+-- assumed to be the R, G, and B values, in the range of
+-- [0, 255]. If there is a name, this is assumed to be a
+-- [BrickColor name](wiki.roblox.com/index.php?title=BrickColor_codes).
+-- Otherwise the string is returned as-is (assumed to be Lua
+-- code with a BrickColor constructor).
+--
+-- @tparam string className The name of the object's class.
+-- @tparam string value The input string to parse.
+-- @treturn LiteralString The @{LiteralString} with a BrickColor
+--  constructor contained within.
+----------------------------------------------------------------
 BrickColorFilter = (className, value) ->
 	if match = numberTrioOrNumber\match value
 		if #match == 1
@@ -82,6 +144,17 @@ BrickColorFilter = (className, value) ->
 		else
 			return LiteralString value
 
+----------------------------------------------------------------
+-- Return a Color3 LiteralString from an input string. It has
+-- the same rules as @{BrickColorFilter}, except for returning
+-- the string as-is; a Color3 constructor is assumed as input
+-- in that case (instead of a BrickColor).
+--
+-- @tparam string className The name of the object's class.
+-- @tparam string value The input string to parse.
+-- @treturn LiteralString The @{LiteralString} with a Color3
+--  constructor contained within.
+----------------------------------------------------------------
 Color3Filter = (className, value) ->
 	if match = numberTrioOrNumber\match value
 		if #match == 1
@@ -94,6 +167,20 @@ Color3Filter = (className, value) ->
 		else
 			return LiteralString value
 
+----------------------------------------------------------------
+-- Return a function for a Enum LiteralString filter from an
+-- input string. The filter returned has the same parameters as
+-- the @{BrickColorFilter} & @{Color3Filter}. If the input
+-- string to the filter is a single enum name, the string is
+-- returned as Enum.(enumType).(enumValue). Otherwise, the
+-- string is returned as-is (assuming that the input was the
+-- full enum value).
+--
+-- @tparam string enum The name of the enum group.
+-- @treturn function A filter functions with className and
+--  value parameters which returns a @{LiteralString} with an
+--  Enum value contained within.
+----------------------------------------------------------------
 EnumFilter = (enum) ->
 	(className, value) ->
 		if match = enumName\match value
@@ -101,6 +188,15 @@ EnumFilter = (enum) ->
 		else
 			return LiteralString value
 
+----------------------------------------------------------------
+-- A specific enum filter for the 'Style' enum type. There are
+-- 4 different ROBLOX classes that use this enum.
+--
+-- @tparam string className The name of the object's class.
+-- @tparam string value The input string to parse.
+-- @treturn LiteralString The @{LiteralString} with a Enum
+--  value contained within.
+----------------------------------------------------------------
 StyleEnumFilter = (className, value) ->
 	return switch className
 		when "ImageButton", "TextButton"

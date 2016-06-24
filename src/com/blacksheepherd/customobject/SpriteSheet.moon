@@ -1,3 +1,18 @@
+----------------------------------------------------------------
+-- The SpriteSheet @{CustomObject} is used to easily display
+-- only part of an ImageLabel. It's properties are: Name(string)
+-- (changes the Name of the ROBLOX Frame), Position(UDim2) (the
+-- position of the ROBLOX Frame), SpriteSheet(string) (the asset
+-- url for the ROBLOX decal), Size(Vector2) (the size of each
+-- sprite in the sprite sheet), Index(int) (the index of the
+-- sprite; order is left to right, top to bottom). It does not
+-- allow child elements.
+--
+-- @module SpriteSheet
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 return {
 	Create: =>
 		frame = Instance.new("Frame")

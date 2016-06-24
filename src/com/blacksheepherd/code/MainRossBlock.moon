@@ -1,3 +1,11 @@
+----------------------------------------------------------------
+-- A @{Block} for the main @{RossDoc} compiled files.
+--
+-- @classmod MainRossBlock
+-- @author Richard Voelker
+-- @license MIT
+----------------------------------------------------------------
+
 local FunctionBlock
 local DoBlock
 local SpaceBlock
@@ -36,6 +44,14 @@ else
 	RequireLine = require "com.blacksheepherd.code.RequireLine"
 
 class MainRossBlock
+
+	----------------------------------------------------------------
+	-- Create the MainRossBlock.
+	--
+	-- @tparam MainBlock self
+	-- @tparam string name The name of the subclass for the
+	--	@{RossDoc}
+	----------------------------------------------------------------
 	new: (name) =>
 		@_children = {}
 
@@ -115,6 +131,16 @@ class MainRossBlock
 		table.insert @_children, cBlock
 		table.insert @_children, Line("return #{name}")
 
+	----------------------------------------------------------------
+	-- Add a selector to and its properties to the object function.
+	--
+	-- @tparam MainRossBlock self
+	-- @tparam string key The rightmost selector on the selector
+	--  stack.
+	-- @tparam AnonymousTableBlock objectSelectorBlock The block of
+	--  code which contains the selector @{Stack} and properties
+	--  table.
+	----------------------------------------------------------------
 	AddObjectSelector: (key, objectSelectorBlock) =>
 		if @_objects[key] == nil
 			@_objects[key] = TableAssignmentBlock("objects", key)
@@ -122,6 +148,17 @@ class MainRossBlock
 
 		@_objects[key]\AddChild objectSelectorBlock
 
+
+	----------------------------------------------------------------
+	-- Add a selector to and its properties to the class function.
+	--
+	-- @tparam MainRossBlock self
+	-- @tparam string key The rightmost selector on the selector
+	--  stack.
+	-- @tparam AnonymousTableBlock objectSelectorBlock The block of
+	--  code which contains the selector @{Stack} and properties
+	--  table.
+	----------------------------------------------------------------
 	AddClassSelector: (key, classSelectorBlock) =>
 		if @_classes[key] == nil
 			@_classes[key] = TableAssignmentBlock("classes", key)
@@ -129,6 +166,17 @@ class MainRossBlock
 
 		@_classes[key]\AddChild classSelectorBlock
 
+
+	----------------------------------------------------------------
+	-- Add a selector to and its properties to the id function.
+	--
+	-- @tparam MainRossBlock self
+	-- @tparam string key The rightmost selector on the selector
+	--  stack.
+	-- @tparam AnonymousTableBlock objectSelectorBlock The block of
+	--  code which contains the selector @{Stack} and properties
+	--  table.
+	----------------------------------------------------------------
 	AddIdSelector: (key, idSelectorBlock) =>
 		if @_ids[key] == nil
 			@_ids[key] = TableAssignmentBlock("ids", key)
