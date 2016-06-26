@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Ids">Ids </a></li>
+<li><a href="#Classes">Classes </a></li>
+<li><a href="#Finding_an_Object">Finding an Object </a></li>
+<li><a href="#Cloning_Existing_Objects">Cloning Existing Objects </a></li>
+<li><a href="#Full_Object_Line">Full Object Line </a></li>
+<li><a href="#Property_Variable">Property Variable </a></li>
+<li><a href="#Setting_a_Variable">Setting a Variable </a></li>
+<li><a href="#Having_a_Variable_for_Classes">Having a Variable for Classes </a></li>
+<li><a href="#Conditional_Blocks">Conditional Blocks </a></li>
+<li><a href="#For_Blocks">For Blocks </a></li>
+</ul>
+
+
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-Introduction.md.html">01-Introduction</a></li>
+  <li><a href="../topics/02-BasicRoML.md.html">02-BasicRoML</a></li>
+  <li><a href="../topics/03-LibraryCustomObjects.md.html">03-LibraryCustomObjects</a></li>
+  <li><strong>04-AdvancedRoML</strong></li>
+  <li><a href="../topics/05-RoSS.md.html">05-RoSS</a></li>
+  <li><a href="../topics/06-DefiningCustomObjects.md.html">06-DefiningCustomObjects</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
+  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="../modules/RossParser.html">RossParser</a></li>
+  <li><a href="../modules/Array.html">Array</a></li>
+  <li><a href="../modules/String.html">String</a></li>
+  <li><a href="../modules/Table.html">Table</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
+  <li><a href="../classes/Block.html">Block</a></li>
+  <li><a href="../classes/ConditionalBlock.html">ConditionalBlock</a></li>
+  <li><a href="../classes/DoBlock.html">DoBlock</a></li>
+  <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
+  <li><a href="../classes/ForBlock.html">ForBlock</a></li>
+  <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
+  <li><a href="../classes/IfBlock.html">IfBlock</a></li>
+  <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
+  <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
+  <li><a href="../classes/Line.html">Line</a></li>
+  <li><a href="../classes/MainBlock.html">MainBlock</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
+  <li><a href="../classes/RequireLine.html">RequireLine</a></li>
+  <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
+  <li><a href="../classes/StackBlock.html">StackBlock</a></li>
+  <li><a href="../classes/TableAssignmentBlock.html">TableAssignmentBlock</a></li>
+  <li><a href="../classes/TableBlock.html">TableBlock</a></li>
+  <li><a href="../classes/LiteralString.html">LiteralString</a></li>
+  <li><a href="../classes/VariableNamer.html">VariableNamer</a></li>
+  <li><a href="../classes/Stack.html">Stack</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/RossDoc.html">RossDoc</a></li>
+  <li><a href="../classes/Tester.html">Tester</a></li>
+  <li><a href="../classes/HashMap.html">HashMap</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>Advanced RoML Topics</h1>
+
+<p><a name="Ids"></a></p>
+<h2>Ids</h2>
+
+<p>You can assign an id to an object.
+You should do this if you want to easily find an object within a RoML doc (to add an Event listener, for example).
+All ids are stored in a table, so find objects with an id take the least time.
+And object can only have one id, but they are added to an object by using the pound symbol (<code>#</code>) followed by the id name:</p>
+
+<pre><code> %Part#Id
+</code></pre>
+
+
+<p>Ids must be unique within a RoML file.
+If you have two objects with the same id, the last one will be stored.</p>
+
+<p><a name="Classes"></a></p>
+<h2>Classes</h2>
+
+<p>Classes are similar to ids, but these are more useful when setting properties via a RoSS file (discussed in topic 5: RoSS).
+An object can have any number of classes.
+Classes are defined like ids, but with a period (<code>.</code>) instead of the pound symbol:</p>
+
+<pre><code> %Part.Class1.Class2
+</code></pre>
+
+
+<p><a name="Finding_an_Object"></a></p>
+<h2>Finding an Object</h2>
+
+<p>Currently in v0.1 of the library, the functionality for finding objects is not available.</p>
+
+<p><a name="Cloning_Existing_Objects"></a></p>
+<h2>Cloning Existing Objects</h2>
+
+<p>To clone an existing ROBLOX object, you can include the location of the object in parentheses after the object name.
+This is helpful for objects like <code>Script</code>s which cannot have certain properties set during the game.</p>
+
+<p>For example, let's say we have a <code>Script</code> called <code>MyScript</code> which already exists in our <code>Workspace</code>.
+If we wanted to Clone it, we could write:</p>
+
+<pre><code> %Script(game.Workspace.MyScript)
+</code></pre>
+
+
+<p>If you want to clone a custom object, you must make sure that the structure of your clone object is the same as the structure created by the custom object.
+There may be some errors otherwise.</p>
+
+<p><a name="Full_Object_Line"></a></p>
+<h2>Full Object Line</h2>
+
+<p>Here is the format of a full object line:</p>
+
+<pre><code> %ObjectName(CloneSource)#Id.Classes{Properties}
+</code></pre>
+
+
+<p>Currently, the order of the CloneSource, Id, Classes, and Properties cannot be changed.
+Future versions may allow for different orders.</p>
+
+<p><a name="Property_Variable"></a></p>
+<h2>Property Variable</h2>
+
+<p>Variables are one way of updating your RoML structure.
+They can be used in several areas, one of which being the value for a property.
+When you have a variable as a property value, the property is updated every time you update the variable.
+To define a variable, use the at symbol (<code>@</code>) before a variable name (letter or underscore followed by any number of letters, numbers, or underscores):</p>
+
+<pre><code> Part{BrickColor: @color}
+</code></pre>
+
+
+<p><a name="Setting_a_Variable"></a></p>
+<h2>Setting a Variable</h2>
+
+<p>If you remember back to the constructor of the RoMLDoc, the second parameter is an optional table with initial variable values.
+By setting values in this table when the RoML is created, these values are used at first.</p>
+
+<p>For this example, will have a similar project structure as before:</p>
+
+<pre><code>game
+ |
+ +-- ServerScriptService
+      |
+      +-- lib (Folder)
+      |    |
+      |    +-- roml (Folder)
+      |         |
+      |         +-- VariableRoML (ModuleScript)
+      |
+      +-- src (Folder)
+           |
+           +-- roml (Folder)
+                |
+                +-- VariableRoML.roml (ModuleScript)
+</code></pre>
+
+
+<p>Here is an example using the VariableRoML, the example from the previous section:</p>
+
+
+<pre>
+<span class="keyword">local</span> VariableRoML = <span class="global">require</span>(game.ServerScriptService.lib.roml.VariableRoML)
+
+VariableRoML.new(game.Workspace, {
+    color = BrickColor.new(<span class="number">1001</span>)
+})
+</pre>
+
+<p>The second argument is our variable table where we set the inital value of the color variable.
+This creates a <code>Part</code> in the <code>Workspace</code> with a BrickColor of white.</p>
+
+<p>But that seems like a lot of work, we could have just set the BrickColor right in the RoML file, so what's the point?
+Well, the helpful feature of variables allows you to change them at any time, and the library will update the appropriate ROBLOX objects.</p>
+
+<p>Here's the same example as above, but changing the variable after waiting a few seconds:</p>
+
+
+<pre>
+<span class="keyword">local</span> VariableRoML = <span class="global">require</span>(game.ServerScriptService.lib.roml.VariableRoML)
+
+variableRoML = VariableRoML.new(game.Workspace, {
+    color = BrickColor.new(<span class="number">1001</span>)
+})
+
+wait(<span class="number">5</span>)
+
+variableRoML:GetVar(<span class="string">"color"</span>):SetValue(BrickColor.new(<span class="string">"Olive"</span>))
+</pre>
+
+<p>So this example creates a <code>Part</code> in the <code>Workspace</code> with the BrickColor of white just like before.
+But, after 5 seconds, the <code>Part</code> will have a BrickColor of olive!</p>
+
+<p>Here, we use <a href="../classes/RomlDoc.html#RomlDoc.GetVar">RomlDoc.GetVar</a> in order to get our variable.
+Then, we can call <a href="../classes/RomlVar.html#RomlVar.SetValue">RomlVar.SetValue</a> to set the value of the variable.
+Note that we cannot use shorthand values in <a href="../classes/RomlVar.html#RomlVar.SetValue">RomlVar.SetValue</a>.
+In future versions of the library, this may be allowed, but not right now.</p>
+
+<p><a name="Having_a_Variable_for_Classes"></a></p>
+<h2>Having a Variable for Classes</h2>
+
+<p>If you want, you can use a single variable for your classes.
+The variable is assumed to be an array-styled table.
+The following example has a <code>Part</code> with the classes in the <code>partClasses</code> variable:</p>
+
+<pre><code> %Part.@partClasses
+</code></pre>
+
+
+<p>Just make sure you pass a table when setting the variable value.</p>
+
+<p><a name="Conditional_Blocks"></a></p>
+<h2>Conditional Blocks</h2>
+
+<p>With variables, you can create conditional blocks to display certain objects when the variable is a specific value.
+They work the same as they do in Lua, so not much new to learn here!
+Take a look at this example:</p>
+
+<pre><code> if @visits &gt; 5
+    %TextLabel{Text: "We've gotten a few visits today."}
+ elseif @visits &gt; 500
+    %TextLabel{Text: "We've gotten a lot of visits today!"}
+</code></pre>
+
+
+<p>Every time the variable <code>visits</code> is updated in the example, the statement is checked.
+Just like Lua, if the condition is <code>true</code>, then the block is executed.
+If the <code>visits</code> has a value less than 5, no <code>TextLabel</code> is created.
+Once <code>visits</code> gets more than 5, the <code>TextLabel</code> is created.
+With more than 500, a <code>TextLabel</code> with different text is created.</p>
+
+<p>You can have as many <code>elseif</code> statements as you want, there is also an <code>else</code> statement just like Lua, and you can have conditionals within other conditional blocks.
+There is also the option of using <code>unless</code> and <code>elseunless</code> instead of of <code>if</code> and <code>elseif</code>.
+<code>unless condition</code> is the same as <code>if not(condition)</code> and <code>elseunless condition</code> is the same as <code>elseif not(condition)</code>.</p>
+
+<p><a name="For_Blocks"></a></p>
+<h2>For Blocks</h2>
+
+<p>The for blocks in RoML use the pairs iterator.
+A for statement has one or two variable names followed by a RoML variable that is assumed to have a table value:</p>
+
+<p>Let's say the variable <code>names</code> is the following table:</p>
+
+<pre><code> {
+    "Part Bob",
+    "Part Steve",
+    "Part Harry"
+ }
+</code></pre>
+
+
+<p>Then, in RoML we can iterate over each:</p>
+
+<pre><code> for name in @names
+    %Part{Name: name}
+</code></pre>
+
+
+<p>This RoML creates 3 <code>Part</code>s with the names of "Part Bob", "Part Steve", and "Part Harry".
+Of course you can have for blocks and conditional blocks within for blocks as well.
+If you need the key of each element, you can have two variable names:</p>
+
+<pre><code> for index, name in @names
+    %Part{Name: "[" .. index .. "]" .. name}
+</code></pre>
+
+
+<p>The <code>Part</code> names this time would be "[1] Part Bob", "[2] Part Steve", and "[3] Part Harry".</p>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-06-26 19:06:26 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

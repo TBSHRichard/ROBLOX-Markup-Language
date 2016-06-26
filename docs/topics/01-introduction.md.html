@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#What_is_RoML_">What is RoML? </a></li>
+<li><a href="#Getting_Started_with_RoML">Getting Started with RoML </a></li>
+<li><a href="#Installing_the_Library">Installing the Library </a></li>
+<li><a href="#Compiling_RoML_and_RoSS_Scripts">Compiling RoML and RoSS Scripts </a></li>
+</ul>
+
+
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><strong>01-introduction</strong></li>
+  <li><a href="../topics/02-roml.md.html">02-roml</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
+  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="../modules/RossParser.html">RossParser</a></li>
+  <li><a href="../modules/Array.html">Array</a></li>
+  <li><a href="../modules/String.html">String</a></li>
+  <li><a href="../modules/Table.html">Table</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
+  <li><a href="../classes/Block.html">Block</a></li>
+  <li><a href="../classes/ConditionalBlock.html">ConditionalBlock</a></li>
+  <li><a href="../classes/DoBlock.html">DoBlock</a></li>
+  <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
+  <li><a href="../classes/ForBlock.html">ForBlock</a></li>
+  <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
+  <li><a href="../classes/IfBlock.html">IfBlock</a></li>
+  <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
+  <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
+  <li><a href="../classes/Line.html">Line</a></li>
+  <li><a href="../classes/MainBlock.html">MainBlock</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
+  <li><a href="../classes/RequireLine.html">RequireLine</a></li>
+  <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
+  <li><a href="../classes/StackBlock.html">StackBlock</a></li>
+  <li><a href="../classes/TableAssignmentBlock.html">TableAssignmentBlock</a></li>
+  <li><a href="../classes/TableBlock.html">TableBlock</a></li>
+  <li><a href="../classes/LiteralString.html">LiteralString</a></li>
+  <li><a href="../classes/VariableNamer.html">VariableNamer</a></li>
+  <li><a href="../classes/Stack.html">Stack</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/RossDoc.html">RossDoc</a></li>
+  <li><a href="../classes/Tester.html">Tester</a></li>
+  <li><a href="../classes/HashMap.html">HashMap</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>Introduction to ROBLOX Markup Language (RoML)</h1>
+
+<p><a name="What_is_RoML_"></a></p>
+<h2>What is RoML?</h2>
+
+<p>RoML is a domain-specific language and library to aid you in creating and updating ROBLOX objects dynamically during the game.
+RoML tries to to cut down on the amount of code you have to right in order to increase your production.
+RoML also mimics existing languages so those who already know those languages will feel comfortable.</p>
+
+<p><a name="Getting_Started_with_RoML"></a></p>
+<h2>Getting Started with RoML</h2>
+
+<p>To start, you should download the ROLBOX Studio plugin.
+This can be done by either install the plugin from the ROBLOX website, or by
+<a href="https://github.com/TBSHRichard/ROBLOX-Markup-Language/blob/master/bin/RoMLCompiler.rbxm?raw=true">downloading the file from the Git repository</a>
+and adding it to your plugins folder. It can be found by clicking on Plugins > Plugins Folder within ROBLOX Studio.</p>
+
+<p><a name="Installing_the_Library"></a></p>
+<h2>Installing the Library</h2>
+
+<p>Once the plugin is installed, you may then install the library on any of your places.
+There is a button in the plugin (Plugins > ROBLOX Markup Language > Install).
+Click on this and it will copy the required ModuleScripts into the ServerScriptService of your place.
+You will have to do this for every place you want to use RoML in.</p>
+
+<p><a name="Compiling_RoML_and_RoSS_Scripts"></a></p>
+<h2>Compiling RoML and RoSS Scripts</h2>
+
+
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-06-25 15:48:39 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

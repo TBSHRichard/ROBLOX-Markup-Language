@@ -53,7 +53,7 @@ isAGuiClass = (className) ->
 -- @treturn LiteralString The @{LiteralString} with a UDim2
 --  constructor contained within.
 ----------------------------------------------------------------
-Udim2Filter = (value) ->
+UDim2Filter = (value) ->
 	if match = numberQuartetOrNumberDuo\match value
 		if #match == 2
 			return LiteralString "UDim2.new(0, #{match[1]}, 0, #{match[2]})"
@@ -112,7 +112,7 @@ Vector3Filter = (value) ->
 ----------------------------------------------------------------
 PositionAndSizeFilter = (className, value) ->
 	if isAGuiClass className
-		return Udim2Filter value
+		return UDim2Filter value
 	else
 		return Vector3Filter value
 
@@ -275,4 +275,4 @@ FilterProperty = (className, propertyName, propertyValue) ->
 	else
 		LiteralString propertyValue
 
-{ :BrickColorFilter, :Color3Filter, :EnumFilter, :FilterProperty, :PositionAndSizeFilter, :StyleEnumFilter, :Udim2Filter, :Vector2Filter, :Vector3Filter }
+{ :BrickColorFilter, :Color3Filter, :EnumFilter, :FilterProperty, :PositionAndSizeFilter, :StyleEnumFilter, :UDim2Filter, :Vector2Filter, :Vector3Filter }

@@ -13,7 +13,6 @@ if game
 	CustomObject = require(game\GetService("ServerScriptService").com.blacksheepherd.roml.CustomObject)
 else
 	CustomObject = require "com.blacksheepherd.roml.CustomObject"
-
 class CustomObjectBuilder
 	@Instance: ->
 		unless @@_instance
@@ -40,8 +39,10 @@ class CustomObjectBuilder
 
 			objectTable.customObject = CustomObject!
 			objectTable.customObject.Create = t.Create
-			objectTable.customObject.SetProperty = t.SetProperty
+			objectTable.customobject.CreateProperties = t.CreateProperties if t.CreateProperties
+			objectTable.customObject.UpdateProperty = t.UpdateProperty
 			objectTable.customObject.AllowsChildren = t.AllowsChildren if t.AllowsChildren
+			objectTable.customobject.PropertyUpdateOrder = t.PropertyUpdateOrder if t.PropertyUpdateOrder
 			objectTable.customObject.__class.__name = name
 
 			@_customObjects[name] = objectTable

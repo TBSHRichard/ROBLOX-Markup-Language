@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 -- A @{Block} that allows a variable in a @{TableBlock} or
--- @{AnonmyousTableBlock} to be a Stack.
+-- @{AnonymousTableBlock} to be a Stack.
 --
 -- @classmod StackBlock
 -- @author Richard Voelker

@@ -21,8 +21,11 @@ class RomlObject
 	-- Create a new RomlObject.
 	--
 	-- @tparam RomlObject self
+	-- @tparam RomlDoc romlDoc The @{RomlDoc} this object belongs
+	--  to.
 	-- @tparam Instance object The ROBLOX Instance to wrap with this
 	--	RomlObject.
+	-- @tparam string objectId The ID assigned to this object.
 	-- @tparam[opt={}] table classes The list of classes for the
 	-- 	RomlObject.
 	----------------------------------------------------------------

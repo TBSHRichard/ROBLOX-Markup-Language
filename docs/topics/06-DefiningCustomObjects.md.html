@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Getting_Started">Getting Started </a></li>
+<li><a href="#Where_to_Put_Your_Custom_Object_Scripts">Where to Put Your Custom Object Scripts </a></li>
+<li><a href="#What_to_Put_In_The_Custom_Object_ModuleScript">What to Put In The Custom Object ModuleScript </a></li>
+<li><a href="#Full_Custom_Object_Template">Full Custom Object Template </a></li>
+</ul>
+
+
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-Introduction.md.html">01-Introduction</a></li>
+  <li><a href="../topics/02-BasicRoML.md.html">02-BasicRoML</a></li>
+  <li><a href="../topics/03-LibraryCustomObjects.md.html">03-LibraryCustomObjects</a></li>
+  <li><a href="../topics/04-AdvancedRoML.md.html">04-AdvancedRoML</a></li>
+  <li><a href="../topics/05-RoSS.md.html">05-RoSS</a></li>
+  <li><strong>06-DefiningCustomObjects</strong></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
+  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="../modules/RossParser.html">RossParser</a></li>
+  <li><a href="../modules/Array.html">Array</a></li>
+  <li><a href="../modules/String.html">String</a></li>
+  <li><a href="../modules/Table.html">Table</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
+  <li><a href="../classes/Block.html">Block</a></li>
+  <li><a href="../classes/ConditionalBlock.html">ConditionalBlock</a></li>
+  <li><a href="../classes/DoBlock.html">DoBlock</a></li>
+  <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
+  <li><a href="../classes/ForBlock.html">ForBlock</a></li>
+  <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
+  <li><a href="../classes/IfBlock.html">IfBlock</a></li>
+  <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
+  <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
+  <li><a href="../classes/Line.html">Line</a></li>
+  <li><a href="../classes/MainBlock.html">MainBlock</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
+  <li><a href="../classes/RequireLine.html">RequireLine</a></li>
+  <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
+  <li><a href="../classes/StackBlock.html">StackBlock</a></li>
+  <li><a href="../classes/TableAssignmentBlock.html">TableAssignmentBlock</a></li>
+  <li><a href="../classes/TableBlock.html">TableBlock</a></li>
+  <li><a href="../classes/LiteralString.html">LiteralString</a></li>
+  <li><a href="../classes/VariableNamer.html">VariableNamer</a></li>
+  <li><a href="../classes/Stack.html">Stack</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/RossDoc.html">RossDoc</a></li>
+  <li><a href="../classes/Tester.html">Tester</a></li>
+  <li><a href="../classes/HashMap.html">HashMap</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>Defining Your Own Custom Objects</h1>
+
+<p><a name="Getting_Started"></a></p>
+<h2>Getting Started</h2>
+
+<p>To define your own custom objects to use in your RoML files, you have to know how to create ROBLOX objects with Lua.
+You will need to write a couple of functions that the library can use in order to create and update your custom object.</p>
+
+<p><a name="Where_to_Put_Your_Custom_Object_Scripts"></a></p>
+<h2>Where to Put Your Custom Object Scripts</h2>
+
+<p>After installing the RoML library, there will be a folder that you can use: <code>game.ServerScriptService.com.blacksheepherd.customobject.user</code>.
+Any ModuleScripts you put in this folder will be used as a custom object.
+The name of the ModuleScript becomes the name of your custom object.</p>
+
+<p><a name="What_to_Put_In_The_Custom_Object_ModuleScript"></a></p>
+<h2>What to Put In The Custom Object ModuleScript</h2>
+
+<p>The ModuleScript needs to return a table with a couple of functions in it.
+Write these functions based on the guidelines described below.
+Your custom object is a sub-class of the <a href="../modules/CustomObject.html#">CustomObject</a> class, so most of the functions get passed a reference to self.</p>
+
+<h3>Required Functions</h3>
+
+<p>These functions are REQUIRED in order for the custom object to work properly.</p>
+
+<h4>Create</h4>
+
+<p>The first required function is the Create function.
+The function will be passed a single argument and that is the <a href="../modules/CustomObject.html#">CustomObject</a> instance.
+You should return a ROBLOX Instance object in this function.</p>
+
+<p>The purpose of this function is to create the ROBLOX objects that you want to create from your custom object.
+It is called every time your custom object is created.</p>
+
+<p>As an example, here is the Create function for the library's custom SpriteSheet object:</p>
+
+
+<pre>
+Create = <span class="keyword">function</span>(self)
+    frame = Instance.new(<span class="string">"Frame"</span>)
+    frame.ClipsDescendants = <span class="keyword">true</span>
+    frame.Name = <span class="string">"SpriteSheetFrame"</span>
+
+    spriteSheet = Instance.new(<span class="string">"ImageLabel"</span>, frame)
+    spriteSheet.Name = <span class="string">"SpriteSheet"</span>
+
+    <span class="keyword">return</span> frame
+<span class="keyword">end</span>
+</pre>
+
+<p>Note that you don't need to set the parent of the ROBLOX object you return.
+The RoML library does that automatically for you.</p>
+
+<h4>UpdateProperty</h4>
+
+<p>The final required function is the UpdateProperty function.
+Whenever a property is passed to your object, it is passed to this function.
+Three arguments will be passed to this function: the <a href="../modules/CustomObject.html#">CustomObject</a> (same as before), the name of the property, and the value of the property.
+Nothing needs to be returned.</p>
+
+<p>Any properties you don't want to accept can just be ignored.
+Nothing will happen if the library tries to set these properties.</p>
+
+<p>Here is the UpdateProperty function from the SpriteSheet object:</p>
+
+
+<pre>
+UpdateProperty = <span class="keyword">function</span>(self, name, value)
+    frame = self:GetRobloxObject()
+
+    <span class="keyword">if</span> name == <span class="string">"Name"</span> <span class="keyword">then</span>
+        frame.Name = value
+    <span class="keyword">elseif</span> name == <span class="string">"Position"</span> <span class="keyword">then</span>
+        frame.Position = value
+    <span class="keyword">elseif</span> name == <span class="string">"SpriteSheet"</span> <span class="keyword">then</span>
+        frame:FindFirstChild(<span class="string">"SpriteSheet"</span>).Image = value
+    <span class="keyword">elseif</span> name == <span class="string">"Size"</span> <span class="keyword">then</span>
+        frame.Size = UDim2.new(<span class="number">0</span>, value.x, <span class="number">0</span>, value.y)
+    <span class="keyword">elseif</span> name == <span class="string">"Index"</span>
+        rows = <span class="global">math</span>.floor(frame.Size.Y.Offset / <span class="number">256</span>)
+        cols = <span class="global">math</span>.floor(frame.Size.X.Offset / <span class="number">256</span>)
+
+        x = value % self.Custom.cols
+        y = <span class="global">math</span>.floor(value / self.Custom.rows)
+
+        frame:FindFirstChild(<span class="string">"SpriteSheet"</span>).Position = UDim2.new(<span class="number">0</span>, -x * frame.Size.X.Offset, <span class="number">0</span>, -y * frame.Size.Y.Offset)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+<p>You can call the <a href="../classes/RomlObject.html#RomlObject.GetRobloxObject">RomlObject.GetRobloxObject</a> method on self, like in the example, to get the object you created in your Create function.</p>
+
+<h3>Optional Functions</h3>
+
+<p>Any other functions within the table are optional. You may choose to define these functions only if your custom object needs them.</p>
+
+<h4>CreateProperties</h4>
+
+<p>This funciton is used to set values of properties when the object is created.
+This function is passed in a reference to the <a href="../modules/CustomObject.html#">CustomObject</a>.
+It should return a table with the values of the properties that you want them at when the object is created.</p>
+
+<p>This is the CreateProperties function from the SpriteSheet object:</p>
+
+
+<pre>
+CreateProperties = <span class="keyword">function</span>(self)
+    <span class="keyword">return</span> {
+        Size = Vector2.new(<span class="number">256</span>, <span class="number">256</span>)
+    }
+<span class="keyword">end</span>
+</pre>
+
+<p>The Size is set in this function since the calculation for the Index property relies on the Size.</p>
+
+<h4>PropertyUpdateOrder</h4>
+
+<p>This function is used to tell the library the order in which to update properties.
+Again, this function is passed in a reference to the <a href="../modules/CustomObject.html#">CustomObject</a>.
+The function returns an array with the name of each property, in the order they should be updated.
+If you do define this function, make sure to include all property names in the array, otherwise not all properties will get updated.</p>
+
+<p>Here is the example from the SpriteSheet:</p>
+
+
+<pre>
+PropertyUpdateOrder = <span class="keyword">function</span>(self)
+    <span class="keyword">return</span> {<span class="string">"Name"</span>, <span class="string">"Position"</span>, <span class="string">"SpriteSheet"</span>, <span class="string">"Size"</span>, <span class="string">"Index"</span>}
+<span class="keyword">end</span>
+</pre>
+
+<p>Most of the order doesn't matter.
+For the Index property, however, it is important that it gets updated after the Size gets updated since the calculations rely on the Size property.</p>
+
+<h4>AllowsChildren</h4>
+
+<p>This function tells the library whether or not the object should allow children objects.
+Again, this function is passed in a reference to the <a href="../modules/CustomObject.html#">CustomObject</a>.
+It should return a boolean.
+If you don't define this function, it will allow children by default.</p>
+
+<p>SpriteSheet example:</p>
+
+
+<pre>
+AllowsChildren = <span class="keyword">function</span>(self)
+    <span class="keyword">return</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+</pre>
+
+<p>If the object doesn't allow children, an error will be thrown if one is attempted to be added.</p>
+
+<h4>FilterProperty</h4>
+
+<p>The final optional function allows you to define shorthand property values, just like the RoML library allows.
+This function is called while the RoML or RoSS file is being compiled, but not a run time. In the future, property filters may be added during run time.
+The arguments passed to the function are the name of the property, the value of the property (as a string), the <a href="../classes/LiteralString.html#">LiteralString</a> class, and the <a href="../modules/CompilerPropertyFilter.html#">CompilerPropertyFilter</a> module.
+The function must return a <a href="../classes/LiteralString.html#">LiteralString</a>, which is why the class is passed to the function.
+You may also use the Filter functions in the <a href="../modules/CompilerPropertyFilter.html#">CompilerPropertyFilter</a> module (which return a <a href="../classes/LiteralString.html#">LiteralString</a>) to help.</p>
+
+<p>If you don't want to filter a property, just return a <a href="../classes/LiteralString.html#">LiteralString</a> of the value. The library handles the rest.
+Once again, here is the FilterProperty function from the SpriteSheet object:</p>
+
+
+<pre>
+FilterProperty = <span class="keyword">function</span>(name, value, LiteralString, CompilerPropertyFilter)
+    <span class="keyword">if</span> name == <span class="string">"Position"</span> <span class="keyword">then</span>
+        CompilerPropertyFilter.UDim2Filter(value)
+    <span class="keyword">elseif</span> name == <span class="string">"Size"</span> <span class="keyword">then</span>
+        CompilerPropertyFilter.Vector2Filter(value)
+    <span class="keyword">else</span>
+        LiteralString(value)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+
+<p><a name="Full_Custom_Object_Template"></a></p>
+<h2>Full Custom Object Template</h2>
+
+<p>For your convenience, the contents of the custom object ModuleScript (without function bodies) is including below:</p>
+
+
+<pre>
+<span class="keyword">return</span> {
+    Create = <span class="keyword">function</span>(self)
+
+    <span class="keyword">end</span>,
+    CreateProperties = <span class="keyword">function</span>(self)
+
+    <span class="keyword">end</span>,
+    PropertyUpdateOrder = <span class="keyword">function</span>(self)
+
+    <span class="keyword">end</span>,
+    UpdateProperty = <span class="keyword">function</span>(self, name, value)
+
+    <span class="keyword">end</span>,
+    FilterProperty = <span class="keyword">function</span>(name, value, LiteralString, CompilerPropertyFilter)
+
+    <span class="keyword">end</span>,
+    AllowsChildren = <span class="keyword">function</span>(self)
+
+    <span class="keyword">end</span>
+}
+</pre>
+
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-06-26 19:06:26 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

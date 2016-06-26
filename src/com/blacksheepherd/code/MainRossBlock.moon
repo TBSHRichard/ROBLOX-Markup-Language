@@ -155,7 +155,7 @@ class MainRossBlock
 	-- @tparam MainRossBlock self
 	-- @tparam string key The rightmost selector on the selector
 	--  stack.
-	-- @tparam AnonymousTableBlock objectSelectorBlock The block of
+	-- @tparam AnonymousTableBlock classSelectorBlock The block of
 	--  code which contains the selector @{Stack} and properties
 	--  table.
 	----------------------------------------------------------------
@@ -173,7 +173,7 @@ class MainRossBlock
 	-- @tparam MainRossBlock self
 	-- @tparam string key The rightmost selector on the selector
 	--  stack.
-	-- @tparam AnonymousTableBlock objectSelectorBlock The block of
+	-- @tparam AnonymousTableBlock idSelectorBlock The block of
 	--  code which contains the selector @{Stack} and properties
 	--  table.
 	----------------------------------------------------------------

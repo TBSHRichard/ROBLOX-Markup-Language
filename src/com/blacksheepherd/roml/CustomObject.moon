@@ -20,10 +20,24 @@ else
 class CustomObject extends RomlObject
 	new: (romlDoc, objectId, classes) =>
 		super(romlDoc, @\Create!, objectId, classes)
+		@_properties = @\CreateProperties!
 
 	Create: =>
 
-	SetProperty: (instance, name, value) =>
+	CreateProperties: =>
+		{}
 
-	SetProperties: (properties) =>
-		@\SetProperty(@_robloxObject, name, @\FilterProperty(name, value)) for name, value in pairs properties
+	PropertyUpdateOrder: =>
+		{}
+
+	UpdateProperty: (name, value) =>
+
+	Refresh: =>
+		propertyUpdateOrder = @\PropertyUpdateOrder!
+
+		if #propertyUpdateOrder > 0
+			for name in *propertyUpdateOrder
+				@\UpdateProperty name, @_properties[name]
+		else
+			for name, property in pairs @_properties
+				@\UpdateProperty name, property

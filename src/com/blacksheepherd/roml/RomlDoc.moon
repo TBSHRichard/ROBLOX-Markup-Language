@@ -18,16 +18,16 @@ class RomlDoc
 	-- @tparam RomlDoc self
 	-- @tparam Instance parent The ROBLOX object to add the RomlDoc
 	--	to.
-	-- @tparam table vars The starting values for the variables.
-	-- @tparam[opt=RossDoc()] RossDoc ross The starting RoSS.
+	-- @tparam[opt] table vars The starting values for the variables.
+	-- @tparam[opt] RossDoc ross The starting RoSS.
 	----------------------------------------------------------------
-	new: (parent, vars, ross = RossDoc!) =>
+	new: (parent, vars, ross) =>
 		@_objectIds = {}
 		@_vars = {}
 		@_ross = ross
 		@_children = HashMap({})
 		
-		@\_create parent, vars
+		@\_create parent, (vars or {})
 	
 	----------------------------------------------------------------
 	-- Get a variable from this document so it may be changed.

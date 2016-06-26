@@ -9,7 +9,7 @@ Instead of HTML elements, RoML uses ROBLOX objects as its elements. For example,
 ```
 %Model{Name: MyModel}
 	%Part.red
-	%Part{Name: "Blue Part", BrickColor: 0, 0, 255; Position: 0, 5, 0}
+	%Part{Name: "Blue Part"; BrickColor: 0, 0, 255; Position: 0, 5, 0}
 ```
 
 ## RoSS

@@ -118,7 +118,7 @@ addCode = (tree) ->
 -- Compile the parsetree into a Lua string.
 --
 -- @tparam string name The name of the Lua subclass.
--- @tparam table parsetree The parse tree.
+-- @tparam table parseTree The parse tree.
 -- @treturn string The compiled Lua code.
 ----------------------------------------------------------------
 Compile = (name, parseTree) ->

@@ -10,6 +10,7 @@ class Stack
 	----------------------------------------------------------------
 	-- Create a new Stack.
 	--
+	-- @tparam Stack self
 	-- @tparam[opt={}] table stack The initial stack. The end of
 	--  the table is assumed to be the top of the stack.
 	----------------------------------------------------------------

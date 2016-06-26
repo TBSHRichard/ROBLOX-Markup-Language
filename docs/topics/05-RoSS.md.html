@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>ROBLOX Markup Language Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ROBLOX Markup Language</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Introduction_to_ROBLOX_Style_Sheets">Introduction to ROBLOX Style Sheets </a></li>
+<li><a href="#Selectors">Selectors </a></li>
+<li><a href="#Selecting_Children">Selecting Children </a></li>
+<li><a href="#Setting_the_RossDoc">Setting the RossDoc </a></li>
+<li><a href="#When_to_Use_RoSS">When to Use RoSS </a></li>
+</ul>
+
+
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/01-Introduction.md.html">01-Introduction</a></li>
+  <li><a href="../topics/02-BasicRoML.md.html">02-BasicRoML</a></li>
+  <li><a href="../topics/03-LibraryCustomObjects.md.html">03-LibraryCustomObjects</a></li>
+  <li><a href="../topics/04-AdvancedRoML.md.html">04-AdvancedRoML</a></li>
+  <li><strong>05-RoSS</strong></li>
+  <li><a href="../topics/06-DefiningCustomObjects.md.html">06-DefiningCustomObjects</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/CompilerPropertyFilter.html">CompilerPropertyFilter</a></li>
+  <li><a href="../modules/CustomObject.html">CustomObject</a></li>
+  <li><a href="../modules/SpriteSheet.html">SpriteSheet</a></li>
+  <li><a href="../modules/File.html">File</a></li>
+  <li><a href="../modules/RomlCompiler.html">RomlCompiler</a></li>
+  <li><a href="../modules/RomlParser.html">RomlParser</a></li>
+  <li><a href="../modules/RossCompiler.html">RossCompiler</a></li>
+  <li><a href="../modules/RossParser.html">RossParser</a></li>
+  <li><a href="../modules/Array.html">Array</a></li>
+  <li><a href="../modules/String.html">String</a></li>
+  <li><a href="../modules/Table.html">Table</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/AnonymousTableBlock.html">AnonymousTableBlock</a></li>
+  <li><a href="../classes/Block.html">Block</a></li>
+  <li><a href="../classes/ConditionalBlock.html">ConditionalBlock</a></li>
+  <li><a href="../classes/DoBlock.html">DoBlock</a></li>
+  <li><a href="../classes/DoubleBlock.html">DoubleBlock</a></li>
+  <li><a href="../classes/ForBlock.html">ForBlock</a></li>
+  <li><a href="../classes/FunctionBlock.html">FunctionBlock</a></li>
+  <li><a href="../classes/IfBlock.html">IfBlock</a></li>
+  <li><a href="../classes/IfElseBlock.html">IfElseBlock</a></li>
+  <li><a href="../classes/InnerMetatableBlock.html">InnerMetatableBlock</a></li>
+  <li><a href="../classes/Line.html">Line</a></li>
+  <li><a href="../classes/MainBlock.html">MainBlock</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/MetatableBlock.html">MetatableBlock</a></li>
+  <li><a href="../classes/RequireLine.html">RequireLine</a></li>
+  <li><a href="../classes/SpaceBlock.html">SpaceBlock</a></li>
+  <li><a href="../classes/StackBlock.html">StackBlock</a></li>
+  <li><a href="../classes/TableAssignmentBlock.html">TableAssignmentBlock</a></li>
+  <li><a href="../classes/TableBlock.html">TableBlock</a></li>
+  <li><a href="../classes/LiteralString.html">LiteralString</a></li>
+  <li><a href="../classes/VariableNamer.html">VariableNamer</a></li>
+  <li><a href="../classes/Stack.html">Stack</a></li>
+  <li><a href="../classes/MainRossBlock.html">MainRossBlock</a></li>
+  <li><a href="../classes/Event.html">Event</a></li>
+  <li><a href="../classes/ObjectBuilder.html">ObjectBuilder</a></li>
+  <li><a href="../classes/RomlDoc.html">RomlDoc</a></li>
+  <li><a href="../classes/RomlObject.html">RomlObject</a></li>
+  <li><a href="../classes/RomlVar.html">RomlVar</a></li>
+  <li><a href="../classes/RossDoc.html">RossDoc</a></li>
+  <li><a href="../classes/Tester.html">Tester</a></li>
+  <li><a href="../classes/HashMap.html">HashMap</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../examples/event.moon.html">event.moon</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+
+<h1>ROBLOX Style Sheets</h1>
+
+<p><a name="Introduction_to_ROBLOX_Style_Sheets"></a></p>
+<h2>Introduction to ROBLOX Style Sheets</h2>
+
+<p>ROBLOX Style Sheets (RoSS) is another small language defined by the RoML library.
+It is used to set properties of objects created by RoML.
+If you've used CSS, RoSS is designed to work very similar.</p>
+
+<p><a name="Selectors"></a></p>
+<h2>Selectors</h2>
+
+<p>To be able to set properties of an object, we must first write a selector to know which objects the properties belong to.
+A selector has an optional object name, followed by a class name or an id name.
+Below are a few examples.</p>
+
+<ul>
+    <li>Object selector: <code>Part</code></li>
+    <li>Class selector: <code>.Red</code></li>
+    <li>Id selector: <code>#Part1</code></li>
+    <li>Object with class selector: <code>Part.Red</code></li>
+    <li>Object with id selector: <code>Part#Part1</code></li>
+</ul>
+
+<p>Each property you set is on it's own line.
+Like RoML, whitespace matters in RoSS.
+Properties that are tabbed and below a selector line are associated with that selector:</p>
+
+<pre><code> Part.White
+    Name: "White Part"
+    BrickColor: 1001
+</code></pre>
+
+
+<p>As you can see, short hand properties work here as well.
+There are some extra rules you should note, however:</p>
+
+<ul>
+    <li>If the property is Position or Size, you must include the object name otherwise it will assume a Vector3 even for Gui classes.</li>
+    <li>If the property is the Style Enum, you must also include the object name because there are 4 different Style Enums depending on the ROBLOX object.</li>
+    <li>If the object is a custom object, you must include the object name so that the custom object's filters can be used.</li>
+</ul>
+
+<p>Other than that, the object name is optional.</p>
+
+<p><a name="Selecting_Children"></a></p>
+<h2>Selecting Children</h2>
+
+<p>Selecting children within a large structure is not all that much more difficult.
+Just simply include multiple selectors, separated by a space.
+Take the following RoML file for example:</p>
+
+<pre><code> %Model
+    %Part#Part1
+ %Part#Part2
+</code></pre>
+
+
+<p>And the following RoSS file:</p>
+
+<pre><code> Model Part
+    BrickColor: Bright red
+</code></pre>
+
+
+<p>Only the <code>Part</code> with the id of "Part1" would be colored red.
+This is because the <code>Part</code> with id of "Part2" is not a child of a <code>Model</code> object.</p>
+
+<p><a name="Setting_the_RossDoc"></a></p>
+<h2>Setting the RossDoc</h2>
+
+<p>We can set an initial RossDoc in the constructor for our RomlDoc, just like variables.
+Let's take a look at the project structure for this example assuming our RoML and RoSS are the examples from the last section:</p>
+
+<pre><code>game
+ |
+ +-- ServerScriptService
+      |
+      +-- lib (Folder)
+      |    |
+      |    +-- roml (Folder)
+      |    |    |
+      |    |    +-- StyledRoML (ModuleScript)
+      |    |
+      |    +-- ross (Folder)
+      |         |
+      |         +-- TestRoSS (ModuleScript)
+      |
+      +-- src (Folder)
+           |
+           +-- roml (Folder)
+           |    |
+           |    +-- StyledRoML.roml (ModuleScript)
+           |
+           +-- ross (Folder)
+                |
+                +-- TestRoSS.ross (ModuleScript)
+</code></pre>
+
+
+<p>So now we may set our RoSS file when constructing our RoML:</p>
+
+
+<pre>
+<span class="keyword">local</span> StyledRoML = <span class="global">require</span>(game.ServerScriptService.lib.roml.StyledRoML)
+<span class="keyword">local</span> TestRoSS = <span class="global">require</span>(game.ServerScriptServer.lib.ross.TestRoSS)
+
+StyledRoML.new(game.Workspace, {}, TestRoSS.new())
+</pre>
+
+<p>But we may also update the style sheet at runtime, just like we can with variables.
+Let's create another RoSS script, TestRoSS2:</p>
+
+<pre><code> Model Part
+    BrickColor: 1001
+</code></pre>
+
+
+<p>Then we can use the <a href="../classes/RomlDoc.html#RomlDoc.SetStyleSheet">RomlDoc.SetStyleSheet</a> to change the style sheet:</p>
+
+
+<pre>
+<span class="keyword">local</span> StyledRoML = <span class="global">require</span>(game.ServerScriptService.lib.roml.StyledRoML)
+<span class="keyword">local</span> TestRoSS = <span class="global">require</span>(game.ServerScriptServer.lib.ross.TestRoSS)
+<span class="keyword">local</span> TestRoSS2 = <span class="global">require</span>(game.ServerScriptServer.lib.ross.TestRoSS2)
+
+styledRoML = StyledRoML.new(game.Workspace, {}, TestRoSS.new())
+
+wait(<span class="number">5</span>)
+
+styledRoML:SetStyleSheet(TestRoSS2.new())
+</pre>
+
+<p>After 5 seconds, the <code>Part</code> inside the <code>Model</code> changes from red to white!</p>
+
+<p><a name="When_to_Use_RoSS"></a></p>
+<h2>When to Use RoSS</h2>
+
+<p>So there are two methods of setting properties inside of the RoML library.
+There is not correct way to set them, but I suggest using the following rules of thumb to know when to set properties inside the RoML or RoSS files:</p>
+
+<ul>
+    <li>If the property is a variable property, use RoML.</li>
+    <li>Otherwise, use RoSS.</li>
+</ul>
+
+<p>With these rules, you can help keep your code neat and organized.</p>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2016-06-26 19:06:26 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

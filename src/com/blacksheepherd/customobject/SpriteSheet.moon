@@ -24,6 +24,12 @@ return {
 
 		return frame
 
+	CreateProperties: =>
+		{Size: Vector2.new(256, 256)}
+
+	PropertyUpdateOrder: =>
+		{"Name", "Position", "SpriteSheet", "Size", "Index"}
+
 	FilterProperty: (name, value, LiteralString, CompilerPropertyFilter) ->
 		return switch name
 			when "Position"
@@ -36,21 +42,21 @@ return {
 	SetProperty: (frame, name, value) =>
 		switch name
 			when "Name"
-				instance.Name = value
+				frame.Name = value
 			when "Position"
-				instance.Position = value
+				frame.Position = value
 			when "SpriteSheet"
-				instance\FindFirstChild("SpriteSheet").Image = value
+				frame\FindFirstChild("SpriteSheet").Image = value
 			when "Size"
-				instance.Size = UDim2.new(0, value.x, 0, value.y)
+				frame.Size = UDim2.new(0, value.x, 0, value.y)
 			when "Index"
-				rows = math.floor(instance.size.Y.Offset / 256)
-				cols = math.floor(instance.size.X.Offset / 256)
+				rows = math.floor(frame.Size.Y.Offset / 256)
+				cols = math.floor(frame.Size.X.Offset / 256)
 
 				x = value % cols
 				y = math.floor(value / rows)
 
-				instance\FindFirstChild("SpriteSheet").Position = UDim2.new(0, -x * instance.size.X.Offset, 0, -y * instance.size.Y.Offset)
+				frame\FindFirstChild("SpriteSheet").Position = UDim2.new(0, -x * frame.Size.X.Offset, 0, -y * frame.Size.Y.Offset)
 
 	AllowsChildren: => false
 }

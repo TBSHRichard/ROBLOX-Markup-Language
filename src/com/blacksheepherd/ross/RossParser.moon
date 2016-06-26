@@ -142,7 +142,7 @@ grammar = P {
 -- Parses a RoSS string into a parse tree to be sent to the
 -- @{RossCompiler}.
 --
--- @tparam string roml The RoSS string.
+-- @tparam string ross The RoSS string.
 -- @treturn table The parse tree.
 ----------------------------------------------------------------
 Parse = (ross) ->
