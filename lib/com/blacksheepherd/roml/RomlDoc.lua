@@ -29,14 +29,11 @@ do
   _base_0.__index = _base_0
   local _class_0 = setmetatable({
     __init = function(self, parent, vars, ross)
-      if ross == nil then
-        ross = RossDoc()
-      end
       self._objectIds = { }
       self._vars = { }
       self._ross = ross
       self._children = HashMap({ })
-      return self:_create(parent, vars)
+      return self:_create(parent, (vars or { }))
     end,
     __base = _base_0,
     __name = "RomlDoc"

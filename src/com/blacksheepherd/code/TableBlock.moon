@@ -9,7 +9,8 @@
 local Block
 
 if game
-	Block = require(plugin.com.blacksheepherd.code.Block)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	Block = require(pluginModel.com.blacksheepherd.code.Block)
 else
 	Block = require "com.blacksheepherd.code.Block"
 

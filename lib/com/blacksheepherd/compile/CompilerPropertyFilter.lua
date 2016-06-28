@@ -1,8 +1,9 @@
 local LiteralString
 local lpeg
 if game then
-  LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
-  lpeg = require(plugin.lulpeg.lulpeg)
+  local pluginModel = script.Parent.Parent.Parent.Parent
+  LiteralString = require(pluginModel.com.blacksheepherd.compile.LiteralString)
+  lpeg = require(pluginModel.lulpeg.lulpeg)
 else
   LiteralString = require("com.blacksheepherd.compile.LiteralString")
   lpeg = require("lpeg")
@@ -24,8 +25,8 @@ local isAGuiClass
 isAGuiClass = function(className)
   return className == "Frame" or className == "ImageButton" or className == "TextButton" or className == "ImageLabel" or className == "TextLabel" or className == "Scale9Frame" or className == "ScrollingFrame" or className == "TextBox"
 end
-local Udim2Filter
-Udim2Filter = function(value)
+local UDim2Filter
+UDim2Filter = function(value)
   do
     local match = numberQuartetOrNumberDuo:match(value)
     if match then
@@ -68,7 +69,7 @@ end
 local PositionAndSizeFilter
 PositionAndSizeFilter = function(className, value)
   if isAGuiClass(className) then
-    return Udim2Filter(value)
+    return UDim2Filter(value)
   else
     return Vector3Filter(value)
   end
@@ -213,7 +214,7 @@ return {
   FilterProperty = FilterProperty,
   PositionAndSizeFilter = PositionAndSizeFilter,
   StyleEnumFilter = StyleEnumFilter,
-  Udim2Filter = Udim2Filter,
+  UDim2Filter = UDim2Filter,
   Vector2Filter = Vector2Filter,
   Vector3Filter = Vector3Filter
 }

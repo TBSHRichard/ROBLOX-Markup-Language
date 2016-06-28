@@ -10,8 +10,9 @@ local LiteralString
 local lpeg
 
 if game
-	LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
-	lpeg = require(plugin.lulpeg.lulpeg)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	LiteralString = require(pluginModel.com.blacksheepherd.compile.LiteralString)
+	lpeg = require(pluginModel.lulpeg.lulpeg)
 else
 	LiteralString = require "com.blacksheepherd.compile.LiteralString"
 	lpeg = require "lpeg"

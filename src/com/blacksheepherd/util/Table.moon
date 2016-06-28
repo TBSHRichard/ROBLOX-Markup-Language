@@ -10,8 +10,9 @@ local HashMap
 local String
 
 if game
-	HashMap = require(plugin.com.blacksheepherd.util.HashMap)
-	String = require(plugin.com.blacksheepherd.util.String)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	HashMap = require(pluginModel.com.blacksheepherd.util.HashMap)
+	String = require(pluginModel.com.blacksheepherd.util.String)
 else
 	HashMap = require "com.blacksheepherd.util.HashMap"
 	String = require "com.blacksheepherd.util.String"

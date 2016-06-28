@@ -20,18 +20,19 @@ local CompilerPropertyFilter
 local CustomObjectBuilder
 
 if game
-	Stack = require(plugin.com.blacksheepherd.datastructure.Stack)
-	Table = require(plugin.com.blacksheepherd.util.Table)
-	MainBlock = require(plugin.com.blacksheepherd.code.MainBlock)
-	ConditionalBlock = require(plugin.com.blacksheepherd.code.ConditionalBlock)
-	ForBlock = require(plugin.com.blacksheepherd.code.ForBlock)
-	SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
-	FunctionBlock = require(plugin.com.blacksheepherd.code.FunctionBlock)
-	Line = require(plugin.com.blacksheepherd.code.Line)
-	VariableNamer = require(plugin.com.blacksheepherd.compile.VariableNamer)
-	LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
-	CompilerPropertyFilter = require(plugin.com.blacksheepherd.compile.CompilerPropertyFilter)
-	CustomObjectBuilder = require(plugin.com.blacksheepherd.customobject.CustomObjectBuilder)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	Stack = require(pluginModel.com.blacksheepherd.datastructure.Stack)
+	Table = require(pluginModel.com.blacksheepherd.util.Table)
+	MainBlock = require(pluginModel.com.blacksheepherd.code.MainBlock)
+	ConditionalBlock = require(pluginModel.com.blacksheepherd.code.ConditionalBlock)
+	ForBlock = require(pluginModel.com.blacksheepherd.code.ForBlock)
+	SpaceBlock = require(pluginModel.com.blacksheepherd.code.SpaceBlock)
+	FunctionBlock = require(pluginModel.com.blacksheepherd.code.FunctionBlock)
+	Line = require(pluginModel.com.blacksheepherd.code.Line)
+	VariableNamer = require(pluginModel.com.blacksheepherd.compile.VariableNamer)
+	LiteralString = require(pluginModel.com.blacksheepherd.compile.LiteralString)
+	CompilerPropertyFilter = require(pluginModel.com.blacksheepherd.compile.CompilerPropertyFilter)
+	CustomObjectBuilder = require(pluginModel.com.blacksheepherd.customobject.CustomObjectBuilder)
 else
 	Stack = require "com.blacksheepherd.datastructure.Stack"
 	Table = require "com.blacksheepherd.util.Table"

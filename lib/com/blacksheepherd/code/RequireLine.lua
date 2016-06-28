@@ -1,6 +1,7 @@
 local Line
 if game then
-  Line = require(plugin.com.blacksheepherd.code.Line)
+  local pluginModel = script.Parent.Parent.Parent.Parent
+  Line = require(pluginModel.com.blacksheepherd.code.Line)
 else
   Line = require("com.blacksheepherd.code.Line")
 end

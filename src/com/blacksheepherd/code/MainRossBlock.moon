@@ -19,17 +19,18 @@ local Line
 local RequireLine
 
 if game
-	FunctionBlock = require(plugin.com.blacksheepherd.code.FunctionBlock)
-	DoBlock = require(plugin.com.blacksheepherd.code.DoBlock)
-	SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
-	DoubleBlock = require(plugin.com.blacksheepherd.code.DoubleBlock)
-	TableBlock = require(plugin.com.blacksheepherd.code.TableBlock)
-	TableAssignmentBlock = require(plugin.com.blacksheepherd.code.TableAssignmentBlock)
-	MetatableBlock = require(plugin.com.blacksheepherd.code.MetatableBlock)
-	IfElseBlock = require(plugin.com.blacksheepherd.code.IfElseBlock)
-	IfBlock = require(plugin.com.blacksheepherd.code.IfBlock)
-	Line = require(plugin.com.blacksheepherd.code.Line)
-	RequireLine = require(plugin.com.blacksheepherd.code.RequireLine)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	FunctionBlock = require(pluginModel.com.blacksheepherd.code.FunctionBlock)
+	DoBlock = require(pluginModel.com.blacksheepherd.code.DoBlock)
+	SpaceBlock = require(pluginModel.com.blacksheepherd.code.SpaceBlock)
+	DoubleBlock = require(pluginModel.com.blacksheepherd.code.DoubleBlock)
+	TableBlock = require(pluginModel.com.blacksheepherd.code.TableBlock)
+	TableAssignmentBlock = require(pluginModel.com.blacksheepherd.code.TableAssignmentBlock)
+	MetatableBlock = require(pluginModel.com.blacksheepherd.code.MetatableBlock)
+	IfElseBlock = require(pluginModel.com.blacksheepherd.code.IfElseBlock)
+	IfBlock = require(pluginModel.com.blacksheepherd.code.IfBlock)
+	Line = require(pluginModel.com.blacksheepherd.code.Line)
+	RequireLine = require(pluginModel.com.blacksheepherd.code.RequireLine)
 else
 	FunctionBlock = require "com.blacksheepherd.code.FunctionBlock"
 	DoBlock = require "com.blacksheepherd.code.DoBlock"

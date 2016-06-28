@@ -17,15 +17,16 @@ local CompilerPropertyFilter
 local CustomObjectBuilder
 
 if game
-	Array = require(plugin.com.blacksheepherd.util.Array)
-	Table = require(plugin.com.blacksheepherd.util.Table)
-	AnonymousTableBlock = require(plugin.com.blacksheepherd.code.AnonymousTableBlock)
-	StackBlock = require(plugin.com.blacksheepherd.code.StackBlock)
-	Line = require(plugin.com.blacksheepherd.code.Line)
-	MainRossBlock = require(plugin.com.blacksheepherd.code.MainRossBlock)
-	LiteralString = require(plugin.com.blacksheepherd.compile.LiteralString)
-	CompilerPropertyFilter = require(plugin.com.blacksheepherd.compile.CompilerPropertyFilter)
-	CustomObjectBuilder = require(plugin.com.blacksheepherd.customobject.CustomObjectBuilder)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	Array = require(pluginModel.com.blacksheepherd.util.Array)
+	Table = require(pluginModel.com.blacksheepherd.util.Table)
+	AnonymousTableBlock = require(pluginModel.com.blacksheepherd.code.AnonymousTableBlock)
+	StackBlock = require(pluginModel.com.blacksheepherd.code.StackBlock)
+	Line = require(pluginModel.com.blacksheepherd.code.Line)
+	MainRossBlock = require(pluginModel.com.blacksheepherd.code.MainRossBlock)
+	LiteralString = require(pluginModel.com.blacksheepherd.compile.LiteralString)
+	CompilerPropertyFilter = require(pluginModel.com.blacksheepherd.compile.CompilerPropertyFilter)
+	CustomObjectBuilder = require(pluginModel.com.blacksheepherd.customobject.CustomObjectBuilder)
 else
 	Array = require "com.blacksheepherd.util.Array"
 	Table = require "com.blacksheepherd.util.Table"

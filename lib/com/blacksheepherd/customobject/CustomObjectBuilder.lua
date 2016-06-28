@@ -15,9 +15,15 @@ do
         end
         objectTable.customObject = CustomObject()
         objectTable.customObject.Create = t.Create
-        objectTable.customObject.SetProperty = t.SetProperty
+        if t.CreateProperties then
+          objectTable.customobject.CreateProperties = t.CreateProperties
+        end
+        objectTable.customObject.UpdateProperty = t.UpdateProperty
         if t.AllowsChildren then
           objectTable.customObject.AllowsChildren = t.AllowsChildren
+        end
+        if t.PropertyUpdateOrder then
+          objectTable.customobject.PropertyUpdateOrder = t.PropertyUpdateOrder
         end
         objectTable.customObject.__class.__name = name
         self._customObjects[name] = objectTable

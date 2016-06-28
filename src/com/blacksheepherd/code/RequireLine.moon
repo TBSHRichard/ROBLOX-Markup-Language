@@ -9,7 +9,8 @@
 local Line
 
 if game
-	Line = require(plugin.com.blacksheepherd.code.Line)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	Line = require(pluginModel.com.blacksheepherd.code.Line)
 else
 	Line = require "com.blacksheepherd.code.Line"
 

@@ -10,8 +10,9 @@ local DoubleBlock
 local InnerMetatableBlock
 
 if game
-	DoubleBlock = require(plugin.com.blacksheepherd.code.DoubleBlock)
-	InnerMetatableBlock = require(plugin.com.blacksheepherd.code.InnerMetatableBlock)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	DoubleBlock = require(pluginModel.com.blacksheepherd.code.DoubleBlock)
+	InnerMetatableBlock = require(pluginModel.com.blacksheepherd.code.InnerMetatableBlock)
 else
 	DoubleBlock = require "com.blacksheepherd.code.DoubleBlock"
 	InnerMetatableBlock = require "com.blacksheepherd.code.InnerMetatableBlock"

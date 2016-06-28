@@ -3,10 +3,11 @@ local HashMap
 local Array
 local Stack
 if game then
-  lpeg = require(plugin.lulpeg.lulpeg)
-  HashMap = require(plugin.com.blacksheepherd.util.HashMap)
-  Array = require(plugin.com.blacksheepherd.util.Array)
-  Stack = require(plugin.com.blacksheepherd.datastructure.Stack)
+  local pluginModel = script.Parent.Parent.Parent.Parent
+  lpeg = require(pluginModel.lulpeg.lulpeg)
+  HashMap = require(pluginModel.com.blacksheepherd.util.HashMap)
+  Array = require(pluginModel.com.blacksheepherd.util.Array)
+  Stack = require(pluginModel.com.blacksheepherd.datastructure.Stack)
 else
   lpeg = require("lpeg")
   HashMap = require("com.blacksheepherd.util.HashMap")

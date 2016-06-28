@@ -10,8 +10,9 @@ local Block
 local SpaceBlock
 
 if game
-	Block = require(plugin.com.blacksheepherd.code.Block)
-	SpaceBlock = require(plugin.com.blacksheepherd.code.SpaceBlock)
+	pluginModel = script.Parent.Parent.Parent.Parent
+	Block = require(pluginModel.com.blacksheepherd.code.Block)
+	SpaceBlock = require(pluginModel.com.blacksheepherd.code.SpaceBlock)
 else
 	Block = require "com.blacksheepherd.code.Block"
 	SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
