@@ -173,8 +173,8 @@ grammarTable = {
 
 	PropertyKey:       C(UppercaseLetter * (UppercaseLetter + LowercaseLetter + Number)^0)
 	PropertyValue:     Ct(Cc("var") * Variable) + V"String" + C((S"\t "^0 * (1 - S"}:;\r\n\t "))^0)
-	PropertyPair:      Ct(Tabs * V"PropertyKey" * Tabs * P":" * Tabs * V"PropertyValue" * Tabs)
-	PropertyList:      P"{" * Cf(Cmt("", NewHashMap) * (V"PropertyPair" * P";")^0 * V"PropertyPair" * P"}", PropertyPairMatch)
+	RoMLPropertyPair:  Ct(Tabs * V"PropertyKey" * Tabs * P":" * Tabs * V"PropertyValue" * Tabs)
+	PropertyList:      P"{" * Cf(Cmt("", NewHashMap) * (V"RoMLPropertyPair" * P";")^0 * V"RoMLPropertyPair" * P"}", PropertyPairMatch)
 
 	ObjectName:        C(UppercaseLetter * (UppercaseLetter + LowercaseLetter)^0)
 	Object:            V"CheckIndent" * P"%" * V"ObjectName" * (V"CloneSource" + Cc(nil)) * (V"Id" + Cc(nil)) * (V"Classes" + Cc(nil)) * (V"PropertyList" + Cc(nil))
@@ -191,8 +191,8 @@ grammarTable = {
 	ForBlock:          ForLoopMatch V"ForHeader" * V"BlockBody"
 
 	BlockBody:         LineEnd * (V"Indent" * Ct(V"Block"^0) * V"Dedent" + Cc({}))
-	Block:             V"ObjectBlock" + V"ConditionalBlock" + V"ForBlock"
-	RoML:              Ct(V"Block"^0)
+	RoMLDocBlock:      V"ObjectBlock" + V"ConditionalBlock" + V"ForBlock"
+	RoML:              Ct(V"RoMLDocBlock"^0)
 }
 
 if game
