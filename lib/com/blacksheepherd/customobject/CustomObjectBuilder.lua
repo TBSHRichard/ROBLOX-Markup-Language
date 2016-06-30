@@ -10,20 +10,20 @@ do
     Build = function(self, name, t)
       if not (self:HasObject(name)) then
         local objectTable = { }
-        objectTable.FilterProperty = t.FilterProperty or function(name, value)
+        objectTable.FilterProperty = t.FilterProperty or function(name, value, LiteralString, CompilerPropertyFilter)
           return LiteralString(value)
         end
         objectTable.customObject = CustomObject()
         objectTable.customObject.Create = t.Create
         if t.CreateProperties then
-          objectTable.customobject.CreateProperties = t.CreateProperties
+          objectTable.customObject.CreateProperties = t.CreateProperties
         end
         objectTable.customObject.UpdateProperty = t.UpdateProperty
         if t.AllowsChildren then
           objectTable.customObject.AllowsChildren = t.AllowsChildren
         end
         if t.PropertyUpdateOrder then
-          objectTable.customobject.PropertyUpdateOrder = t.PropertyUpdateOrder
+          objectTable.customObject.PropertyUpdateOrder = t.PropertyUpdateOrder
         end
         objectTable.customObject.__class.__name = name
         self._customObjects[name] = objectTable
@@ -44,7 +44,8 @@ do
     __init = function(self)
       self._customObjects = { }
       if game then
-        self:Build("SpriteSheet", require(plugin.com.blacksheepherd.customobject.SpriteSheet))
+        local pluginModel = script.Parent.Parent.Parent.Parent
+        self:Build("SpriteSheet", require(pluginModel.com.blacksheepherd.customobject.SpriteSheet))
         local _list_0 = game:GetService("ServerScriptService").com.blacksheepherd.customobject.user:GetChildren()
         for _index_0 = 1, #_list_0 do
           local moduleScript = _list_0[_index_0]

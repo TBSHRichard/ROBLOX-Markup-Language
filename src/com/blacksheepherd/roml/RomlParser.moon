@@ -21,6 +21,8 @@ else
 	Stack = require "com.blacksheepherd.datastructure.Stack"
 
 import C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V from lpeg
+local L
+L = lpeg.L if game
 
 local indentStack
 
@@ -152,7 +154,7 @@ ForLoopMatch = (pattern) ->
 			children
 		}
 
-grammar = P {
+grammarTable = {
 	"RoML"
 
 	Indent:            #Cmt(Tabs, Indent)
@@ -192,6 +194,11 @@ grammar = P {
 	Block:             V"ObjectBlock" + V"ConditionalBlock" + V"ForBlock"
 	RoML:              Ct(V"Block"^0)
 }
+
+if game
+	grammarTable.Indent = L(Cmt(Tabs, Indent))
+
+grammar = P grammarTable
 
 ----------------------------------------------------------------
 -- Parses a RoML string into a parse tree to be sent to the

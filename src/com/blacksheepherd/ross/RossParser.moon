@@ -24,6 +24,9 @@ else
 	Stack = require "com.blacksheepherd.datastructure.Stack"
 
 import C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V from lpeg
+local L
+
+L = lpeg.L if game
 
 local indentStack
 
@@ -103,7 +106,7 @@ Dedent = (roml, position, tabs) ->
 	indentStack\Pop!
 	true
 
-grammar = P {
+grammarTable = {
 	"RoSS"
 
 	Indent:             #Cmt(Tabs, Indent)
@@ -119,8 +122,8 @@ grammar = P {
 
 	PropertyKey:        C(UppercaseLetter * (UppercaseLetter + LowercaseLetter + Number)^0)
 	PropertyValue:      V"String" + C((S"\t "^0 * (1 - S":\r\n\t "))^0)
-	PropertyPair:       Ct(Tabs * V"PropertyKey" * Tabs * P":" * Tabs * V"PropertyValue" * Tabs)
-	PropertyLine:       V"CheckIndent" * V"PropertyPair" * LineEnd
+	RossPropertyPair:   Ct(Tabs * V"PropertyKey" * Tabs * P":" * Tabs * V"PropertyValue" * Tabs)
+	PropertyLine:       V"CheckIndent" * V"RossPropertyPair" * LineEnd
 	PropertyLines:      Cf(Cmt("", NewHashMap) * V"PropertyLine"^1, PropertyPairMatch)
 
 	ObjectName:         C(UppercaseLetter * (UppercaseLetter + LowercaseLetter)^0)
@@ -135,9 +138,14 @@ grammar = P {
 	RoSSBody:           V"Indent" * (V"PropertyLines" + Cc(nil)) * V"Dedent" + Cc({})
 	RoSSBlock:          RoSSBlockMatch V"RoSSHeader" * V"RoSSBody"
 
-	Block:              V"RoSSBlock"
+	RossDocBlock:       V"RoSSDocBlock"
 	RoSS:               Ct(V"Block"^0)
 }
+
+if game
+	grammarTable.Indent = L(Cmt(Tabs, Indent))
+
+grammar = P grammarTable
 
 ----------------------------------------------------------------
 -- Parses a RoSS string into a parse tree to be sent to the

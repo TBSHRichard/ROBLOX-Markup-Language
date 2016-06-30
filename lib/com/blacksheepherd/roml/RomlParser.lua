@@ -13,6 +13,10 @@ else
 end
 local C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V
 C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V = lpeg.C, lpeg.Cc, lpeg.Cf, lpeg.Cs, lpeg.Ct, lpeg.Cmt, lpeg.P, lpeg.R, lpeg.S, lpeg.V
+local L
+if game then
+  L = lpeg.L
+end
 local indentStack
 local NewLine = P("\r") ^ -1 * P("\n")
 local UppercaseLetter = R("AZ")
@@ -184,7 +188,7 @@ ForLoopMatch = function(pattern)
     }
   end
 end
-local grammar = P({
+local grammarTable = {
   "RoML",
   Indent = #Cmt(Tabs, Indent),
   CheckIndent = Cmt(Tabs, CheckIndent),
@@ -214,7 +218,11 @@ local grammar = P({
   BlockBody = LineEnd * (V("Indent") * Ct(V("Block") ^ 0) * V("Dedent") + Cc({ })),
   Block = V("ObjectBlock") + V("ConditionalBlock") + V("ForBlock"),
   RoML = Ct(V("Block") ^ 0)
-})
+}
+if game then
+  grammarTable.Indent = L(Cmt(Tabs, Indent))
+end
+local grammar = P(grammarTable)
 local Parse
 Parse = function(roml)
   indentStack = nil

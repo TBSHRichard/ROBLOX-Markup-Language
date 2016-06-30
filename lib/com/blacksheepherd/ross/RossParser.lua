@@ -16,6 +16,10 @@ else
 end
 local C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V
 C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V = lpeg.C, lpeg.Cc, lpeg.Cf, lpeg.Cs, lpeg.Ct, lpeg.Cmt, lpeg.P, lpeg.R, lpeg.S, lpeg.V
+local L
+if game then
+  L = lpeg.L
+end
 local indentStack
 local NewLine = P("\r") ^ -1 * P("\n")
 local UppercaseLetter = R("AZ")
@@ -100,7 +104,7 @@ Dedent = function(roml, position, tabs)
   indentStack:Pop()
   return true
 end
-local grammar = P({
+local grammarTable = {
   "RoSS",
   Indent = #Cmt(Tabs, Indent),
   CheckIndent = Cmt(Tabs, CheckIndent),
@@ -112,8 +116,8 @@ local grammar = P({
   Class = P(".") * C(VariableName),
   PropertyKey = C(UppercaseLetter * (UppercaseLetter + LowercaseLetter + Number) ^ 0),
   PropertyValue = V("String") + C((S("\t ") ^ 0 * (1 - S(":\r\n\t "))) ^ 0),
-  PropertyPair = Ct(Tabs * V("PropertyKey") * Tabs * P(":") * Tabs * V("PropertyValue") * Tabs),
-  PropertyLine = V("CheckIndent") * V("PropertyPair") * LineEnd,
+  RossPropertyPair = Ct(Tabs * V("PropertyKey") * Tabs * P(":") * Tabs * V("PropertyValue") * Tabs),
+  PropertyLine = V("CheckIndent") * V("RossPropertyPair") * LineEnd,
   PropertyLines = Cf(Cmt("", NewHashMap) * V("PropertyLine") ^ 1, PropertyPairMatch),
   ObjectName = C(UppercaseLetter * (UppercaseLetter + LowercaseLetter) ^ 0),
   ObjectOnlySelector = V("ObjectName") * Cc(nil),
@@ -124,9 +128,13 @@ local grammar = P({
   RoSSHeader = V("CheckIndent") * Ct(V("Selector") ^ 1) * LineEnd,
   RoSSBody = V("Indent") * (V("PropertyLines") + Cc(nil)) * V("Dedent") + Cc({ }),
   RoSSBlock = RoSSBlockMatch(V("RoSSHeader") * V("RoSSBody")),
-  Block = V("RoSSBlock"),
+  RossDocBlock = V("RoSSDocBlock"),
   RoSS = Ct(V("Block") ^ 0)
-})
+}
+if game then
+  grammarTable.Indent = L(Cmt(Tabs, Indent))
+end
+local grammar = P(grammarTable)
 local Parse
 Parse = function(ross)
   indentStack = nil

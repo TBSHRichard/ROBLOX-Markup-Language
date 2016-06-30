@@ -13,6 +13,7 @@ if game
 	CustomObject = require(game\GetService("ServerScriptService").com.blacksheepherd.roml.CustomObject)
 else
 	CustomObject = require "com.blacksheepherd.roml.CustomObject"
+
 class CustomObjectBuilder
 	@Instance: ->
 		unless @@_instance
@@ -24,7 +25,8 @@ class CustomObjectBuilder
 		@_customObjects = {}
 
 		if game
-			@\Build "SpriteSheet", require(plugin.com.blacksheepherd.customobject.SpriteSheet)
+			pluginModel = script.Parent.Parent.Parent.Parent
+			@\Build "SpriteSheet", require(pluginModel.com.blacksheepherd.customobject.SpriteSheet)
 
 			for moduleScript in *game\GetService("ServerScriptService").com.blacksheepherd.customobject.user\GetChildren!
 				@\Build moduleScript.name, require(moduleScript)
@@ -34,15 +36,15 @@ class CustomObjectBuilder
 	Build: (name, t) =>
 		unless @\HasObject(name)
 			objectTable = {}
-			objectTable.FilterProperty = t.FilterProperty or (name, value) ->
+			objectTable.FilterProperty = t.FilterProperty or (name, value, LiteralString, CompilerPropertyFilter) ->
 				return LiteralString(value)
 
 			objectTable.customObject = CustomObject!
 			objectTable.customObject.Create = t.Create
-			objectTable.customobject.CreateProperties = t.CreateProperties if t.CreateProperties
+			objectTable.customObject.CreateProperties = t.CreateProperties if t.CreateProperties
 			objectTable.customObject.UpdateProperty = t.UpdateProperty
 			objectTable.customObject.AllowsChildren = t.AllowsChildren if t.AllowsChildren
-			objectTable.customobject.PropertyUpdateOrder = t.PropertyUpdateOrder if t.PropertyUpdateOrder
+			objectTable.customObject.PropertyUpdateOrder = t.PropertyUpdateOrder if t.PropertyUpdateOrder
 			objectTable.customObject.__class.__name = name
 
 			@_customObjects[name] = objectTable
