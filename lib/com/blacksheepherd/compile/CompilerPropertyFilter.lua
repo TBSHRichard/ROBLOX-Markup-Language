@@ -12,7 +12,7 @@ local C, Ct, P, R
 C, Ct, P, R = lpeg.C, lpeg.Ct, lpeg.P, lpeg.R
 local digit = R("09")
 local spaces = P(" ") ^ 0
-local number = spaces * (digit ^ 0 * "." * digit ^ 1 + digit ^ 1) / tonumber * spaces
+local number = spaces * (P("-") ^ -1 * digit ^ 0 * "." * digit ^ 1 + P("-") ^ -1 * digit ^ 1) / tonumber * spaces
 local numberDuo = number * "," * number
 local numberTrio = numberDuo * "," * number
 local numberQuartet = numberTrio * "," * number

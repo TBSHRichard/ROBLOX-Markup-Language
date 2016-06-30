@@ -53,7 +53,7 @@ local createAndAddSelectorBlock
 createAndAddSelectorBlock = function(block)
   local selectorBlock = AnonymousTableBlock()
   local selectorStackBlock = StackBlock("selector")
-  local selectorTop = block.selectorStack[1]
+  local selectorTop = block.selectorStack[#block.selectorStack]
   local _list_0 = block.selectorStack
   for _index_0 = 1, #_list_0 do
     local selector = _list_0[_index_0]

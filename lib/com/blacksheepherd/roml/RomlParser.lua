@@ -215,7 +215,7 @@ local grammarTable = {
   ForVars = (VariableName * Tabs * P(",")) ^ -1 * Tabs * VariableName,
   ForHeader = ForHeader(V("CheckIndent") * P("for") * Tabs * C(V("ForVars") * Tabs * P("in") * Tabs * Variable)),
   ForBlock = ForLoopMatch(V("ForHeader") * V("BlockBody")),
-  BlockBody = LineEnd * (V("Indent") * Ct(V("Block") ^ 0) * V("Dedent") + Cc({ })),
+  BlockBody = LineEnd * (V("Indent") * Ct(V("RoMLDocBlock") ^ 0) * V("Dedent") + Cc({ })),
   RoMLDocBlock = V("ObjectBlock") + V("ConditionalBlock") + V("ForBlock"),
   RoML = Ct(V("RoMLDocBlock") ^ 0)
 }

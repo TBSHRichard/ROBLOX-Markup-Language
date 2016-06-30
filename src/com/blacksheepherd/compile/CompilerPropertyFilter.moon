@@ -21,7 +21,7 @@ import C, Ct, P, R from lpeg
 
 digit = R"09"
 spaces = P" " ^ 0
-number = spaces * (digit^0 * "." * digit^1 + digit^1) / tonumber * spaces
+number = spaces * (P"-" ^ -1 * digit^0 * "." * digit^1 + P"-" ^ -1 * digit^1) / tonumber * spaces
 numberDuo = number * "," * number
 numberTrio = numberDuo * "," * number
 numberQuartet = numberTrio * "," * number

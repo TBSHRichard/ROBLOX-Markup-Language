@@ -70,8 +70,6 @@ SelectorMatch = (pattern) ->
 
 RoSSBlockMatch = (pattern) ->
 	pattern / (selectorStack, properties) ->
-		Array.Reverse selectorStack
-
 		if properties.__class == nil
 			properties = nil
 
@@ -138,8 +136,8 @@ grammarTable = {
 	RoSSBody:           V"Indent" * (V"PropertyLines" + Cc(nil)) * V"Dedent" + Cc({})
 	RoSSBlock:          RoSSBlockMatch V"RoSSHeader" * V"RoSSBody"
 
-	RossDocBlock:       V"RoSSDocBlock"
-	RoSS:               Ct(V"Block"^0)
+	RossDocBlock:       V"RoSSBlock"
+	RoSS:               Ct(V"RoSSBlock"^0)
 }
 
 if game

@@ -60,7 +60,7 @@ createAndAddSelectorBlock = (block) ->
 
 	selectorStackBlock = StackBlock("selector")
 
-	selectorTop = block.selectorStack[1]
+	selectorTop = block.selectorStack[#block.selectorStack]
 
 	for selector in *block.selectorStack
 		selectorStackItemBlock = AnonymousTableBlock!
