@@ -25,8 +25,7 @@ class CustomObjectBuilder
 		@_customObjects = {}
 
 		if game
-			pluginModel = script.Parent.Parent.Parent.Parent
-			@\Build "SpriteSheet", require(pluginModel.com.blacksheepherd.customobject.SpriteSheet)
+			@\Build "SpriteSheet", require(game\GetService("ServerScriptService").com.blacksheepherd.customobject.SpriteSheet)
 
 			for moduleScript in *game\GetService("ServerScriptService").com.blacksheepherd.customobject.user\GetChildren!
 				@\Build moduleScript.name, require(moduleScript)
@@ -34,20 +33,31 @@ class CustomObjectBuilder
 			@\Build "SpriteSheet", require("com.blacksheepherd.customobject.SpriteSheet")
 
 	Build: (name, t) =>
-		unless @\HasObject(name)
-			objectTable = {}
-			objectTable.FilterProperty = t.FilterProperty or (name, value, LiteralString, CompilerPropertyFilter) ->
-				return LiteralString(value)
+		objectTable = {}
+		objectTable.FilterProperty = t.FilterProperty or (name, value, LiteralString, CompilerPropertyFilter) ->
+			return LiteralString(value)
 
-			objectTable.customObject = CustomObject!
-			objectTable.customObject.Create = t.Create
-			objectTable.customObject.CreateProperties = t.CreateProperties if t.CreateProperties
-			objectTable.customObject.UpdateProperty = t.UpdateProperty
-			objectTable.customObject.AllowsChildren = t.AllowsChildren if t.AllowsChildren
-			objectTable.customObject.PropertyUpdateOrder = t.PropertyUpdateOrder if t.PropertyUpdateOrder
-			objectTable.customObject.__class.__name = name
+		objectTable.customObject = class extends CustomObject
+			new: (romlDoc, objectId, classes) =>
+				@@__name = name
+				@CreateProperties = t.CreateProperties if t.CreateProperties
+				@AllowsChildren = t.AllowsChildren if t.AllowsChildren
+				@PropertyUpdateOrder = t.PropertyUpdateOrder if t.PropertyUpdateOrder
+				super(romlDoc, objectId, classes)
 
-			@_customObjects[name] = objectTable
+			Create: t.Create
+
+			UpdateProperty: t.UpdateProperty
+
+		--objectTable.customObject = CustomObject!
+		--objectTable.customObject.Create = t.Create
+		--objectTable.customObject.CreateProperties = t.CreateProperties if t.CreateProperties
+		--objectTable.customObject.UpdateProperty = t.UpdateProperty
+		--objectTable.customObject.AllowsChildren = t.AllowsChildren if t.AllowsChildren
+		--objectTable.customObject.PropertyUpdateOrder = t.PropertyUpdateOrder if t.PropertyUpdateOrder
+		--objectTable.customObject.__class.__name = name
+
+		@_customObjects[name] = objectTable
 
 	HasObject: (name) =>
 		@_customObjects[name] != nil

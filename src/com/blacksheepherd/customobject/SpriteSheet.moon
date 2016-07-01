@@ -18,14 +18,20 @@ return {
 		frame = Instance.new("Frame")
 		frame.ClipsDescendants = true
 		frame.Name = "SpriteSheetFrame"
+		frame.BackgroundTransparency = 1
+		frame.BorderSizePixel = 0
 
 		spriteSheet = Instance.new("ImageLabel", frame)
 		spriteSheet.Name = "SpriteSheet"
+		spriteSheet.Size = UDim2.new(0, 256, 0, 256)
+		spriteSheet.BackgroundTransparency = 1
+		spriteSheet.BorderSizePixel = 0
 
 		return frame
 
 	CreateProperties: =>
-		{Size: Vector2.new(256, 256)}
+		{}
+		--{Size: Vector2.new(256, 256)}
 
 	PropertyUpdateOrder: =>
 		{"Name", "Position", "SpriteSheet", "Size", "Index"}
@@ -39,7 +45,7 @@ return {
 			else
 				LiteralString(value)
 
-	SetProperty: (frame, name, value) =>
+	UpdateProperty: (frame, name, value) =>
 		switch name
 			when "Name"
 				frame.Name = value
@@ -50,8 +56,8 @@ return {
 			when "Size"
 				frame.Size = UDim2.new(0, value.x, 0, value.y)
 			when "Index"
-				rows = math.floor(frame.Size.Y.Offset / 256)
-				cols = math.floor(frame.Size.X.Offset / 256)
+				rows = math.floor(256 / frame.Size.Y.Offset)
+				cols = math.floor(256 / frame.Size.X.Offset)
 
 				x = value % cols
 				y = math.floor(value / rows)

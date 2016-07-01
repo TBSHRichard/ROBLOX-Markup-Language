@@ -2,7 +2,7 @@ local RossDoc
 do
   local _base_0 = {
     StyleObject = function(self, romlObject)
-      local objectName = romlObject:GetRobloxObject().ClassName
+      local objectName = romlObject:ObjectName()
       self:_styleWithTable(romlObject, self._objects[objectName])
       local _list_0 = romlObject:GetClasses()
       for _index_0 = 1, #_list_0 do
@@ -13,8 +13,9 @@ do
       local objectId = romlObject:GetObjectId()
       if not (objectId == nil) then
         self:_styleWithTable(romlObject, self._ids["#" .. tostring(objectId)])
-        return self:_styleWithTable(romlObject, self._ids[tostring(objectName) .. "#" .. tostring(objectId)])
+        self:_styleWithTable(romlObject, self._ids[tostring(objectName) .. "#" .. tostring(objectId)])
       end
+      return romlObject:Refresh()
     end,
     _styleWithTable = function(self, romlObject, t)
       if t == nil then

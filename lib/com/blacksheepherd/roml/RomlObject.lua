@@ -16,6 +16,9 @@ do
     GetRobloxObject = function(self)
       return self._robloxObject
     end,
+    ObjectName = function(self)
+      return self._robloxObject.ClassName
+    end,
     Refresh = function(self)
       for name, property in pairs(self._properties) do
         local filter = self._propertyFilters[name]
@@ -88,7 +91,7 @@ do
       local selector = selectorStack:Pop()
       local matches = false
       if selector.object ~= nil then
-        matches = selector.object == self._robloxObject.ClassName
+        matches = selector.object == self:ObjectName()
         if selector.class ~= nil then
           matches = matches and self:HasClass(selector.class)
         elseif selector.id ~= nil then

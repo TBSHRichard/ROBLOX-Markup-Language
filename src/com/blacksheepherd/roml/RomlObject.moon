@@ -62,6 +62,12 @@ class RomlObject
 	--	RomlObject.
 	----------------------------------------------------------------
 	GetRobloxObject: => @_robloxObject
+
+	----------------------------------------------------------------
+	-- @tparam RomlObject self
+	-- @treturn string The name of this object.
+	----------------------------------------------------------------
+	ObjectName: => @_robloxObject.ClassName
 	
 	----------------------------------------------------------------
 	-- Sets the properties of the RomlObject to its associated
@@ -199,7 +205,7 @@ class RomlObject
 		matches = false
 
 		if selector.object != nil
-			matches = selector.object == @_robloxObject.ClassName
+			matches = selector.object == @\ObjectName!
 
 			if selector.class != nil
 				matches = matches and @\HasClass selector.class

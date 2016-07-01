@@ -8,6 +8,9 @@ local CustomObject
 do
   local _parent_0 = RomlObject
   local _base_0 = {
+    ObjectName = function(self)
+      return self.__class.__name
+    end,
     Create = function(self) end,
     CreateProperties = function(self)
       return { }
@@ -15,17 +18,34 @@ do
     PropertyUpdateOrder = function(self)
       return { }
     end,
-    UpdateProperty = function(self, name, value) end,
+    UpdateProperty = function(self, robloxObject, name, value) end,
     Refresh = function(self)
       local propertyUpdateOrder = self:PropertyUpdateOrder()
       if #propertyUpdateOrder > 0 then
         for _index_0 = 1, #propertyUpdateOrder do
           local name = propertyUpdateOrder[_index_0]
-          self:UpdateProperty(name, self._properties[name])
+          if self._properties[name] ~= nil then
+            self:UpdateProperty(self._robloxObject, name, self._properties[name])
+          end
         end
       else
         for name, property in pairs(self._properties) do
-          self:UpdateProperty(name, property)
+          self:UpdateProperty(self._robloxObject, name, property)
+        end
+      end
+    end,
+    StyleObject = function(self, properties)
+      local propertyUpdateOrder = self:PropertyUpdateOrder()
+      if #propertyUpdateOrder > 0 then
+        for _index_0 = 1, #propertyUpdateOrder do
+          local name = propertyUpdateOrder[_index_0]
+          if properties[name] ~= nil then
+            self:UpdateProperty(self._robloxObject, name, properties[name])
+          end
+        end
+      else
+        for name, property in pairs(properties) do
+          self:UpdateProperty(self._robloxObject, name, property)
         end
       end
     end
@@ -35,7 +55,7 @@ do
   local _class_0 = setmetatable({
     __init = function(self, romlDoc, objectId, classes)
       _parent_0.__init(self, romlDoc, self:Create(), objectId, classes)
-      self._properties = self:CreateProperties()
+      return self:SetProperties(self:CreateProperties())
     end,
     __base = _base_0,
     __name = "CustomObject",

@@ -20,7 +20,9 @@ else
 class CustomObject extends RomlObject
 	new: (romlDoc, objectId, classes) =>
 		super(romlDoc, @\Create!, objectId, classes)
-		@_properties = @\CreateProperties!
+		@\SetProperties(@\CreateProperties!)
+
+	ObjectName: => @@__name
 
 	Create: =>
 
@@ -30,14 +32,26 @@ class CustomObject extends RomlObject
 	PropertyUpdateOrder: =>
 		{}
 
-	UpdateProperty: (name, value) =>
+	UpdateProperty: (robloxObject, name, value) =>
 
 	Refresh: =>
 		propertyUpdateOrder = @\PropertyUpdateOrder!
 
 		if #propertyUpdateOrder > 0
 			for name in *propertyUpdateOrder
-				@\UpdateProperty name, @_properties[name]
+				if @_properties[name] != nil
+					@\UpdateProperty @_robloxObject, name, @_properties[name]
 		else
 			for name, property in pairs @_properties
-				@\UpdateProperty name, property
+				@\UpdateProperty @_robloxObject, name, property
+
+	StyleObject: (properties) =>
+		propertyUpdateOrder = @\PropertyUpdateOrder!
+
+		if #propertyUpdateOrder > 0
+			for name in *propertyUpdateOrder
+				if properties[name] != nil
+					@\UpdateProperty @_robloxObject, name, properties[name]
+		else
+			for name, property in pairs properties
+				@\UpdateProperty @_robloxObject, name, property

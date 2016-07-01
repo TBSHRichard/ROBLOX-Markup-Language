@@ -27,7 +27,7 @@ class RossDoc
 	-- @tparam RomlObject romlObject The @{RomlObject} to style.
 	----------------------------------------------------------------
 	StyleObject: (romlObject) =>
-		objectName = romlObject\GetRobloxObject!.ClassName
+		objectName = romlObject\ObjectName!
 		@\_styleWithTable(romlObject, @_objects[objectName])
 
 		for c in *romlObject\GetClasses!
@@ -38,6 +38,8 @@ class RossDoc
 		unless objectId == nil
 			@\_styleWithTable(romlObject, @_ids["##{objectId}"])
 			@\_styleWithTable(romlObject, @_ids["#{objectName}##{objectId}"])
+
+		romlObject\Refresh!
 
 	_styleWithTable: (romlObject, t = {}) =>
 		for el in *t
