@@ -45,10 +45,9 @@ return {
     elseif "Size" == _exp_0 then
       frame.Size = UDim2.new(0, value.x, 0, value.y)
     elseif "Index" == _exp_0 then
-      local rows = math.floor(256 / frame.Size.Y.Offset)
       local cols = math.floor(256 / frame.Size.X.Offset)
       local x = value % cols
-      local y = math.floor(value / rows)
+      local y = math.floor(value / cols)
       frame:FindFirstChild("SpriteSheet").Position = UDim2.new(0, -x * frame.Size.X.Offset, 0, -y * frame.Size.Y.Offset)
     end
   end,

@@ -56,11 +56,10 @@ return {
 			when "Size"
 				frame.Size = UDim2.new(0, value.x, 0, value.y)
 			when "Index"
-				rows = math.floor(256 / frame.Size.Y.Offset)
 				cols = math.floor(256 / frame.Size.X.Offset)
 
 				x = value % cols
-				y = math.floor(value / rows)
+				y = math.floor(value / cols)
 
 				frame\FindFirstChild("SpriteSheet").Position = UDim2.new(0, -x * frame.Size.X.Offset, 0, -y * frame.Size.Y.Offset)
 

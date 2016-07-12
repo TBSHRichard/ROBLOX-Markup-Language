@@ -1,6 +1,6 @@
 local Stack
 local Table
-local MainBlock
+local MainRomlBlock
 local ConditionalBlock
 local ForBlock
 local SpaceBlock
@@ -14,7 +14,7 @@ if game then
   local pluginModel = script.Parent.Parent.Parent.Parent
   Stack = require(pluginModel.com.blacksheepherd.datastructure.Stack)
   Table = require(pluginModel.com.blacksheepherd.util.Table)
-  MainBlock = require(pluginModel.com.blacksheepherd.code.MainBlock)
+  MainRomlBlock = require(pluginModel.com.blacksheepherd.code.MainRomlBlock)
   ConditionalBlock = require(pluginModel.com.blacksheepherd.code.ConditionalBlock)
   ForBlock = require(pluginModel.com.blacksheepherd.code.ForBlock)
   SpaceBlock = require(pluginModel.com.blacksheepherd.code.SpaceBlock)
@@ -27,7 +27,7 @@ if game then
 else
   Stack = require("com.blacksheepherd.datastructure.Stack")
   Table = require("com.blacksheepherd.util.Table")
-  MainBlock = require("com.blacksheepherd.code.MainBlock")
+  MainRomlBlock = require("com.blacksheepherd.code.MainRomlBlock")
   ConditionalBlock = require("com.blacksheepherd.code.ConditionalBlock")
   ForBlock = require("com.blacksheepherd.code.ForBlock")
   SpaceBlock = require("com.blacksheepherd.code.SpaceBlock")
@@ -40,44 +40,45 @@ else
 end
 local addCode
 local addCodeFunctions
-local mainBlock
+local mainRomlBlock
 local functionTable
 local varNamer
 local parentNameStack
 local creationFunctionStack
-local mainBlockCreationFunction
-mainBlockCreationFunction = function(lines)
+local mainRomlBlockCreationFunction
+mainRomlBlockCreationFunction = function(lines)
   for _index_0 = 1, #lines do
     local line = lines[_index_0]
-    mainBlock:AddChild(MainBlock.BLOCK_CREATION, line)
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_CREATION, line)
   end
 end
 local writeLineToVarChangeFunction
 writeLineToVarChangeFunction = function(varName, lineString)
   if not (functionTable[varName]) then
-    mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local varChange_" .. tostring(varName)))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_VARS, Line("local varChange_" .. tostring(varName)))
     functionTable[varName] = FunctionBlock("varChange_" .. tostring(varName), "")
-    mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName])
-    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. " = RomlVar(vars." .. tostring(varName) .. ")"))
-    mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. ".Changed:connect(varChange_" .. tostring(varName) .. ")"))
-    mainBlock:AddChild(MainBlock.BLOCK_FUNCTION_CALLS, Line("varChange_" .. tostring(varName) .. "()"))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName])
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. " = RomlVar(vars." .. tostring(varName) .. ")"))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. ".Changed:connect(varChange_" .. tostring(varName) .. ")"))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_FUNCTION_CALLS, Line("varChange_" .. tostring(varName) .. "()"))
   end
   return functionTable[varName]:AddLineIfNotAdded(lineString)
 end
 local writeVarCode
-writeVarCode = function(className, varName, changeFunction)
-  if not (functionTable[varName]) then
-    functionTable[varName] = FunctionBlock("varChange_" .. tostring(varName), "")
+writeVarCode = function(className, varName, objectName, changeFunction)
+  if objectName == nil then
+    objectName = varNamer:NameObjectVariable(className)
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_VARS, Line("local " .. tostring(objectName)))
   end
-  local objectName = varNamer:NameObjectVariable(className)
-  mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(objectName)))
-  mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local varChange_" .. tostring(varName)))
-  local varChange = functionTable[varName]
-  changeFunction(varChange, objectName, varName)
-  mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, varChange)
-  mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. " = RomlVar(vars." .. tostring(varName) .. ")"))
-  mainBlock:AddChild(MainBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. ".Changed:connect(varChange_" .. tostring(varName) .. ")"))
-  mainBlock:AddChild(MainBlock.BLOCK_FUNCTION_CALLS, Line("varChange_" .. tostring(varName) .. "()"))
+  if functionTable[varName] == nil then
+    functionTable[varName] = FunctionBlock("varChange_" .. tostring(varName), "")
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_VARS, Line("local varChange_" .. tostring(varName)))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName])
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. " = RomlVar(vars." .. tostring(varName) .. ")"))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_CREATION, Line("self._vars." .. tostring(varName) .. ".Changed:connect(varChange_" .. tostring(varName) .. ")"))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_FUNCTION_CALLS, Line("varChange_" .. tostring(varName) .. "()"))
+  end
+  changeFunction(functionTable[varName], objectName, varName)
   return objectName
 end
 local writeObjectToBlock
@@ -87,7 +88,7 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   if classes and classes[1] == "static" then
     classesString = Table.ArrayToSingleLineString(classes[2])
   elseif classes and classes[1] == "dynamic" then
-    objectName = writeVarCode(className, classes[2], function(varChange, objectName, varName)
+    objectName = writeVarCode(className, classes[2], objectName, function(varChange, objectName, varName)
       return varChange:AddChild(Line(tostring(objectName) .. ":SetClasses(self._vars." .. tostring(varName) .. ":GetValue())"))
     end)
   end
@@ -100,7 +101,7 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
           properties[name] = CompilerPropertyFilter.FilterProperty(className, name, value)
         end
       else
-        objectName = writeVarCode(className, value[2], function(varChange, objectName, varName)
+        objectName = writeVarCode(className, value[2], objectName, function(varChange, objectName, varName)
           varChange:AddChild(Line(tostring(objectName) .. ":SetProperties({" .. tostring(name) .. " = self._vars." .. tostring(varName) .. ":GetValue()})"))
           return varChange:AddChild(Line(tostring(objectName) .. ":Refresh()"))
         end)
@@ -110,7 +111,7 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   end
   if #children > 0 and not objectName then
     objectName = varNamer:NameObjectVariable(className)
-    mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(objectName)))
+    mainRomlBlock:AddChild(MainRomlBlock.BLOCK_VARS, Line("local " .. tostring(objectName)))
   end
   if not objectName then
     objectName = "objTemp"
@@ -123,7 +124,7 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   end
   local lines = { }
   if CustomObjectBuilder.IsACustomObject(className) then
-    mainBlock:AddCustomObjectBuilderRequire()
+    mainRomlBlock:AddCustomObjectBuilderRequire()
     table.insert(lines, Line(tostring(objectName) .. " = CustomObjectBuilder.CreateObject(\"" .. tostring(className) .. "\", self, " .. tostring(idString) .. ", " .. tostring(classesString) .. ")"))
   else
     table.insert(lines, Line(tostring(objectName) .. " = RomlObject(self, " .. tostring(builderParam) .. ", " .. tostring(idString) .. ", " .. tostring(classesString) .. ")"))
@@ -131,7 +132,7 @@ writeObjectToBlock = function(builderParam, className, id, classes, properties, 
   if id then
     table.insert(lines, Line("self._objectIds[" .. tostring(idString) .. "] = " .. tostring(objectName)))
   end
-  if properties then
+  if properties and properties:Length() > 0 then
     table.insert(lines, Line(tostring(objectName) .. ":SetProperties(" .. tostring(Table.HashMapToSingleLineString(properties)) .. ")"))
     table.insert(lines, Line(tostring(objectName) .. ":Refresh()"))
   end
@@ -160,12 +161,12 @@ addCodeFunctions = {
     else
       parentName = string.sub(parentName, 4)
     end
-    if creationFunctionStack:Peek() == mainBlockCreationFunction then
+    if creationFunctionStack:Peek() == mainRomlBlockCreationFunction then
       local creationFunctionName = "update" .. tostring(parentName)
       local creationFunction = FunctionBlock(creationFunctionName, "")
       creationFunction:AddChild(Line(tostring(parentNameStack:Peek()) .. ":RemoveAllChildren()"))
-      mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(creationFunctionName)))
-      mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction)
+      mainRomlBlock:AddChild(MainRomlBlock.BLOCK_VARS, Line("local " .. tostring(creationFunctionName)))
+      mainRomlBlock:AddChild(MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction)
       creationFunctionStack:Push(function(lines)
         for _index_0 = 1, #lines do
           local line = lines[_index_0]
@@ -209,12 +210,12 @@ addCodeFunctions = {
     else
       parentName = string.sub(parentName, 4)
     end
-    if creationFunctionStack:Peek() == mainBlockCreationFunction then
+    if creationFunctionStack:Peek() == mainRomlBlockCreationFunction then
       local creationFunctionName = "update" .. tostring(parentName)
       local creationFunction = FunctionBlock(creationFunctionName, "")
       creationFunction:AddChild(Line(tostring(parentNameStack:Peek()) .. ":RemoveAllChildren()"))
-      mainBlock:AddChild(MainBlock.BLOCK_VARS, Line("local " .. tostring(creationFunctionName)))
-      mainBlock:AddChild(MainBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction)
+      mainRomlBlock:AddChild(MainRomlBlock.BLOCK_VARS, Line("local " .. tostring(creationFunctionName)))
+      mainRomlBlock:AddChild(MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction)
       creationFunctionStack:Push(function(lines)
         for _index_0 = 1, #lines do
           local line = lines[_index_0]
@@ -249,15 +250,15 @@ addCode = function(tree)
 end
 local Compile
 Compile = function(name, parsetree)
-  mainBlock = MainBlock(name)
+  mainRomlBlock = MainRomlBlock(name)
   functionTable = { }
   varNamer = VariableNamer()
   parentNameStack = Stack()
   creationFunctionStack = Stack()
   parentNameStack:Push("self._rootObject")
-  creationFunctionStack:Push(mainBlockCreationFunction)
+  creationFunctionStack:Push(mainRomlBlockCreationFunction)
   addCode(parsetree)
-  return mainBlock:Render()
+  return mainRomlBlock:Render()
 end
 return {
   Compile = Compile
