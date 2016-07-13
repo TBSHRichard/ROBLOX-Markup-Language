@@ -8,6 +8,7 @@
 ----------------------------------------------------------------
 
 local HashMap
+_currentId = 1
 
 if game
 	HashMap = require(game\GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
@@ -15,8 +16,6 @@ else
 	HashMap = require "com.blacksheepherd.util.HashMap"
 
 class RomlObject
-	@_currentId: 1
-	
 	----------------------------------------------------------------
 	-- Create a new RomlObject.
 	--
@@ -31,8 +30,8 @@ class RomlObject
 	----------------------------------------------------------------
 	new: (romlDoc, object, objectId, classes = {}) =>
 		@_romlDoc = romlDoc
-		@_id = @@_currentId
-		@@_currentId += 1
+		@_id = _currentId
+		_currentId += 1
 		
 		@_properties = {}
 		@_propertyFilters = {}

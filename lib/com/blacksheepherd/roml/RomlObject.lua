@@ -1,4 +1,5 @@
 local HashMap
+local _currentId = 1
 if game then
   HashMap = require(game:GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
 else
@@ -126,8 +127,8 @@ do
         classes = { }
       end
       self._romlDoc = romlDoc
-      self._id = self.__class._currentId
-      self.__class._currentId = self.__class._currentId + 1
+      self._id = _currentId
+      _currentId = _currentId + 1
       self._properties = { }
       self._propertyFilters = { }
       self._objectId = objectId
@@ -149,8 +150,6 @@ do
     end
   })
   _base_0.__class = _class_0
-  local self = _class_0
-  self._currentId = 1
   RomlObject = _class_0
 end
 return RomlObject
