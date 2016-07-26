@@ -9,7 +9,7 @@ RoML also mimics existing languages so those who already know those languages wi
 ## Getting Started with RoML
 
 To start, you should download the ROLBOX Studio plugin.
-This can be done by either install the plugin from the ROBLOX website, or by
+This can be done by either [installing the plugin from the ROBLOX website](https://www.roblox.com/ROBLOX-Markup-Language-Plugin-item?id=465414319), or by
 [downloading the file from the Git repository](https://github.com/TBSHRichard/ROBLOX-Markup-Language/blob/master/bin/RoMLCompiler.rbxm?raw=true)
 and adding it to your plugins folder. It can be found by clicking on Plugins > Plugins Folder within ROBLOX Studio.
 
