@@ -86,22 +86,6 @@ You can call the @{RomlObject.GetRobloxObject} method on self, like in the examp
 
 Any other functions within the table are optional. You may choose to define these functions only if your custom object needs them.
 
-#### CreateProperties
-
-This funciton is used to set values of properties when the object is created.
-This function is passed in a reference to the @{CustomObject}.
-It should return a table with the values of the properties that you want them at when the object is created.
-
-This is the CreateProperties function from the SpriteSheet object:
-
-	CreateProperties = function(self)
-		return {
-			Size = Vector2.new(256, 256)
-		}
-	end
-
-The Size is set in this function since the calculation for the Index property relies on the Size.
-
 #### PropertyUpdateOrder
 
 This function is used to tell the library the order in which to update properties.
