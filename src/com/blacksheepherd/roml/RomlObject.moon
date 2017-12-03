@@ -8,12 +8,14 @@
 ----------------------------------------------------------------
 
 local HashMap
-_currentId = 1
 
 if game
 	HashMap = require(game\GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
 else
 	HashMap = require "com.blacksheepherd.util.HashMap"
+
+-- {{ TBSHTEMPLATE:BEGIN }}
+RomlObject_currentId = 1
 
 class RomlObject
 	----------------------------------------------------------------
@@ -30,20 +32,20 @@ class RomlObject
 	----------------------------------------------------------------
 	new: (romlDoc, object, objectId, classes = {}) =>
 		@_romlDoc = romlDoc
-		@_id = _currentId
-		_currentId += 1
-		
+		@_id = RomlObject_currentId
+		RomlObject_currentId += 1
+
 		@_properties = {}
 		@_propertyFilters = {}
 
 		@_objectId = objectId
 
 		object = Instance.new(object) if type(object) == "string"
-		
+
 		@_robloxObject = object
 		@_classes = classes
 		@_children = HashMap({})
-	
+
 	----------------------------------------------------------------
 	-- Sets the parent of this RomlObject and updates any children
 	-- lists.
@@ -54,7 +56,7 @@ class RomlObject
 	SetParent: (parent) =>
 		@_parent = parent
 		@_robloxObject.Parent = parent\GetRobloxObject! if parent
-	
+
 	----------------------------------------------------------------
 	-- @tparam RomlObject self
 	-- @treturn Instance The ROBLOX object wrapped by this
@@ -67,7 +69,7 @@ class RomlObject
 	-- @treturn string The name of this object.
 	----------------------------------------------------------------
 	ObjectName: => @_robloxObject.ClassName
-	
+
 	----------------------------------------------------------------
 	-- Sets the properties of the RomlObject to its associated
 	-- ROBLOX object, sending the properties through any filters if
@@ -78,7 +80,7 @@ class RomlObject
 	Refresh: =>
 		for name, property in pairs @_properties
 			filter = @_propertyFilters[name]
-			
+
 			if filter
 				filter property, @_robloxObject
 			else
@@ -95,12 +97,12 @@ class RomlObject
 	StyleObject: (properties) =>
 		for name, property in pairs properties
 			filter = @_propertyFilters[name]
-			
+
 			if filter
 				filter property, @_robloxObject
 			else
 				@_robloxObject[name] = property
-	
+
 	----------------------------------------------------------------
 	-- Add a child RomlObject to this RomlObject. Throws an error if
 	-- this RomlObject does not allow children.
@@ -115,7 +117,7 @@ class RomlObject
 			return child
 		else
 			error("RomlObject '#{@@__name}' does not allow children objects.")
-	
+
 	----------------------------------------------------------------
 	-- Sets the properties to the RomlObject. The associated ROBLOX
 	-- object is not updated until @{Refresh} is called.
@@ -131,7 +133,7 @@ class RomlObject
 	-- @tparam table classes The array of new classes.
 	----------------------------------------------------------------
 	SetClasses: (classes) => @_classes = classes
-	
+
 	----------------------------------------------------------------
 	-- Removes all children from this object.
 	--
@@ -143,7 +145,7 @@ class RomlObject
 			child\RemoveAllChildren!
 			child._robloxObject\Destroy!
 		@_children = {}
-	
+
 	----------------------------------------------------------------
 	-- @tparam RomlObject self
 	-- @treturn integer The unique identifier for this RomlObject.
@@ -162,7 +164,7 @@ class RomlObject
 	-- @treturn The style classes of this RomlObject.
 	----------------------------------------------------------------
 	GetClasses: => @_classes
-	
+
 	----------------------------------------------------------------
 	-- Remove the provided child from the list of children.
 	--
@@ -231,7 +233,7 @@ class RomlObject
 	--  children RomlObjects.
 	----------------------------------------------------------------
 	AllowsChildren: => true
-	
+
 	----------------------------------------------------------------
 	-- Find RomlObjects within this RomlObject's hierarchy using the
 	-- given selector.
@@ -241,5 +243,6 @@ class RomlObject
 	-- @treturn table Table of matching RomlObjects.
 	----------------------------------------------------------------
 	Find: (selector) =>
+-- {{ TBSHTEMPLATE:END }}
 
 return RomlObject

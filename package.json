@@ -1,0 +1,14 @@
+{
+  "name": "roblox-markup-language",
+  "version": "0.1.0",
+  "author": "Richard Voelker",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TBSHRichard/ROBLOX-Markup-Language.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "^1.12.7",
+    "luamin": "^1.0.4"
+  }
+}

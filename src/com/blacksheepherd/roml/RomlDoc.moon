@@ -11,6 +11,7 @@
 HashMap = require(game\GetService("ServerScriptService").com.blacksheepherd.util.HashMap)
 RossDoc = require(game\GetService("ServerScriptService").com.blacksheepherd.ross.RossDoc)
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class RomlDoc
 	----------------------------------------------------------------
 	-- Create a new RomlDoc.
@@ -26,9 +27,9 @@ class RomlDoc
 		@_vars = {}
 		@_ross = ross
 		@_children = HashMap({})
-		
+
 		@\_create parent, (vars or {})
-	
+
 	----------------------------------------------------------------
 	-- Get a variable from this document so it may be changed.
 	--
@@ -37,7 +38,7 @@ class RomlDoc
 	-- @treturn GenericRomlVar/TableRomlVar/Instance The variable.
 	----------------------------------------------------------------
 	GetVar: (varName) => @_vars[varName]
-	
+
 	----------------------------------------------------------------
 	-- Find a specific @{RomlObject} in this document based on the
 	-- selector.
@@ -80,7 +81,8 @@ class RomlDoc
 
 		for _, romlObject in @_children\pairs!
 			@_ross\StyleObject romlObject
-	
+
 	_create: (parent, vars) =>
+-- {{ TBSHTEMPLATE:END }}
 
 return RomlDoc

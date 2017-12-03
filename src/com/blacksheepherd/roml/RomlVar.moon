@@ -9,6 +9,7 @@
 
 Event = require game\GetService("ServerScriptService").com.blacksheepherd.roml.Event
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class RomlVar
 	----------------------------------------------------------------
 	-- Create a new RomlVar with the specified value.
@@ -19,7 +20,7 @@ class RomlVar
 	new: (value) =>
 		rawset @, "_value", value
 		rawset @, "Changed", Event!
-	
+
 	----------------------------------------------------------------
 	-- Set the value for this object. All observers of the
 	-- @{Changed} @{Event} are notified.
@@ -31,18 +32,18 @@ class RomlVar
 		oldValue = @_value
 		rawset @, "_value", value
 		@Changed\notifyObservers oldValue, value
-	
+
 	----------------------------------------------------------------
 	-- @tparam RomlVar self
 	-- @return The current value of the variable.
 	----------------------------------------------------------------
 	GetValue: => @_value
-	
+
 	----------------------------------------------------------------
 	-- Set the value for a table key, if our variable is a ROBLOX
 	-- object or Lua table. All observers of the @{Changed} @{Event}
-	-- are notified if there is 
-	-- 
+	-- are notified if there is
+	--
 	-- @tparam RomlVar self
 	-- @param key The key to associate the table value with.
 	-- @param value The value to place in the table.
@@ -52,7 +53,7 @@ class RomlVar
 			oldValue = @_value[key]
 			@_value[key] = value
 			@Changed\notifyObservers key, oldValue, value
-	
+
 	----------------------------------------------------------------
 	-- The Changed @{Event}. Observers of this @{Event} are notified
 	-- whenever the @{SetValue} method is called. Observing functions
@@ -61,3 +62,6 @@ class RomlVar
 	-- @event Changed
 	----------------------------------------------------------------
 	Changed: nil -- Set during constructor
+-- {{ TBSHTEMPLATE:END }}
+
+return RomlVar

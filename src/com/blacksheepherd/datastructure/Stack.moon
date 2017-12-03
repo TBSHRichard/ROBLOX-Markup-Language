@@ -6,6 +6,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:STACK }}
 class Stack
 	----------------------------------------------------------------
 	-- Create a new Stack.
@@ -66,5 +67,6 @@ class Stack
 	----------------------------------------------------------------
 	Clone: =>
 		return Stack(self)
+-- {{ TBSHTEMPLATE:END }}
 
 return Stack

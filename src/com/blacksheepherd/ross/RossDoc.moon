@@ -8,6 +8,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class RossDoc
 	----------------------------------------------------------------
 	-- Create a new RossDoc.
@@ -54,3 +55,6 @@ class RossDoc
 
 	_setupIds: =>
 		{}
+-- {{ TBSHTEMPLATE:END }}
+
+return RossDoc

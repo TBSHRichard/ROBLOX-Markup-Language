@@ -7,6 +7,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class HashMap
 	----------------------------------------------------------------
 	-- Create the HashMap. Values are stored and retrieved as if
@@ -57,5 +58,6 @@ class HashMap
 		@_t[key] = value
 
 	__len: => @_length
+-- {{ TBSHTEMPLATE:END }}
 
 return HashMap
