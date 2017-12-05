@@ -13,7 +13,8 @@
 -- @license MIT
 ----------------------------------------------------------------
 
-return {
+-- {{ TBSHTEMPLATE:BEGIN }}
+SpriteSheet = {
 	Create: =>
 		frame = Instance.new("Frame")
 		frame.ClipsDescendants = true
@@ -31,7 +32,6 @@ return {
 
 	CreateProperties: =>
 		{}
-		--{Size: Vector2.new(256, 256)}
 
 	PropertyUpdateOrder: =>
 		{"Name", "Position", "SpriteSheet", "Size", "Index"}
@@ -65,3 +65,6 @@ return {
 
 	AllowsChildren: => false
 }
+-- {{ TBSHTEMPLATE:END }}
+
+return SpriteSheet

@@ -17,6 +17,7 @@ if game
 else
 	RomlObject = require "com.blacksheepherd.roml.RomlObject"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class CustomObject extends RomlObject
 	new: (romlDoc, objectId, classes) =>
 		super(romlDoc, @\Create!, objectId, classes)
@@ -55,3 +56,6 @@ class CustomObject extends RomlObject
 		else
 			for name, property in pairs properties
 				@\UpdateProperty @_robloxObject, name, property
+-- {{ TBSHTEMPLATE:END }}
+
+return CustomObject

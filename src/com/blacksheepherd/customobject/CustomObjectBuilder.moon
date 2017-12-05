@@ -17,6 +17,7 @@ else
 	CustomObject = require "com.blacksheepherd.roml.CustomObject"
 	SpriteSheet = require "com.blacksheepherd.customobject.SpriteSheet"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class CustomObjectBuilder
 	@Instance: ->
 		unless @@_instance
@@ -98,5 +99,6 @@ CreateObject = (name, romlDoc, objectId, classes) ->
 ----------------------------------------------------------------
 FilterProperty = (objectName, propertyName, value, LiteralString, CompilerPropertyFilter) ->
 	CustomObjectBuilder.Instance!\FilterProperty(objectName, propertyName, value, LiteralString, CompilerPropertyFilter)
+-- {{ TBSHTEMPLATE:END }}
 
 { :CreateObject, :FilterProperty, :IsACustomObject }
