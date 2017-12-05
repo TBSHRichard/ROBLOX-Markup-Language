@@ -8,11 +8,14 @@
 ----------------------------------------------------------------
 
 local CustomObject
+local SpriteSheet
 
 if game
 	CustomObject = require(game\GetService("ServerScriptService").com.blacksheepherd.roml.CustomObject)
+	SpriteSheet = require(game\GetService("ServerScriptService").com.blacksheepherd.customobject.SpriteSheet)
 else
 	CustomObject = require "com.blacksheepherd.roml.CustomObject"
+	SpriteSheet = require "com.blacksheepherd.customobject.SpriteSheet"
 
 class CustomObjectBuilder
 	@Instance: ->
@@ -24,13 +27,11 @@ class CustomObjectBuilder
 	new: =>
 		@_customObjects = {}
 
-		if game
-			@\Build "SpriteSheet", require(game\GetService("ServerScriptService").com.blacksheepherd.customobject.SpriteSheet)
+		@\Build "SpriteSheet", SpriteSheet
 
+		if game
 			for moduleScript in *game\GetService("ServerScriptService").com.blacksheepherd.customobject.user\GetChildren!
 				@\Build moduleScript.name, require(moduleScript)
-		else
-			@\Build "SpriteSheet", require("com.blacksheepherd.customobject.SpriteSheet")
 
 	Build: (name, t) =>
 		objectTable = {}
@@ -48,14 +49,6 @@ class CustomObjectBuilder
 			Create: t.Create
 
 			UpdateProperty: t.UpdateProperty
-
-		--objectTable.customObject = CustomObject!
-		--objectTable.customObject.Create = t.Create
-		--objectTable.customObject.CreateProperties = t.CreateProperties if t.CreateProperties
-		--objectTable.customObject.UpdateProperty = t.UpdateProperty
-		--objectTable.customObject.AllowsChildren = t.AllowsChildren if t.AllowsChildren
-		--objectTable.customObject.PropertyUpdateOrder = t.PropertyUpdateOrder if t.PropertyUpdateOrder
-		--objectTable.customObject.__class.__name = name
 
 		@_customObjects[name] = objectTable
 
@@ -92,7 +85,7 @@ CreateObject = (name, romlDoc, objectId, classes) ->
 	CustomObjectBuilder.Instance!\GetObject(name)(romlDoc, objectId, classes)
 
 ----------------------------------------------------------------
--- Filter a property based on the @{CustomObject}'s rules. 
+-- Filter a property based on the @{CustomObject}'s rules.
 --
 -- @tparam string objectName The name of the @{CustomObject}.
 -- @tparam string propertyName The name of the property to
