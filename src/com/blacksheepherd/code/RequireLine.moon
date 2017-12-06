@@ -14,8 +14,10 @@ if game
 else
 	Line = require "com.blacksheepherd.code.Line"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class RequireLine extends Line
 	new: (package, name) =>
 		super "local #{name} = require(game:GetService(\"ServerScriptService\").#{package}.#{name})"
+-- {{ TBSHTEMPLATE:END }}
 
 return RequireLine

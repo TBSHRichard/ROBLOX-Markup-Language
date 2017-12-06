@@ -17,6 +17,7 @@ else
 	Block = require "com.blacksheepherd.code.Block"
 	SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class ConditionalBlock extends Block
 	new: =>
 		super!
@@ -47,7 +48,7 @@ class ConditionalBlock extends Block
 
 	Render: =>
 		buffer = ""
-		
+
 		for i, child in ipairs @_children
 			lineString = @_conditions[i]
 
@@ -62,5 +63,6 @@ class ConditionalBlock extends Block
 			buffer ..= child\Render! .. "\n"
 
 		buffer .. "#{@_indent}end"
+-- {{ TBSHTEMPLATE:END }}
 
 return ConditionalBlock

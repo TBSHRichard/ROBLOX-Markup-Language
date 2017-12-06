@@ -6,6 +6,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class Line
 	----------------------------------------------------------------
 	-- Create a new Line.
@@ -16,7 +17,7 @@ class Line
 	new: (text) =>
 		@_indent = ""
 		@_text = text
-	
+
 	----------------------------------------------------------------
 	-- Sets the indent string for this Line.
 	--
@@ -26,12 +27,13 @@ class Line
 	----------------------------------------------------------------
 	SetIndent: (indent) =>
 		@_indent = indent
-	
+
 	----------------------------------------------------------------
 	-- Render the code for this Line.
 	--
 	-- @tparam Block self
 	----------------------------------------------------------------
 	Render: => "#{@_indent}#{@_text}"
+-- {{ TBSHTEMPLATE:END }}
 
 return Line

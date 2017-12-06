@@ -14,6 +14,7 @@ if game
 else
 	Block = require "com.blacksheepherd.code.Block"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class InnerMetatableBlock extends Block
 	AddChild: (child) =>
 		child\SetIndent @_indent
@@ -23,7 +24,7 @@ class InnerMetatableBlock extends Block
 		super indent
 		for child in *@_children
 			child\SetIndent indent
-	
+
 	Render: =>
 		buffer = ""
 
@@ -32,5 +33,6 @@ class InnerMetatableBlock extends Block
 			buffer ..= ",\n" unless i == #@_children
 
 		return buffer
+-- {{ TBSHTEMPLATE:END }}
 
 return InnerMetatableBlock

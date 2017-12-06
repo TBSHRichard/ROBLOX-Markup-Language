@@ -6,6 +6,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class VariableNamer
 	new: =>
 		@_nameCount = {}
@@ -25,3 +26,6 @@ class VariableNamer
 			@_nameCount[className] = 1
 
 		return "obj#{className}#{@_nameCount[className]}"
+-- {{ TBSHTEMPLATE:END }}
+
+return VariableNamer

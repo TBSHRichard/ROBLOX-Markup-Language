@@ -14,6 +14,7 @@ if game
 else
 	Block = require "com.blacksheepherd.code.Block"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class ForBlock extends Block
 	new: (condition) =>
 		super!
@@ -22,5 +23,6 @@ class ForBlock extends Block
 	BeforeRender: => "#{@_indent}for #{@_condition} do"
 
 	AfterRender: => "#{@_indent}end"
+-- {{ TBSHTEMPLATE:END }}
 
 return ForBlock

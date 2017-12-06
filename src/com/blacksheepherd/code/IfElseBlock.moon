@@ -14,6 +14,7 @@ if game
 else
 	DoubleBlock = require "com.blacksheepherd.code.DoubleBlock"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class IfElseBlock extends DoubleBlock
 	----------------------------------------------------------------
 	-- Create the if @{DoubleBlock}.
@@ -25,11 +26,12 @@ class IfElseBlock extends DoubleBlock
 	new: (condition) =>
 		super!
 		@_condition = condition
-	
+
 	BeforeRender: => "#{@_indent}if #{@_condition} then"
 
 	MiddleRender: => "#{@_indent}else"
-	
+
 	AfterRender: => "#{@_indent}end"
+-- {{ TBSHTEMPLATE:END }}
 
 return IfElseBlock

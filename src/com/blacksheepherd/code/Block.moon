@@ -6,6 +6,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class Block
 	----------------------------------------------------------------
 	-- Create a new Block.
@@ -15,7 +16,7 @@ class Block
 	new: =>
 		@_indent = ""
 		@_children = {}
-	
+
 	----------------------------------------------------------------
 	-- Add a child @{Block} or @{Line} to be rendered with this
 	-- Block.
@@ -26,7 +27,7 @@ class Block
 	AddChild: (child) =>
 		child\SetIndent "#{@_indent}  "
 		table.insert @_children, child
-	
+
 	----------------------------------------------------------------
 	-- Sets the indent string for this Block.
 	--
@@ -38,7 +39,7 @@ class Block
 		@_indent = indent
 		for child in *@_children
 			child\SetIndent "#{@_indent}  "
-	
+
 	----------------------------------------------------------------
 	-- The code to render before rendering all of this Block's
 	-- children.
@@ -46,7 +47,7 @@ class Block
 	-- @tparam Block self
 	----------------------------------------------------------------
 	BeforeRender: =>
-	
+
 	----------------------------------------------------------------
 	-- The code to render after rendering all of this Block's
 	-- children.
@@ -54,7 +55,7 @@ class Block
 	-- @tparam Block self
 	----------------------------------------------------------------
 	AfterRender: =>
-	
+
 	----------------------------------------------------------------
 	-- Render the code for this Block and any children Block/Lines.
 	--
@@ -62,16 +63,17 @@ class Block
 	----------------------------------------------------------------
 	Render: =>
 		buffer = ""
-		
+
 		buffer ..= @\BeforeRender!
 		buffer ..= "\n"
-		
+
 		for child in *@_children
 			buffer ..= child\Render!
 
 			if child.__class.__name != "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0
 				buffer ..= "\n"
-		
+
 		buffer .. @\AfterRender!
+-- {{ TBSHTEMPLATE:END }}
 
 return Block

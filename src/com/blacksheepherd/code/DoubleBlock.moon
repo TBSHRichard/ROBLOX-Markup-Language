@@ -18,6 +18,7 @@ else
 	Block = require "com.blacksheepherd.code.Block"
 	SpaceBlock = require "com.blacksheepherd.code.SpaceBlock"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class DoubleBlock extends Block
 	----------------------------------------------------------------
 	-- Constant for adding children to the top @{Block}.
@@ -70,7 +71,7 @@ class DoubleBlock extends Block
 
 	Render: =>
 		buffer = ""
-		
+
 		buffer ..= @\BeforeRender!
 		buffer ..= "\n"
 
@@ -84,3 +85,6 @@ class DoubleBlock extends Block
 		buffer ..= "\n"
 
 		buffer .. @\AfterRender!
+-- {{ TBSHTEMPLATE:END }}
+
+return DoubleBlock

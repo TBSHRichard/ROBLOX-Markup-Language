@@ -7,6 +7,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class LiteralString
 	----------------------------------------------------------------
 	-- Create a new LiteralString.
@@ -18,3 +19,6 @@ class LiteralString
 		@_string = s
 
 	__tostring: => @_string
+-- {{ TBSHTEMPLATE:END }}
+
+return LiteralString

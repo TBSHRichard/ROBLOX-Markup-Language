@@ -14,6 +14,7 @@ if game
 else
 	Block = require "com.blacksheepherd.code.Block"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class TableBlock extends Block
 	----------------------------------------------------------------
 	-- Create the TableBlock.
@@ -28,19 +29,20 @@ class TableBlock extends Block
 
 	Render: =>
 		buffer = ""
-		
+
 		buffer ..= @\BeforeRender!
 		buffer ..= "\n"
-		
+
 		for i, child in ipairs @_children
 			buffer ..= child\Render!
 			buffer ..= "," unless i == #@_children
 			buffer ..= "\n"
-		
+
 		buffer .. @\AfterRender!
-	
+
 	BeforeRender: => "#{@_indent}local #{@_name} = {"
-	
+
 	AfterRender: => "#{@_indent}}"
+-- {{ TBSHTEMPLATE:END }}
 
 return TableBlock

@@ -17,6 +17,7 @@ else
 	Block = require "com.blacksheepherd.code.Block"
 	Line = require "com.blacksheepherd.code.Line"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class FunctionBlock extends Block
 	----------------------------------------------------------------
 	-- Create the function @{Block}.
@@ -31,9 +32,9 @@ class FunctionBlock extends Block
 		@_name = name
 		@_parameters = parameters
 		@_addedLines = {}
-	
+
 	BeforeRender: => "#{@_indent}#{@_name} = function(#{@_parameters})"
-	
+
 	AfterRender: => "#{@_indent}end"
 
 	----------------------------------------------------------------
@@ -48,5 +49,6 @@ class FunctionBlock extends Block
 		unless @_addedLines[lineString]
 			@_addedLines[lineString] = true
 			@\AddChild Line(lineString)
+-- {{ TBSHTEMPLATE:END }}
 
 return FunctionBlock

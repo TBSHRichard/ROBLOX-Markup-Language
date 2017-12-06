@@ -3,7 +3,9 @@ fs            = require 'fs'
 luamin        = require 'luamin'
 
 cwd = __dirname.replace /\\/g, '/'
-templateNames = [ 'romllib' ]
+templateNames = [
+  'romllib'
+  'romlc' ]
 build         = 'build'
 tmpFile       = 'tmp.moon'
 

@@ -19,6 +19,8 @@ local LiteralString
 local CompilerPropertyFilter
 local CustomObjectBuilder
 
+local RomlCompiler
+
 if game
 	pluginModel = script.Parent.Parent.Parent.Parent
 	Stack = require(pluginModel.com.blacksheepherd.datastructure.Stack)
@@ -47,235 +49,240 @@ else
 	CompilerPropertyFilter = require "com.blacksheepherd.compile.CompilerPropertyFilter"
 	CustomObjectBuilder = require "com.blacksheepherd.customobject.CustomObjectBuilder"
 
-local addCode
-local addCodeFunctions
-local mainRomlBlock
-local functionTable
-local varNamer
-local parentNameStack
-local creationFunctionStack
+-- {{ TBSHTEMPLATE:BEGIN }}
+do
+	local addCode
+	local addCodeFunctions
+	local mainRomlBlock
+	local functionTable
+	local varNamer
+	local parentNameStack
+	local creationFunctionStack
 
-mainRomlBlockCreationFunction = (lines) ->
-	for line in *lines
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, line
+	mainRomlBlockCreationFunction = (lines) ->
+		for line in *lines
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, line
 
-writeLineToVarChangeFunction = (varName, lineString) ->
-	unless functionTable[varName]
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local varChange_#{varName}")
-		functionTable[varName] = FunctionBlock "varChange_#{varName}", ""
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName]
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName} = RomlVar(vars.#{varName})")
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName}.Changed:connect(varChange_#{varName})")
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_FUNCTION_CALLS, Line("varChange_#{varName}()")
+	writeLineToVarChangeFunction = (varName, lineString) ->
+		unless functionTable[varName]
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local varChange_#{varName}")
+			functionTable[varName] = FunctionBlock "varChange_#{varName}", ""
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName]
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName} = RomlVar(vars.#{varName})")
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName}.Changed:connect(varChange_#{varName})")
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_FUNCTION_CALLS, Line("varChange_#{varName}()")
 
-	functionTable[varName]\AddLineIfNotAdded lineString
+		functionTable[varName]\AddLineIfNotAdded lineString
 
-writeVarCode = (className, varName, objectName, changeFunction) ->
-	if objectName == nil
-		objectName = varNamer\NameObjectVariable className
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{objectName}")
+	writeVarCode = (className, varName, objectName, changeFunction) ->
+		if objectName == nil
+			objectName = varNamer\NameObjectVariable className
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{objectName}")
 
-	if functionTable[varName] == nil
-		functionTable[varName] = FunctionBlock "varChange_#{varName}", ""
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local varChange_#{varName}")
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName]
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName} = RomlVar(vars.#{varName})")
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName}.Changed:connect(varChange_#{varName})")
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_FUNCTION_CALLS, Line("varChange_#{varName}()")
+		if functionTable[varName] == nil
+			functionTable[varName] = FunctionBlock "varChange_#{varName}", ""
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local varChange_#{varName}")
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, functionTable[varName]
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName} = RomlVar(vars.#{varName})")
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_CREATION, Line("self._vars.#{varName}.Changed:connect(varChange_#{varName})")
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_FUNCTION_CALLS, Line("varChange_#{varName}()")
 
-	changeFunction functionTable[varName], objectName, varName
+		changeFunction functionTable[varName], objectName, varName
 
-	return objectName
+		return objectName
 
-writeObjectToBlock = (builderParam, className, id, classes, properties, children) ->
-	classesString = "nil"
-	objectName = nil
+	writeObjectToBlock = (builderParam, className, id, classes, properties, children) ->
+		classesString = "nil"
+		objectName = nil
 
-	if classes and classes[1] == "static"
-		classesString = Table.ArrayToSingleLineString(classes[2])
-	elseif classes and classes[1] == "dynamic"
-		objectName = writeVarCode className, classes[2], objectName, (varChange, objectName, varName) ->
-			varChange\AddChild Line("#{objectName}:SetClasses(self._vars.#{varName}:GetValue())")
+		if classes and classes[1] == "static"
+			classesString = Table.ArrayToSingleLineString(classes[2])
+		elseif classes and classes[1] == "dynamic"
+			objectName = writeVarCode className, classes[2], objectName, (varChange, objectName, varName) ->
+				varChange\AddChild Line("#{objectName}:SetClasses(self._vars.#{varName}:GetValue())")
 
-	if properties
-		for name, value in properties\pairs!
-			if type(value) == "string"
-				if CustomObjectBuilder.IsACustomObject(className)
-					properties[name] = CustomObjectBuilder.FilterProperty className, name, value, LiteralString, CompilerPropertyFilter
+		if properties
+			for name, value in properties\pairs!
+				if type(value) == "string"
+					if CustomObjectBuilder.IsACustomObject(className)
+						properties[name] = CustomObjectBuilder.FilterProperty className, name, value, LiteralString, CompilerPropertyFilter
+					else
+						properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
 				else
-					properties[name] = CompilerPropertyFilter.FilterProperty className, name, value
-			else
-				objectName = writeVarCode className, value[2], objectName, (varChange, objectName, varName) ->
-					varChange\AddChild Line("#{objectName}:SetProperties({#{name} = self._vars.#{varName}:GetValue()})")
-					varChange\AddChild Line("#{objectName}:Refresh()")
-				properties[name] = nil
+					objectName = writeVarCode className, value[2], objectName, (varChange, objectName, varName) ->
+						varChange\AddChild Line("#{objectName}:SetProperties({#{name} = self._vars.#{varName}:GetValue()})")
+						varChange\AddChild Line("#{objectName}:Refresh()")
+					properties[name] = nil
 
-	if #children > 0 and not objectName
-		objectName = varNamer\NameObjectVariable(className)
-		mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{objectName}")
+		if #children > 0 and not objectName
+			objectName = varNamer\NameObjectVariable(className)
+			mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{objectName}")
 
-	objectName = "objTemp" if not objectName
+		objectName = "objTemp" if not objectName
 
-	idString = if id == nil then "nil" else "\"#{id}\""
-	lines = {}
+		idString = if id == nil then "nil" else "\"#{id}\""
+		lines = {}
 
-	if CustomObjectBuilder.IsACustomObject(className)
-		mainRomlBlock\AddCustomObjectBuilderRequire!
-		table.insert(lines, Line("#{objectName} = CustomObjectBuilder.CreateObject(\"#{className}\", self, #{idString}, #{classesString})"))
-	else
-		table.insert(lines, Line("#{objectName} = RomlObject(self, #{builderParam}, #{idString}, #{classesString})"))
-
-	table.insert(lines, Line("self._objectIds[#{idString}] = #{objectName}")) if id
-	if properties and properties\Length! > 0
-		table.insert(lines, Line("#{objectName}:SetProperties(#{Table.HashMapToSingleLineString(properties)})"))
-		table.insert(lines, Line("#{objectName}:Refresh()"))
-	table.insert(lines, Line("self:AddChild(#{parentNameStack\Peek!}:AddChild(#{objectName}))"))
-	creationFunctionStack\Peek!(lines)
-
-	creationFunctionStack\Push creationFunctionStack\Peek!
-	parentNameStack\Push objectName
-	addCode children
-	parentNameStack\Pop!
-	creationFunctionStack\Pop!
-
-addCodeFunctions =
-	object: (obj) ->
-		-- {
-		--	"object"
-		--	ClassName							:string
-		--	Id									:string
-		--	Classes								:array
-		--	Properties							:table
-		--	Children							:array
-		-- }
-		_, className, id, classes, properties, children = unpack obj
-		writeObjectToBlock "\"#{className}\"", className, id, classes, properties, children
-
-	clone: (obj) ->
-		-- {
-		--	"clone"
-		--	ClassName							:string
-		--	RobloxObject						:string
-		--	Id									:string
-		--	Classes								:array
-		--	Properties							:table
-		--	Children							:array
-		-- }
-		_, className, robloxObject, id, classes, properties, children = unpack obj
-		writeObjectToBlock robloxObject, className, id, classes, properties, children
-
-	if: (obj) ->
-		-- {
-		--  "if"
-		--  Condition							:string
-		--  Vars								:array
-		--  Children							:array
-		--  OtherConditionals					:array
-		-- }
-		_, condition, vars, children, otherConditionals = unpack obj
-		parentName = parentNameStack\Peek!
-		if parentName == "self._rootObject"
-			parentName = "Parent"
+		if CustomObjectBuilder.IsACustomObject(className)
+			mainRomlBlock\AddCustomObjectBuilderRequire!
+			table.insert(lines, Line("#{objectName} = CustomObjectBuilder.CreateObject(\"#{className}\", self, #{idString}, #{classesString})"))
 		else
-			parentName = string.sub parentName, 4
+			table.insert(lines, Line("#{objectName} = RomlObject(self, #{builderParam}, #{idString}, #{classesString})"))
 
-		if creationFunctionStack\Peek! == mainRomlBlockCreationFunction
-			creationFunctionName = "update#{parentName}"
-			creationFunction = FunctionBlock creationFunctionName, ""
-			creationFunction\AddChild Line("#{parentNameStack\Peek!}:RemoveAllChildren()")
-			mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{creationFunctionName}")
-			mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction
-			creationFunctionStack\Push (lines) ->
-				for line in *lines
-					creationFunction\AddChild line
+		table.insert(lines, Line("self._objectIds[#{idString}] = #{objectName}")) if id
+		if properties and properties\Length! > 0
+			table.insert(lines, Line("#{objectName}:SetProperties(#{Table.HashMapToSingleLineString(properties)})"))
+			table.insert(lines, Line("#{objectName}:Refresh()"))
+		table.insert(lines, Line("self:AddChild(#{parentNameStack\Peek!}:AddChild(#{objectName}))"))
+		creationFunctionStack\Peek!(lines)
 
-		ifBlock = ConditionalBlock!
-		ifBlock\AddCondition condition
-		creationFunctionStack\Peek!({ifBlock})
-		creationFunctionStack\Push (lines) ->
-			for line in *lines
-				ifBlock\AddChild line
-
-		for var in *vars
-			writeLineToVarChangeFunction var, "update#{parentName}()"
-
+		creationFunctionStack\Push creationFunctionStack\Peek!
+		parentNameStack\Push objectName
 		addCode children
+		parentNameStack\Pop!
+		creationFunctionStack\Pop!
 
-		for conditional in *otherConditionals
+	addCodeFunctions =
+		object: (obj) ->
 			-- {
+			--	"object"
+			--	ClassName							:string
+			--	Id									:string
+			--	Classes								:array
+			--	Properties							:table
+			--	Children							:array
+			-- }
+			_, className, id, classes, properties, children = unpack obj
+			writeObjectToBlock "\"#{className}\"", className, id, classes, properties, children
+
+		clone: (obj) ->
+			-- {
+			--	"clone"
+			--	ClassName							:string
+			--	RobloxObject						:string
+			--	Id									:string
+			--	Classes								:array
+			--	Properties							:table
+			--	Children							:array
+			-- }
+			_, className, robloxObject, id, classes, properties, children = unpack obj
+			writeObjectToBlock robloxObject, className, id, classes, properties, children
+
+		if: (obj) ->
+			-- {
+			--  "if"
 			--  Condition							:string
 			--  Vars								:array
 			--  Children							:array
+			--  OtherConditionals					:array
 			-- }
-			condition, vars, children = unpack conditional
+			_, condition, vars, children, otherConditionals = unpack obj
+			parentName = parentNameStack\Peek!
+			if parentName == "self._rootObject"
+				parentName = "Parent"
+			else
+				parentName = string.sub parentName, 4
+
+			if creationFunctionStack\Peek! == mainRomlBlockCreationFunction
+				creationFunctionName = "update#{parentName}"
+				creationFunction = FunctionBlock creationFunctionName, ""
+				creationFunction\AddChild Line("#{parentNameStack\Peek!}:RemoveAllChildren()")
+				mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{creationFunctionName}")
+				mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction
+				creationFunctionStack\Push (lines) ->
+					for line in *lines
+						creationFunction\AddChild line
+
+			ifBlock = ConditionalBlock!
 			ifBlock\AddCondition condition
+			creationFunctionStack\Peek!({ifBlock})
+			creationFunctionStack\Push (lines) ->
+				for line in *lines
+					ifBlock\AddChild line
 
 			for var in *vars
 				writeLineToVarChangeFunction var, "update#{parentName}()"
 
 			addCode children
 
-		creationFunctionStack\Pop!
+			for conditional in *otherConditionals
+				-- {
+				--  Condition							:string
+				--  Vars								:array
+				--  Children							:array
+				-- }
+				condition, vars, children = unpack conditional
+				ifBlock\AddCondition condition
 
-	for: (obj) ->
-		-- {
-		--  "for"
-		--  Condition							:string
-		--  Vars								:array
-		--  Children							:array
-		-- }
-		_, condition, vars, children = unpack obj
-		parentName = parentNameStack\Peek!
-		if parentName == "self._rootObject"
-			parentName = "Parent"
-		else
-			parentName = string.sub parentName, 4
+				for var in *vars
+					writeLineToVarChangeFunction var, "update#{parentName}()"
 
-		if creationFunctionStack\Peek! == mainRomlBlockCreationFunction
-			creationFunctionName = "update#{parentName}"
-			creationFunction = FunctionBlock creationFunctionName, ""
-			creationFunction\AddChild Line("#{parentNameStack\Peek!}:RemoveAllChildren()")
-			mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{creationFunctionName}")
-			mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction
+				addCode children
+
+			creationFunctionStack\Pop!
+
+		for: (obj) ->
+			-- {
+			--  "for"
+			--  Condition							:string
+			--  Vars								:array
+			--  Children							:array
+			-- }
+			_, condition, vars, children = unpack obj
+			parentName = parentNameStack\Peek!
+			if parentName == "self._rootObject"
+				parentName = "Parent"
+			else
+				parentName = string.sub parentName, 4
+
+			if creationFunctionStack\Peek! == mainRomlBlockCreationFunction
+				creationFunctionName = "update#{parentName}"
+				creationFunction = FunctionBlock creationFunctionName, ""
+				creationFunction\AddChild Line("#{parentNameStack\Peek!}:RemoveAllChildren()")
+				mainRomlBlock\AddChild MainRomlBlock.BLOCK_VARS, Line("local #{creationFunctionName}")
+				mainRomlBlock\AddChild MainRomlBlock.BLOCK_UPDATE_FUNCTIONS, creationFunction
+				creationFunctionStack\Push (lines) ->
+					for line in *lines
+						creationFunction\AddChild line
+
+			forBlock = ForBlock condition
+			creationFunctionStack\Peek!({forBlock})
 			creationFunctionStack\Push (lines) ->
 				for line in *lines
-					creationFunction\AddChild line
+					forBlock\AddChild line
 
-		forBlock = ForBlock condition
-		creationFunctionStack\Peek!({forBlock})
-		creationFunctionStack\Push (lines) ->
-			for line in *lines
-				forBlock\AddChild line
+			for var in *vars
+				writeLineToVarChangeFunction var, "update#{parentName}()"
 
-		for var in *vars
-			writeLineToVarChangeFunction var, "update#{parentName}()"
+			addCode children
+			creationFunctionStack\Pop!
 
-		addCode children
-		creationFunctionStack\Pop!
+	addCode = (tree) ->
+		if tree
+			for _, obj in ipairs tree
+				addCodeFunctions[obj[1]] obj
 
-addCode = (tree) ->
-	if tree
-		for _, obj in ipairs tree
-			addCodeFunctions[obj[1]] obj
+	----------------------------------------------------------------
+	-- Compile the parsetree into a Lua string.
+	--
+	-- @tparam string name The name of the Lua subclass.
+	-- @tparam table parsetree The parse tree.
+	-- @treturn string The compiled Lua code.
+	----------------------------------------------------------------
+	Compile = (name, parsetree) ->
+		mainRomlBlock = MainRomlBlock name
+		functionTable = {}
+		varNamer = VariableNamer!
+		parentNameStack = Stack!
+		creationFunctionStack = Stack!
 
-----------------------------------------------------------------
--- Compile the parsetree into a Lua string.
---
--- @tparam string name The name of the Lua subclass.
--- @tparam table parsetree The parse tree.
--- @treturn string The compiled Lua code.
-----------------------------------------------------------------
-Compile = (name, parsetree) ->
-	mainRomlBlock = MainRomlBlock name
-	functionTable = {}
-	varNamer = VariableNamer!
-	parentNameStack = Stack!
-	creationFunctionStack = Stack!
+		parentNameStack\Push "self._rootObject"
+		creationFunctionStack\Push mainRomlBlockCreationFunction
 
-	parentNameStack\Push "self._rootObject"
-	creationFunctionStack\Push mainRomlBlockCreationFunction
+		addCode parsetree
+		mainRomlBlock\Render!
 
-	addCode parsetree
-	mainRomlBlock\Render!
+	RomlCompiler = { :Compile }
+-- {{ TBSHTEMPLATE:END }}
 
-{ :Compile }
+return RomlCompiler

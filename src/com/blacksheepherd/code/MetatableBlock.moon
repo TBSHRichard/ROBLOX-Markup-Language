@@ -17,17 +17,19 @@ else
 	DoubleBlock = require "com.blacksheepherd.code.DoubleBlock"
 	InnerMetatableBlock = require "com.blacksheepherd.code.InnerMetatableBlock"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class MetatableBlock extends DoubleBlock
 	new: (name) =>
 		super!
 		@_name = name
 		@_topBlock = InnerMetatableBlock!
 		@_bottomBlock = InnerMetatableBlock!
-	
+
 	BeforeRender: => "#{@_indent}local #{@_name} = setmetatable({"
 
 	MiddleRender: => "#{@_indent}}, {"
-	
+
 	AfterRender: => "#{@_indent}})"
+-- {{ TBSHTEMPLATE:END }}
 
 return MetatableBlock

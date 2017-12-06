@@ -41,6 +41,7 @@ else
 	Line = require "com.blacksheepherd.code.Line"
 	RequireLine = require "com.blacksheepherd.code.RequireLine"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class MainRomlBlock
 	----------------------------------------------------------------
 	-- Constant for adding children to the variable @{Block}.
@@ -80,7 +81,7 @@ class MainRomlBlock
 	----------------------------------------------------------------
 	new: (name) =>
 		@_children = {}
-		
+
 		table.insert @_children, RequireLine("com.blacksheepherd.roml", "RomlVar")
 		table.insert @_children, RequireLine("com.blacksheepherd.roml", "RomlDoc")
 		table.insert @_children, RequireLine("com.blacksheepherd.roml", "RomlObject")
@@ -90,12 +91,12 @@ class MainRomlBlock
 		table.insert @_children, @_extraRequiresBlock
 
 		table.insert @_children, Line("local #{name}")
-		
+
 		cBlock = DoBlock!
 		cBlock\AddChild Line("local _parent_0 = RomlDoc")
-		
+
 		baseBlock = TableBlock("_base_0")
-		
+
 		createFunctionBlock = FunctionBlock("_create", "self, parent, vars")
 		createFunctionBlock\AddChild Line("self._rootObject = RomlObject(self, parent)")
 		createFunctionBlock\AddChild Line("local objTemp")
@@ -107,10 +108,10 @@ class MainRomlBlock
 		createFunctionBlock\AddChild @_updateFunctionsBlock
 		createFunctionBlock\AddChild @_creationBlock
 		createFunctionBlock\AddChild @_functionCallsBlock
-		
+
 		baseBlock\AddChild createFunctionBlock
 		cBlock\AddChild baseBlock
-		
+
 		cBlock\AddChild Line("_base_0.__index = _base_0")
 		cBlock\AddChild Line("setmetatable(_base_0, _parent_0.__base)")
 
@@ -135,7 +136,7 @@ class MainRomlBlock
 		callFunctionBlock\AddChild Line("cls.__init(_self_0, ...)")
 		callFunctionBlock\AddChild Line("return _self_0")
 		metatableBlock\AddChild DoubleBlock.BOTTOM, callFunctionBlock
-		
+
 		cBlock\AddChild metatableBlock
 		cBlock\AddChild Line("_base_0.__class = _class_0")
 		cBlock\AddChild Line("local self = _class_0")
@@ -150,7 +151,7 @@ class MainRomlBlock
 
 		table.insert @_children, cBlock
 		table.insert @_children, Line("return #{name}")
-	
+
 	----------------------------------------------------------------
 	-- Add a child to the create function of the subclass inside the
 	-- specified block.
@@ -182,7 +183,7 @@ class MainRomlBlock
 		unless @_hasCustomObjectBuilderRequire
 			@_hasCustomObjectBuilderRequire = true
 			@_extraRequiresBlock\AddChild RequireLine("com.blacksheepherd.customobject", "CustomObjectBuilder")
-	
+
 	----------------------------------------------------------------
 	-- Render the MainRomlBlock and all children @{Block}s/@{Line}s.
 	--
@@ -190,13 +191,14 @@ class MainRomlBlock
 	----------------------------------------------------------------
 	Render: =>
 		buffer = ""
-		
+
 		for child in *@_children
 			buffer ..= child\Render!
 
 			if child.__class.__name != "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0
 				buffer ..= "\n"
-		
+
 		return buffer
+-- {{ TBSHTEMPLATE:END }}
 
 return MainRomlBlock
