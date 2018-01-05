@@ -10,6 +10,8 @@
 local CustomObject
 local SpriteSheet
 
+local CustomObjectBuilder
+
 if game
 	CustomObject = require(game\GetService("ServerScriptService").com.blacksheepherd.roml.CustomObject)
 	SpriteSheet = require(game\GetService("ServerScriptService").com.blacksheepherd.customobject.SpriteSheet)
@@ -18,10 +20,10 @@ else
 	SpriteSheet = require "com.blacksheepherd.customobject.SpriteSheet"
 
 -- {{ TBSHTEMPLATE:BEGIN }}
-class CustomObjectBuilder
+class CustomObjectBuilderSingleton
 	@Instance: ->
 		unless @@_instance
-			@@_instance = CustomObjectBuilder!
+			@@_instance = CustomObjectBuilderSingleton!
 
 		return @@_instance
 
@@ -68,7 +70,7 @@ class CustomObjectBuilder
 --  @{CustomObject}.
 ----------------------------------------------------------------
 IsACustomObject = (name) ->
-	CustomObjectBuilder.Instance!\HasObject(name)
+	CustomObjectBuilderSingleton.Instance!\HasObject(name)
 
 ----------------------------------------------------------------
 -- Creates a @{CustomObject}.
@@ -83,7 +85,7 @@ IsACustomObject = (name) ->
 -- @treturn CustomObject The created @{CustomObject}.
 ----------------------------------------------------------------
 CreateObject = (name, romlDoc, objectId, classes) ->
-	CustomObjectBuilder.Instance!\GetObject(name)(romlDoc, objectId, classes)
+	CustomObjectBuilderSingleton.Instance!\GetObject(name)(romlDoc, objectId, classes)
 
 ----------------------------------------------------------------
 -- Filter a property based on the @{CustomObject}'s rules.
@@ -98,7 +100,9 @@ CreateObject = (name, romlDoc, objectId, classes) ->
 -- @treturn LiteralString The filtered property value.
 ----------------------------------------------------------------
 FilterProperty = (objectName, propertyName, value, LiteralString, CompilerPropertyFilter) ->
-	CustomObjectBuilder.Instance!\FilterProperty(objectName, propertyName, value, LiteralString, CompilerPropertyFilter)
+	CustomObjectBuilderSingleton.Instance!\FilterProperty(objectName, propertyName, value, LiteralString, CompilerPropertyFilter)
+
+CustomObjectBuilder = { :CreateObject, :FilterProperty, :IsACustomObject }
 -- {{ TBSHTEMPLATE:END }}
 
-{ :CreateObject, :FilterProperty, :IsACustomObject }
+return CustomObjectBuilder

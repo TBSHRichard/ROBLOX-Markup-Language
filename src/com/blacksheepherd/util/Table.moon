@@ -17,6 +17,7 @@ else
 	HashMap = require "com.blacksheepherd.util.HashMap"
 	String = require "com.blacksheepherd.util.String"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 ----------------------------------------------------------------
 -- Reads an array-like table and converts it into a single-line
 -- string.
@@ -146,4 +147,7 @@ Swap = (t, i1, i2) ->
 	t[i1] = t[i2]
 	t[i2] = temp
 
-{ :ArrayToSingleLineString, :HashMapToSingleLineString, :HashMapToMultiLineString, :TablesAreEqual, :Swap }
+Table = { :ArrayToSingleLineString, :HashMapToSingleLineString, :HashMapToMultiLineString, :TablesAreEqual, :Swap }
+-- {{ TBSHTEMPLATE:END }}
+
+return Table

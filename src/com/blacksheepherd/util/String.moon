@@ -6,6 +6,7 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 ----------------------------------------------------------------
 -- Duplicates the given string n times and returns a new string.
 --
@@ -22,4 +23,7 @@ StringNTimes = (s, n) ->
 
 	return buffer
 
-{ :StringNTimes }
+String = { :StringNTimes }
+-- {{ TBSHTEMPLATE:END }}
+
+return String

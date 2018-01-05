@@ -66,7 +66,8 @@ fillTemplate = (template) ->
   return template.replace importPattern, (match, location) ->
     buffer = fs.readFileSync "#{cwd}/src/#{location}"
     code = replaceLineEndings buffer.toString()
-    return extractSpecifiedCodeBlock code
+    code = extractSpecifiedCodeBlock code
+    return wrapInDoBlock code
 
 extractSpecifiedCodeBlock = (fileContents) ->
   specifiedCodeBlockPattern = /--\s*{{\s*TBSHTEMPLATE\s*:\s*BEGIN\s*}}\n([\w\W]*)\n--\s*{{\s*TBSHTEMPLATE\s*:\s*END\s*}}/gi
@@ -76,6 +77,10 @@ extractSpecifiedCodeBlock = (fileContents) ->
     return ''
 
   return match[1]
+
+wrapInDoBlock = (code) ->
+  code = code.replace /\n/g, '\n\t'
+  return "do\n\t#{code}"
 
 writeMoonScriptToTemporaryFile = (script) ->
   fs.writeFileSync tmpFile, script
