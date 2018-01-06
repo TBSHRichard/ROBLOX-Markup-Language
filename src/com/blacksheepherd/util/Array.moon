@@ -6,6 +6,9 @@
 -- @license MIT
 ----------------------------------------------------------------
 
+local Array
+
+-- {{ TBSHTEMPLATE:BEGIN }}
 ascendingCompare = (left, right) -> left <= right
 descendingCompare = (left, right) -> left >= right
 
@@ -122,4 +125,7 @@ Reverse = (array) ->
 		array[i] = array[#array - (i - 1)]
 		array[#array - (i - 1)] = temp
 
-{ :ComparisonOrder, :Reverse, :StableSort }
+Array = { :ComparisonOrder, :Reverse, :StableSort }
+-- {{ TBSHTEMPLATE:END }}
+
+return Array

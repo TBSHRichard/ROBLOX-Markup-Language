@@ -44,8 +44,8 @@ else
 	Line = require "com.blacksheepherd.code.Line"
 	RequireLine = require "com.blacksheepherd.code.RequireLine"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class MainRossBlock
-
 	----------------------------------------------------------------
 	-- Create the MainRossBlock.
 	--
@@ -63,10 +63,10 @@ class MainRossBlock
 		table.insert @_children, RequireLine("com.blacksheepherd.ross", "RossDoc")
 		table.insert @_children, RequireLine("com.blacksheepherd.datastructure", "Stack")
 		table.insert @_children, Line("local #{name}")
-		
+
 		cBlock = DoBlock!
 		cBlock\AddChild Line("local _parent_0 = RossDoc")
-		
+
 		baseBlock = TableBlock("_base_0")
 
 		setupObjectsFunctionBlock = FunctionBlock("_setupObjects", "self")
@@ -91,7 +91,7 @@ class MainRossBlock
 		baseBlock\AddChild setupIdsFunctionBlock
 
 		cBlock\AddChild baseBlock
-		
+
 		cBlock\AddChild Line("_base_0.__index = _base_0")
 		cBlock\AddChild Line("setmetatable(_base_0, _parent_0.__base)")
 
@@ -116,7 +116,7 @@ class MainRossBlock
 		callFunctionBlock\AddChild Line("cls.__init(_self_0, ...)")
 		callFunctionBlock\AddChild Line("return _self_0")
 		metatableBlock\AddChild DoubleBlock.BOTTOM, callFunctionBlock
-		
+
 		cBlock\AddChild metatableBlock
 		cBlock\AddChild Line("_base_0.__class = _class_0")
 		cBlock\AddChild Line("local self = _class_0")
@@ -187,11 +187,14 @@ class MainRossBlock
 
 	Render: =>
 		buffer = ""
-		
+
 		for child in *@_children
 			buffer ..= child\Render!
 
 			if child.__class.__name != "SpaceBlock" or child.__class.__name == "SpaceBlock" and #child._children > 0
 				buffer ..= "\n"
-		
+
 		return buffer
+-- {{ TBSHTEMPLATE:END }}
+
+return MainRossBlock

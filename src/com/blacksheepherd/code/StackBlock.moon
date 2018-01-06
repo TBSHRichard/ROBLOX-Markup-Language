@@ -15,6 +15,7 @@ if game
 else
 	Block = require "com.blacksheepherd.code.Block"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 class StackBlock extends Block
 	----------------------------------------------------------------
 	-- Create the StackBlock.
@@ -29,19 +30,20 @@ class StackBlock extends Block
 
 	Render: =>
 		buffer = ""
-		
+
 		buffer ..= @\BeforeRender!
 		buffer ..= "\n"
-		
+
 		for i, child in ipairs @_children
 			buffer ..= child\Render!
 			buffer ..= "," unless i == #@_children
 			buffer ..= "\n"
-		
+
 		buffer .. @\AfterRender!
-	
+
 	BeforeRender: => "#{@_indent}#{@_name} = Stack({"
-	
+
 	AfterRender: => "#{@_indent}})"
+-- {{ TBSHTEMPLATE:END }}
 
 return StackBlock

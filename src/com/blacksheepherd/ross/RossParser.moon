@@ -11,6 +11,8 @@ local HashMap
 local Array
 local Stack
 
+local RossParser
+
 if game
 	pluginModel = script.Parent.Parent.Parent.Parent
 	lpeg = require(pluginModel.lulpeg.lulpeg)
@@ -23,6 +25,7 @@ else
 	Array = require "com.blacksheepherd.util.Array"
 	Stack = require "com.blacksheepherd.datastructure.Stack"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 import C, Cc, Cf, Cs, Ct, Cmt, P, R, S, V from lpeg
 local L
 
@@ -158,4 +161,7 @@ Parse = (ross) ->
 	indentStack\Push 0
 	grammar\match ross
 
-{ :Parse }
+RossParser = { :Parse }
+-- {{ TBSHTEMPLATE:END }}
+
+return RossParser

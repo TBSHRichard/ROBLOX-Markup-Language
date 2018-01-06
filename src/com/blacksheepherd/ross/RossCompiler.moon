@@ -16,6 +16,8 @@ local LiteralString
 local CompilerPropertyFilter
 local CustomObjectBuilder
 
+local RossCompiler
+
 if game
 	pluginModel = script.Parent.Parent.Parent.Parent
 	Array = require(pluginModel.com.blacksheepherd.util.Array)
@@ -38,6 +40,7 @@ else
 	CompilerPropertyFilter = require "com.blacksheepherd.compile.CompilerPropertyFilter"
 	CustomObjectBuilder = require "com.blacksheepherd.customobject.CustomObjectBuilder"
 
+-- {{ TBSHTEMPLATE:BEGIN }}
 local mainBlock
 
 calculateAndAddSpecificity = (block) ->
@@ -128,4 +131,7 @@ Compile = (name, parseTree) ->
 	addCode parseTree
 	mainBlock\Render!
 
-{ :Compile }
+RossCompiler = { :Compile }
+-- {{ TBSHTEMPLATE:END }}
+
+return RossCompiler

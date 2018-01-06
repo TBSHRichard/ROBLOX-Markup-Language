@@ -5,7 +5,8 @@ luamin        = require 'luamin'
 cwd = __dirname.replace /\\/g, '/'
 templateNames = [
   'romllib'
-  'romlc' ]
+  'romlc',
+  'rossc' ]
 build         = 'build'
 tmpFile       = 'tmp.moon'
 
